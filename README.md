@@ -10,7 +10,10 @@ Discord bot for the 2GETHER community
 
 ## Run
 
-```
-npm install
-npm start
-```
+- Copy `config.default.json` to `config.json`.
+- Edit the new file (you especially need to specify your bot `token`).
+- Start your bot:
+  ```
+  npm install
+  npm start
+  ```
