@@ -7,6 +7,7 @@ const Discord = require('discord.js')
 const Collection = Discord.Collection
 
 const Config = require('./Config');
+const AbstractCommand = require('./AbstractCommand');
 
 class Bot
 {
@@ -28,6 +29,7 @@ class Bot
 		configFile: "config.json",
 		token: null,
 		commandsDir: null,
+		prefix: null,
 	}
 
 	constructor(userOptions = {}, discordJsOptions = null)
@@ -109,11 +111,13 @@ class Bot
 				fs.readdirSync(dirpath)
 					.filter(file => file.endsWith('.js'))
 					.forEach(file => {
+						/** @type {AbstractCommand|Object} */
 						const commandObject = require(`${dirpath}/${file}`)
 						if (commandObject.name !== undefined)
 						{
 							if (typeof commandObject.create === 'function')
 							{
+								/** @type {AbstractCommand} */
 								const command = commandObject.create(this);
 								this.commands.set(command.name, command)
 							}
@@ -146,8 +150,53 @@ class Bot
 				// Ignore messages from bots
 				if (message.author.bot) return
 
-				// Do something...
-				console.log(message)
+				let isCommand = false
+				let content = message.content
+
+				// Check if a command was sent
+				if (this.config.prefix && content.startsWith(this.config.prefix))
+				{
+					isCommand = true
+					content = content.slice(this.config.prefix.length)
+				}
+
+				// Check if the bot was called for a command
+				const mentionMatch = content.match(/^<@!?([^>]+)>\s*(.*)$/is)
+				if (mentionMatch && mentionMatch[1] === this.client.user.id)
+				{
+					isCommand = true
+					content = mentionMatch[2]
+				}
+
+				if (isCommand)
+				{
+					const { commandName, commandArgs } = (() =>
+						{
+							const commandMatch = content.match(/^([^\s]*)\s*(.*)$/is)
+							if (commandMatch)
+								return { commandName: commandMatch[1], commandArgs: commandMatch[2] }
+
+							return { commandName: content, commandArgs: undefined }
+						})()
+
+					/** @type {AbstractCommand} */
+					const command = this.commands.get(commandName)
+					let commandExecuted = false
+
+					if (command)
+						try
+						{
+							await command.execute(message, commandArgs)
+							commandExecuted = true
+						}
+						catch (error)
+						{
+							console.error(error)
+						}
+
+					if (!commandExecuted)
+						await message.reply({ content: this.translator.translate('There was an error while executing this command!') })
+				}
 			})
 	}
 }

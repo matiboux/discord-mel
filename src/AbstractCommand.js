@@ -55,8 +55,9 @@ class AbstractCommand
 
 	/**
 	 * @param {Discord.Message} message
+	 * @param {string} args
 	 */
-	async execute(message)
+	async execute(message, args)
 	{
 		throw new Error('You have to implement the method execute!')
 	}

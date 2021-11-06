@@ -5,6 +5,7 @@ class Config
 	token = null
 
 	commandsDir = null
+	prefix = null
 
 	constructor(configFile)
 	{
