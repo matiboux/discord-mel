@@ -117,6 +117,17 @@ class Bot
 	}
 
 	/**
+	 * Add command
+	 *
+	 * @param {string} commandName
+	 * @return {boolean}
+	 */
+	 removeCommandByName(commandName)
+	 {
+		 return this.commands.delete(commandName)
+	 }
+
+	/**
 	 * Reload commands
 	 *
 	 * @param {string|null} dirpath
