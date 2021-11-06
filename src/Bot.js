@@ -5,9 +5,9 @@ const path = require('path')
 
 const Discord = require('discord.js')
 
-const Config = require('./Config');
-const AbstractCommand = require('./AbstractCommand');
+const AbstractCommand = require('./AbstractCommand')
 const CommandsHandler = require('./CommandsHandler')
+const Config = require('./Config')
 
 class Bot
 {
