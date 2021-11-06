@@ -1,8 +1,10 @@
 'use strict'
 
+const fs = require('fs')
 const path = require('path')
 
 const Discord = require('discord.js')
+const Collection = Discord.Collection
 
 const Config = require('./Config');
 
@@ -15,11 +17,17 @@ class Bot
 	 */
 	client = null
 
+	/**
+	 * @type {Collection}
+	 */
+	commands = undefined
+
 	#defaultOptions = {
 		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
 		config: null,
 		configFile: "config.json",
 		token: null,
+		commandsDir: null,
 	}
 
 	constructor(userOptions = {}, discordJsOptions = null)
@@ -44,6 +52,7 @@ class Bot
 		Array.of(
 			'absPath',
 			'token',
+			'commandsDir',
 		).forEach(key =>
 			{
 				if (options[key])
@@ -52,6 +61,9 @@ class Bot
 
 		// Initialize client
 		this.client = new Discord.Client(discordJsOptions || options)
+
+		// Load commands
+		this.reloadCommands()
 
 		// Load Discord client events
 		this.#loadEvents()
@@ -77,6 +89,46 @@ class Bot
 			}
 
 		return Promise.reject();
+	}
+
+	/**
+	 * Reload commands
+	 *
+	 * @param {string|null} dirpath
+	 */
+	reloadCommands(dirpath = null)
+	{
+		if (!dirpath && this.config.commandsDir)
+			dirpath = path.join(ABSPATH, this.config.commandsDir)
+
+		// Load commands
+		this.commands = new Collection()
+		if (dirpath)
+			try
+			{
+				fs.readdirSync(dirpath)
+					.filter(file => file.endsWith('.js'))
+					.forEach(file => {
+						const commandObject = require(`${dirpath}/${file}`)
+						if (commandObject.name !== undefined)
+						{
+							if (typeof commandObject.create === 'function')
+							{
+								const command = commandObject.create(this);
+								this.commands.set(command.name, command)
+							}
+							else
+							{
+								this.commands.set(commandObject.name, commandObject)
+							}
+						}
+					})
+			}
+			catch (error)
+			{
+				console.error(error)
+			}
+		console.log(`Loaded ${this.commands.size} commands.`)
 	}
 
 	/**

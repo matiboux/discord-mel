@@ -4,6 +4,8 @@ class Config
 {
 	token = null
 
+	commandsDir = null
+
 	constructor(configFile)
 	{
 		if (configFile)
