@@ -26,6 +26,7 @@ class Bot
 	#defaultOptions = {
 		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
 		config: null,
+		configPath: null,
 		configFile: "config.json",
 		token: null,
 		commandsDir: null,
@@ -43,8 +44,9 @@ class Bot
 
 		if (options.configFile)
 		{
-			const configPath = path.join(options.absPath, options.configFile)
-			this.config = new Config(configPath)
+			if (!options.configPath)
+				options.configPath = path.join(options.absPath, options.configFile)
+			this.config = new Config(options.configPath)
 		}
 
 		// Override configuration
