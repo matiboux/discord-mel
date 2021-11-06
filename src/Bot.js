@@ -51,14 +51,13 @@ class Bot
 		if (options.config)
 			Object.assign(this.config, options.config)
 
-		Array.of(
-			'absPath',
-			'token',
-			'commandsDir',
-		).forEach(key =>
+		const ignoredOptionsKeys = ['config']
+		Object.entries(options).forEach(([key, value]) =>
 			{
-				if (options[key])
-					this.config[key] = options[key]
+				if (!value || ignoredOptionsKeys.includes(key))
+					return // Ignore this option
+
+				this.config[key] = value
 			})
 
 		// Initialize client
