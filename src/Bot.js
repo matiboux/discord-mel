@@ -94,42 +94,56 @@ class Bot
 	 * Reload commands
 	 *
 	 * @param {string|null} dirpath
+	 * @returns {boolean}
 	 */
 	reloadCommands(dirpath = null)
 	{
 		if (!dirpath && this.config.commandsDir)
 			dirpath = path.join(ABSPATH, this.config.commandsDir)
 
-		// Load commands
-		this.commands.removeAll()
 		if (dirpath)
+		{
+			// Clear list of commands
+			this.commands.removeAll()
+
+			// Load commands
 			try
 			{
 				fs.readdirSync(dirpath)
 					.filter(file => file.endsWith('.js'))
-					.forEach(file => {
-						/** @type {AbstractCommand|Object} */
-						const commandObject = require(`${dirpath}/${file}`)
-						if (commandObject.name !== undefined)
+					.forEach(file =>
 						{
-							if (typeof commandObject.create === 'function')
+							/** @type {AbstractCommand|Object} */
+							const commandObject = require(`${dirpath}/${file}`)
+							if (commandObject.name !== undefined)
 							{
-								/** @type {AbstractCommand} */
-								const command = commandObject.create(this);
-								this.commands.add(command)
+								if (typeof commandObject.create === 'function')
+								{
+									/** @type {AbstractCommand} */
+									const command = commandObject.create(this);
+									this.commands.add(command)
+								}
+								else
+								{
+									this.commands.add(commandObject)
+								}
 							}
-							else
-							{
-								this.commands.add(commandObject)
-							}
-						}
-					})
+						})
+
+				console.log(`Loaded ${this.commands.size} commands.`)
+
+				return true
 			}
 			catch (error)
 			{
-				console.error(error)
+				if (error.code === 'ENOENT')
+					console.error(`No such directory: ${dirpath}`)
+				else
+					console.error(error)
 			}
-		console.log(`Loaded ${this.commands.size} commands.`)
+		}
+
+		return false
 	}
 
 	/**
@@ -192,7 +206,9 @@ class Bot
 						}
 
 					if (!commandExecuted)
-						await message.reply({ content: this.translator.translate('There was an error while executing this command!') })
+						await message.reply({
+								content: this.translator.translate('commands.run.error')
+							})
 				}
 			})
 	}
