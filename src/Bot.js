@@ -4,10 +4,10 @@ const fs = require('fs')
 const path = require('path')
 
 const Discord = require('discord.js')
-const Collection = Discord.Collection
 
 const Config = require('./Config');
 const AbstractCommand = require('./AbstractCommand');
+const CommandsHandler = require('./CommandsHandler')
 
 class Bot
 {
@@ -19,9 +19,9 @@ class Bot
 	client = null
 
 	/**
-	 * @type {Collection}
+	 * @type {CommandsHandler}
 	 */
-	commands = undefined
+	commands = new CommandsHandler()
 
 	#defaultOptions = {
 		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
@@ -95,39 +95,6 @@ class Bot
 	}
 
 	/**
-	 * Add command
-	 *
-	 * @param {AbstractCommand|{name:string}} commandObject
-	 */
-	addCommand(commandObject)
-	{
-		if (commandObject?.name === undefined)
-			return
-
-		if (typeof commandObject.create === 'function')
-		{
-			/** @type {AbstractCommand} */
-			const command = commandObject.create(this);
-			this.commands.set(command.name, command)
-		}
-		else
-		{
-			this.commands.set(commandObject.name, commandObject)
-		}
-	}
-
-	/**
-	 * Add command
-	 *
-	 * @param {string} commandName
-	 * @return {boolean}
-	 */
-	 removeCommandByName(commandName)
-	 {
-		 return this.commands.delete(commandName)
-	 }
-
-	/**
 	 * Reload commands
 	 *
 	 * @param {string|null} dirpath
@@ -138,7 +105,7 @@ class Bot
 			dirpath = path.join(ABSPATH, this.config.commandsDir)
 
 		// Load commands
-		this.commands = new Collection()
+		this.commands.removeAll()
 		if (dirpath)
 			try
 			{
@@ -147,7 +114,19 @@ class Bot
 					.forEach(file => {
 						/** @type {AbstractCommand|Object} */
 						const commandObject = require(`${dirpath}/${file}`)
-						this.addCommand(commandObject)
+						if (commandObject.name !== undefined)
+						{
+							if (typeof commandObject.create === 'function')
+							{
+								/** @type {AbstractCommand} */
+								const command = commandObject.create(this);
+								this.commands.add(command)
+							}
+							else
+							{
+								this.commands.add(commandObject)
+							}
+						}
 					})
 			}
 			catch (error)
