@@ -1,4 +1,5 @@
 {
 	"token": "xxx",
-	"commandsDir": null
+	"commandsDir": null,
+	"prefix": "!"
 }
