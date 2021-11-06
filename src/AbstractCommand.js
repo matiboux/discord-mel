@@ -16,6 +16,11 @@ class AbstractCommand
 	description = undefined
 
 	/**
+	 * @type {boolean}
+	 */
+	guildOnly = false
+
+	/**
 	 * @type {Bot}
 	 */
 	_bot = undefined
@@ -41,6 +46,13 @@ class AbstractCommand
 	 */
 	isEnabled(message)
 	{
+		if (this.guildOnly)
+		{
+			// Check that the message is from a guild member
+			if (!message.member)
+				return false
+		}
+
 		return true
 	}
 
