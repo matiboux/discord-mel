@@ -6,7 +6,7 @@ const path = require('path')
 const Discord = require('discord.js')
 
 const AbstractCommand = require('./AbstractCommand')
-const CommandsHandler = require('./CommandsHandler')
+const CommandsCollection = require('./CommandsCollection')
 const Config = require('./Config')
 const Translator = require('./Translator');
 
@@ -20,9 +20,9 @@ class Bot
 	client = null
 
 	/**
-	 * @type {CommandsHandler}
+	 * @type {CommandsCollection}
 	 */
-	commands = new CommandsHandler()
+	commands = new CommandsCollection()
 
 	#defaultOptions = {
 		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
@@ -114,7 +114,7 @@ class Bot
 		if (dirpath)
 		{
 			// Clear list of commands
-			this.commands.removeAll()
+			this.commands.clear()
 
 			// Load commands
 			try
