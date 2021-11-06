@@ -82,16 +82,12 @@ class Bot
 		if (!token)
 			token = this.config.token
 
-		if (token)
-			try {
-				return this.client.login(token)
-			}
-			catch (e) {
-				console.error('Failed to login')
-				console.error(e)
-			}
-
-		return Promise.reject();
+		return this.client.login(token)
+			.catch(error =>
+				{
+					console.error(`Failed to login: ${error.message}`)
+					return Promise.reject(error)
+				})
 	}
 
 	/**
