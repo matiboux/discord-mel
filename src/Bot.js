@@ -199,22 +199,23 @@ class Bot
 									slashCommands.push(slashCommand.toJSON())
 								})
 
-								this.rest.put(Routes.applicationGuildCommands(this.client.user.id, guild.id),
-								              { body: slashCommands })
-									.then(() => console.log(this.translator.translate('commands.guild.registered', {
-											'%count%': slashCommands.length
-										})))
-									.catch(error =>
-										{
-											console.error(this.translator.translate('commands.guild.fail', {
-													'%count%': slashCommands.length
-												}))
+								if (slashCommands.length > 0)
+									this.rest.put(Routes.applicationGuildCommands(this.client.user.id, guild.id),
+									              { body: slashCommands })
+										.then(() => console.log(this.translator.translate('commands.guild.registered', {
+												'%count%': slashCommands.length
+											})))
+										.catch(error =>
+											{
+												console.error(this.translator.translate('commands.guild.fail', {
+														'%count%': slashCommands.length
+													}))
 
-											if (error.code === 50001)
-												console.error(this.translator.translate('scopes.missing.applications.commands'))
-											else
-												console.error(error)
-										})
+												if (error.code === 50001)
+													console.error(this.translator.translate('scopes.missing.applications.commands'))
+												else
+													console.error(error)
+											})
 							}))
 						.catch(console.error)
 				}
