@@ -1,10 +1,10 @@
 login:
   ready: Logged in as %user%!
-  fail: 'Failed to login: %reason%'
+  fail: 'Failed to start the bot: %reason%'
 
 commands:
   dir:
-    not_found: 'No such directory: %dir%'
+    not_found: 'Failed to load commands. No such directory: %dir%'
   loaded: Loaded %count% commands.
   run:
     error: There was an error while executing this command!
