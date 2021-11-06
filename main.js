@@ -1,16 +1,14 @@
 'use strict'
 
-const Discord = require('discord.js')
+global.ABSPATH = __dirname
 
-const client = new Discord.Client({
-	intents: []
+const Bot = require('./src/Bot')
+
+const bot = new Bot({
+	configFile: 'config.json',
+}, {
+	intents: [],
 })
 
-client.on('ready', () =>
-	{
-		console.log(`Logged in as ${client.user.tag}!`)
-	})
-
 // Start the bot
-const config = require('./config.json')
-client.login(config.token)
+bot.start()
