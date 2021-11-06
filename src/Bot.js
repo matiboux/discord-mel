@@ -4,11 +4,14 @@ const fs = require('fs')
 const path = require('path')
 
 const Discord = require('discord.js')
+const { REST } = require('@discordjs/rest')
+const { Routes } = require('discord-api-types/v9')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 const AbstractCommand = require('./AbstractCommand')
 const CommandsCollection = require('./CommandsCollection')
 const Config = require('./Config')
-const Translator = require('./Translator');
+const Translator = require('./Translator')
 
 class Bot
 {
@@ -18,6 +21,11 @@ class Bot
 	 * @type {Discord.Client|null}
 	 */
 	client = null
+
+	/**
+	 * @type {REST|null}
+	 */
+	rest = null
 
 	/**
 	 * @type {CommandsCollection}
@@ -90,6 +98,7 @@ class Bot
 		if (!token)
 			token = this.config.token
 
+		this.rest = new REST({ version: '9' }).setToken(token);
 		return this.client.login(token)
 			.catch(error =>
 				{
@@ -170,6 +179,66 @@ class Bot
 				console.log(this.translator.translate('login.ready', {
 						'%user%': this.client.user.tag
 					}))
+
+				if (this.rest)
+				{
+					// Register slash commands in guilds
+					this.client.guilds.fetch()
+						.then(guilds => guilds.forEach(guild =>
+							{
+								const slashCommands = []
+								this.commands.forEach(command => {
+									if (!command.slashCommand)
+										return;
+
+									const slashCommand = new SlashCommandBuilder()
+									slashCommand.setName(command.name)
+									if (command.description)
+										slashCommand.setDescription(command.description)
+
+									slashCommands.push(slashCommand.toJSON())
+								})
+
+								this.rest.put(Routes.applicationGuildCommands(this.client.user.id, guild.id),
+								              { body: slashCommands })
+									.then(() => console.log(this.translator.translate('commands.guild.registered', {
+											'%count%': slashCommands.length
+										})))
+									.catch(error =>
+										{
+											console.error(this.translator.translate('commands.guild.fail', {
+												'%count%': slashCommands.length
+											}))
+											console.error(error)
+										})
+							}))
+						.catch(console.error)
+				}
+		})
+
+		this.client.on('interactionCreate', async interaction =>
+			{
+				if (!interaction.isCommand()) return
+
+				/** @type {AbstractCommand} */
+				const command = this.commands.get(interaction.commandName)
+				let commandExecuted = false
+
+				if (command)
+					try
+					{
+						await command.execute(interaction)
+						commandExecuted = true
+					}
+					catch (error)
+					{
+						console.error(error)
+					}
+
+				if (!commandExecuted)
+					await message.reply({
+							content: this.translator.translate('commands.run.error')
+						})
 			})
 
 		this.client.on('messageCreate', async message =>

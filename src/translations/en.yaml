@@ -6,5 +6,8 @@ commands:
   dir:
     not_found: 'Failed to load commands. No such directory: %dir%'
   loaded: Loaded %count% commands.
+  guild:
+    registered: Registered %count% guild commands.
+    fail: Failed to register %count% guild commands.
   run:
     error: There was an error while executing this command!
