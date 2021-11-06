@@ -95,6 +95,28 @@ class Bot
 	}
 
 	/**
+	 * Add command
+	 *
+	 * @param {AbstractCommand|{name:string}} commandObject
+	 */
+	addCommand(commandObject)
+	{
+		if (commandObject?.name === undefined)
+			return
+
+		if (typeof commandObject.create === 'function')
+		{
+			/** @type {AbstractCommand} */
+			const command = commandObject.create(this);
+			this.commands.set(command.name, command)
+		}
+		else
+		{
+			this.commands.set(commandObject.name, commandObject)
+		}
+	}
+
+	/**
 	 * Reload commands
 	 *
 	 * @param {string|null} dirpath
@@ -114,19 +136,7 @@ class Bot
 					.forEach(file => {
 						/** @type {AbstractCommand|Object} */
 						const commandObject = require(`${dirpath}/${file}`)
-						if (commandObject.name !== undefined)
-						{
-							if (typeof commandObject.create === 'function')
-							{
-								/** @type {AbstractCommand} */
-								const command = commandObject.create(this);
-								this.commands.set(command.name, command)
-							}
-							else
-							{
-								this.commands.set(commandObject.name, commandObject)
-							}
-						}
+						this.addCommand(commandObject)
 					})
 			}
 			catch (error)
