@@ -5,6 +5,8 @@ class Config
 	token = null
 
 	commandsDir = null
+	translationsDir = null
+	defaultTranslation = 'en'
 	prefix = null
 
 	constructor(configFile)

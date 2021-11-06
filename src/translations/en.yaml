@@ -1,0 +1,10 @@
+login:
+  ready: Logged in as %user%!
+  fail: 'Failed to login: %reason%'
+
+commands:
+  dir:
+    not_found: 'No such directory: %dir%'
+  loaded: Loaded %count% commands.
+  run:
+    error: There was an error while executing this command!

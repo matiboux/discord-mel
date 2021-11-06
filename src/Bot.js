@@ -8,6 +8,7 @@ const Discord = require('discord.js')
 const AbstractCommand = require('./AbstractCommand')
 const CommandsHandler = require('./CommandsHandler')
 const Config = require('./Config')
+const Translator = require('./Translator');
 
 class Bot
 {
@@ -30,6 +31,8 @@ class Bot
 		configFile: "config.json",
 		token: null,
 		commandsDir: null,
+		translationsDir: null,
+		defaultTranslation: null,
 		prefix: null,
 	}
 
@@ -62,6 +65,11 @@ class Bot
 				this.config[key] = value
 			})
 
+		// Load src and user translations
+		this.translator = new Translator(path.join(__dirname, "translations"), this.config.defaultTranslation)
+		if (this.config.translationsDir)
+			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
+
 		// Initialize client
 		this.client = new Discord.Client(discordJsOptions || options)
 
@@ -85,7 +93,9 @@ class Bot
 		return this.client.login(token)
 			.catch(error =>
 				{
-					console.error(`Failed to login: ${error.message}`)
+					console.error(this.translator.translate('login.fail', {
+							'%reason%': error.message
+						}))
 					return Promise.reject(error)
 				})
 	}
@@ -130,14 +140,18 @@ class Bot
 							}
 						})
 
-				console.log(`Loaded ${this.commands.size} commands.`)
+				console.log(this.translator.translate('commands.loaded', {
+						'%count%': this.commands.size
+					}))
 
 				return true
 			}
 			catch (error)
 			{
 				if (error.code === 'ENOENT')
-					console.error(`No such directory: ${dirpath}`)
+					console.error(this.translator.translate('commands.dir.not_found', {
+							'%dir%': dirpath
+						}))
 				else
 					console.error(error)
 			}
@@ -153,7 +167,9 @@ class Bot
 	{
 		this.client.on('ready', () =>
 			{
-				console.log(`Logged in as ${this.client.user.tag}!`)
+				console.log(this.translator.translate('login.ready', {
+						'%user%': this.client.user.tag
+					}))
 			})
 
 		this.client.on('messageCreate', async message =>
