@@ -21,6 +21,11 @@ class AbstractCommand
 	guildOnly = false
 
 	/**
+	 * @type {string[]}
+	 */
+	permissions = []
+
+	/**
 	 * @type {Bot}
 	 */
 	_bot = undefined
@@ -62,6 +67,13 @@ class AbstractCommand
 	 */
 	isAllowed(message)
 	{
+		if (message.member)
+		{
+			// Check for required member permissions
+			if (!this.permissions.every(permission => message.member.hasPermission(permission)))
+				return false
+		}
+
 		return true
 	}
 
