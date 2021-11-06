@@ -8,6 +8,8 @@ const Config = require('./Config');
 
 class Bot
 {
+	static Intents = Discord.Intents
+
 	/**
 	 * @type {Discord.Client|null}
 	 */
