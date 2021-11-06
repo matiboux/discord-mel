@@ -2,6 +2,10 @@ login:
   ready: Logged in as %user%!
   fail: 'Failed to start the bot: %reason%'
 
+scopes:
+  missing:
+    applications.commands: Scope permission applications.commands is missing.
+
 commands:
   dir:
     not_found: 'Failed to load commands. No such directory: %dir%'

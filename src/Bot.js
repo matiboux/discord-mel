@@ -207,9 +207,13 @@ class Bot
 									.catch(error =>
 										{
 											console.error(this.translator.translate('commands.guild.fail', {
-												'%count%': slashCommands.length
-											}))
-											console.error(error)
+													'%count%': slashCommands.length
+												}))
+
+											if (error.code === 50001)
+												console.error(this.translator.translate('scopes.missing.applications.commands'))
+											else
+												console.error(error)
 										})
 							}))
 						.catch(console.error)
