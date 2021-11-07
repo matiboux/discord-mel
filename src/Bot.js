@@ -227,7 +227,7 @@ class Bot
 					if (command)
 						try
 						{
-							await command.execute(interaction)
+							await command.onInteraction(interaction)
 							commandExecuted = true
 						}
 						catch (error)
@@ -283,7 +283,7 @@ class Bot
 					if (command)
 						try
 						{
-							await command.execute(message, commandArgs)
+							await command.onMessage(message, commandArgs)
 							commandExecuted = true
 						}
 						catch (error)

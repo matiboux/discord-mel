@@ -87,9 +87,17 @@ class AbstractCommand
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async execute(message, args)
+	async onMessage(message, args)
 	{
-		throw new Error('You have to implement the method execute!')
+		throw new Error('You have to implement the method onMessage!')
+	}
+
+	/**
+	 * @param {Discord.Integration} interaction
+	 */
+	async onInteraction(interaction)
+	{
+		throw new Error('You have to implement the method onInteraction!')
 	}
 
 	/**
