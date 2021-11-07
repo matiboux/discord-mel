@@ -18,6 +18,9 @@ commands:
     not_enabled: 'Tried to execute a disabled command: %name%'
     not_allowed: 'Tried to execute an unallowed command: %name%'
     error: 'There was an error while executing the command: %name%'
+  reply:
+    not_allowed: You are not allowed to execute this command.
+    error: There was an error while executing this command!
 
 translator:
   missing_key: Missing translation key for %key%

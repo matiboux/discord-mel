@@ -116,16 +116,16 @@ class AbstractCommand
 	 */
 	async onNotAllowed(object, reply = true)
 	{
-		const content = this.translator.translate('commands.run.not_allowed', {
-				'%name%': this.name
-			})
-
 		if (reply && object.reply)
 		{
-			object.reply({ content, ephemeral: true })
+			const content = this.translator.translate('commands.reply.not_allowed')
+			if (content)
+				object.reply({ content, ephemeral: true })
 		}
 
-		console.error(content)
+		console.error(this.translator.translate('commands.run.not_allowed', {
+				'%name%': this.name
+			}))
 	}
 
 	/**
@@ -134,16 +134,16 @@ class AbstractCommand
 	 */
 	async onError(object, reply = true)
 	{
-		const content = this.translator.translate('commands.run.error', {
-				'%name%': this.name
-			})
-
 		if (reply && object.reply)
 		{
-			object.reply({ content, ephemeral: true })
+			const content = this.translator.translate('commands.reply.not_allowed')
+			if (content)
+				object.reply({ content, ephemeral: true })
 		}
 
-		console.error(content)
+		console.error(this.translator.translate('commands.run.error', {
+				'%name%': this.name
+			}))
 	}
 
 	/**
