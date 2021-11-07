@@ -6,7 +6,7 @@ class Config
 
 	commandsDir = null
 	translationsDir = null
-	defaultTranslation = 'en'
+	defaultLanguage = 'en'
 	prefix = null
 
 	constructor(configFile)

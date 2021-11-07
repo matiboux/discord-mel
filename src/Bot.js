@@ -40,7 +40,7 @@ class Bot
 		token: null,
 		commandsDir: null,
 		translationsDir: null,
-		defaultTranslation: null,
+		defaultLanguage: null,
 		prefix: null,
 	}
 
@@ -74,7 +74,7 @@ class Bot
 			})
 
 		// Load src and user translations
-		this.translator = new Translator(path.join(__dirname, "translations"), this.config.defaultTranslation)
+		this.translator = new Translator(path.join(__dirname, "translations"), this.config.defaultLanguage)
 		if (this.config.translationsDir)
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
 
