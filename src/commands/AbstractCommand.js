@@ -71,7 +71,7 @@ class AbstractCommand
 		if (message.member)
 		{
 			// Check for required member permissions
-			if (!this.permissions.every(permission => message.member.hasPermission(permission)))
+			if (!this.permissions.every(permission => message.member.permissions.has(permission)))
 				return false
 		}
 
