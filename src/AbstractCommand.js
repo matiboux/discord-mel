@@ -98,6 +98,11 @@ class AbstractCommand
 	{
 		this._bot = bot
 	}
+
+	get translator()
+	{
+		return this._bot?.translator
+	}
 }
 
 module.exports = AbstractCommand
