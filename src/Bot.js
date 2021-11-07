@@ -30,7 +30,7 @@ class Bot
 	/**
 	 * @type {CommandsCollection}
 	 */
-	commands = new CommandsCollection()
+	commands = new CommandsCollection(this)
 
 	#defaultOptions = {
 		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
