@@ -14,6 +14,7 @@ commands:
     registered: Registered %count% guild commands.
     fail: Failed to register %count% guild commands.
   run:
+    not_found: 'Tried to execute an unknown command: %name%'
     error: 'There was an error while executing the command: %name%'
 
 translator:

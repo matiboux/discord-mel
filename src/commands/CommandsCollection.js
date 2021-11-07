@@ -71,13 +71,12 @@ class CommandsCollection extends Collection
 				console.error(error)
 			}
 		}
-
-		if (!commandExecuted)
-			await message.reply({
-					content: this.translator.translate('commands.run.error', {
-							'%name%': commandName
-						})
-				})
+		else
+		{
+			console.error(this.translator.translate('commands.run.not_found', {
+					'%name%': commandName
+				}))
+		}
 
 		return commandExecuted
 	}
@@ -105,13 +104,12 @@ class CommandsCollection extends Collection
 				console.error(error)
 			}
 		}
-
-		if (!commandExecuted)
-			await message.reply({
-					content: this.translator.translate('commands.run.error', {
-							'%name%': commandName
-						})
-				})
+		else
+		{
+			console.error(this.translator.translate('commands.run.not_found', {
+					'%name%': commandName
+				}))
+		}
 
 		return commandExecuted
 	}
