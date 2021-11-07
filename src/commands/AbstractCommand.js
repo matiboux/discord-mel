@@ -102,32 +102,56 @@ class AbstractCommand
 
 	/**
 	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {boolean} reply
 	 */
-	async onNotEnabled(object)
+	async onNotEnabled(object, reply = true)
 	{
-		console.error(this.translator.translate('commands.run.not_enabled', {
+		const content = this.translator.translate('commands.run.not_enabled', {
 				'%name%': this.name
-			}))
+			})
+
+		if (reply && object.reply)
+		{
+			object.reply({ content, ephemeral: true })
+		}
+
+		console.error(content)
 	}
 
 	/**
 	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {boolean} reply
 	 */
-	async onNotAllowed(object)
+	async onNotAllowed(object, reply = true)
 	{
-		console.error(this.translator.translate('commands.run.not_allowed', {
+		const content = this.translator.translate('commands.run.not_allowed', {
 				'%name%': this.name
-			}))
+			})
+
+		if (reply && object.reply)
+		{
+			object.reply({ content, ephemeral: true })
+		}
+
+		console.error(content)
 	}
 
 	/**
 	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {boolean} reply
 	 */
-	async onError(object)
+	async onError(object, reply = true)
 	{
-		console.error(this.translator.translate('commands.run.error', {
+		const content = this.translator.translate('commands.run.error', {
 				'%name%': this.name
-			}))
+			})
+
+		if (reply && object.reply)
+		{
+			object.reply({ content, ephemeral: true })
+		}
+
+		console.error(content)
 	}
 
 	/**
