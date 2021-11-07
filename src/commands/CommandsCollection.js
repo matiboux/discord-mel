@@ -65,6 +65,10 @@ class CommandsCollection extends Collection
 			{
 				command.onNotEnabled(message)
 			}
+			else if (!command.isAllowed(message))
+			{
+				command.onNotAllowed(message)
+			}
 			else
 			{
 				try
@@ -103,6 +107,10 @@ class CommandsCollection extends Collection
 			if (!command.isEnabled(interaction))
 			{
 				command.onNotEnabled(interaction)
+			}
+			else if (!command.isAllowed(interaction))
+			{
+				command.onNotAllowed(interaction)
 			}
 			else
 			{
