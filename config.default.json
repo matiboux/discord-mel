@@ -1,5 +1,7 @@
 {
 	"token": "xxx",
 	"commandsDir": null,
+	"translationsDir": null,
+	"defaultLanguage": null,
 	"prefix": "!"
 }
