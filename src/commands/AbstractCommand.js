@@ -103,6 +103,16 @@ class AbstractCommand
 	/**
 	 * @param {Discord.Message|Discord.Integration} object
 	 */
+	async onNotEnabled(object)
+	{
+		console.error(this.translator.translate('commands.run.not_enabled', {
+				'%name%': this.name
+			}))
+	}
+
+	/**
+	 * @param {Discord.Message|Discord.Integration} object
+	 */
 	async onError(object)
 	{
 		console.error(this.translator.translate('commands.run.error', {

@@ -61,15 +61,22 @@ class CommandsCollection extends Collection
 
 		if (command)
 		{
-			try
+			if (!command.isEnabled(message))
 			{
-				await command.onMessage(message, args)
-				commandExecuted = true
+				command.onNotEnabled(message)
 			}
-			catch (error)
+			else
 			{
-				command.onError(message)
-				console.error(error)
+				try
+				{
+					await command.onMessage(message, args)
+					commandExecuted = true
+				}
+				catch (error)
+				{
+					command.onError(message)
+					console.error(error)
+				}
 			}
 		}
 		else
@@ -93,15 +100,22 @@ class CommandsCollection extends Collection
 
 		if (command)
 		{
-			try
+			if (!command.isEnabled(interaction))
 			{
-				await command.onInteraction(interaction)
-				commandExecuted = true
+				command.onNotEnabled(interaction)
 			}
-			catch (error)
+			else
 			{
-				command.onError(interaction)
-				console.error(error)
+				try
+				{
+					await command.onInteraction(interaction)
+					commandExecuted = true
+				}
+				catch (error)
+				{
+					command.onError(interaction)
+					console.error(error)
+				}
 			}
 		}
 		else
