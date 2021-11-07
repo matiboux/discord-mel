@@ -1,6 +1,7 @@
 'use strict';
 
-const { Collection } = require('discord.js');
+const Discord = require('discord.js')
+const Collection = Discord.Collection
 const Bot = require('../Bot');
 const AbstractCommand = require('./AbstractCommand');
 
@@ -49,11 +50,11 @@ class CommandsCollection extends Collection
 	}
 
 	/**
-	 *
 	 * @param {string} commandName
-	 * @param  {...any} args
+	 * @param {Discord.Message} message
+	 * @param {string} args
 	 */
-	async onMessage(commandName, ...args)
+	async onMessage(commandName, message, args)
 	{
 		const command = this.get(commandName)
 		let commandExecuted = false
@@ -62,12 +63,12 @@ class CommandsCollection extends Collection
 		{
 			try
 			{
-				await command.onMessage(...args)
+				await command.onMessage(message, args)
 				commandExecuted = true
 			}
 			catch (error)
 			{
-				command.onError(...args)
+				command.onError(message)
 				console.error(error)
 			}
 		}
@@ -82,11 +83,10 @@ class CommandsCollection extends Collection
 	}
 
 	/**
-	 *
 	 * @param {string} commandName
-	 * @param  {...any} args
+	 * @param {Discord.Integration} interaction
 	 */
-	async onInteraction(commandName, ...args)
+	async onInteraction(commandName, interaction)
 	{
 		const command = this.get(commandName)
 		let commandExecuted = false
@@ -95,12 +95,12 @@ class CommandsCollection extends Collection
 		{
 			try
 			{
-				await command.onInteraction(...args)
+				await command.onInteraction(interaction)
 				commandExecuted = true
 			}
 			catch (error)
 			{
-				command.onError(...args)
+				command.onError(interaction)
 				console.error(error)
 			}
 		}
