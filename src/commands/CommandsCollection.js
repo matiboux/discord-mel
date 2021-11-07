@@ -59,6 +59,7 @@ class CommandsCollection extends Collection
 		let commandExecuted = false
 
 		if (command)
+		{
 			try
 			{
 				await command.onMessage(...args)
@@ -66,8 +67,10 @@ class CommandsCollection extends Collection
 			}
 			catch (error)
 			{
+				command.onError(...args)
 				console.error(error)
 			}
+		}
 
 		if (!commandExecuted)
 			await message.reply({
@@ -90,6 +93,7 @@ class CommandsCollection extends Collection
 		let commandExecuted = false
 
 		if (command)
+		{
 			try
 			{
 				await command.onInteraction(...args)
@@ -97,8 +101,10 @@ class CommandsCollection extends Collection
 			}
 			catch (error)
 			{
+				command.onError(...args)
 				console.error(error)
 			}
+		}
 
 		if (!commandExecuted)
 			await message.reply({

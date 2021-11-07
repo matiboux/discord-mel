@@ -101,6 +101,16 @@ class AbstractCommand
 	}
 
 	/**
+	 * @param {Discord.Integration} interaction
+	 */
+	async onError()
+	{
+		console.error(this.translator.translate('commands.run.error', {
+				'%name%': commandName
+			}))
+	}
+
+	/**
 	 * @returns {SlashCommandBuilder|ContextMenuCommandBuilder}
 	 */
 	getApplicationCommand()
