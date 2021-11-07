@@ -2,7 +2,7 @@
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Discord = require('discord.js');
-const Bot = require('./Bot');
+const Bot = require('../Bot');
 
 class AbstractCommand
 {

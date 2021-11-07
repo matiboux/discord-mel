@@ -8,8 +8,8 @@ const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const AbstractCommand = require('./AbstractCommand')
-const CommandsCollection = require('./CommandsCollection')
+const AbstractCommand = require('./commands/AbstractCommand')
+const CommandsCollection = require('./commands/CommandsCollection')
 const Config = require('./Config')
 const Translator = require('./Translator')
 
