@@ -146,7 +146,13 @@ class Translator
 		let translation = this.translations?.[language]?.[key]
 		if (!translation) translation = this.translations?.[this.currentLanguage]?.[key]
 		if (!translation) translation = this.translations?.[this.defaultLanguage]?.[key]
-		if (!translation) translation = key
+		if (!translation)
+		{
+			translation = key
+			console.error(this.translate('translator.missing_key', {
+					'%key%': key
+				}))
+		}
 
 		if (typeof args === 'object')
 			for (const [key, value] of Object.entries(args))

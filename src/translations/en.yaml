@@ -15,3 +15,6 @@ commands:
     fail: Failed to register %count% guild commands.
   run:
     error: There was an error while executing this command!
+
+translator:
+  missing_key: Missing translation key for %key%
