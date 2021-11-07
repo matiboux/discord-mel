@@ -3,6 +3,9 @@
 const { Collection } = require('discord.js');
 const AbstractCommand = require('./AbstractCommand');
 
+/**
+ * @extends {Collection<string, AbstractCommand>}
+ */
 class CommandsCollection extends Collection
 {
 	/**
