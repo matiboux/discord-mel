@@ -47,6 +47,64 @@ class CommandsCollection extends Collection
 
 		return this.set(command.name, command)
 	}
+
+	/**
+	 *
+	 * @param {string} commandName
+	 * @param  {...any} args
+	 */
+	async onMessage(commandName, ...args)
+	{
+		const command = this.get(commandName)
+		let commandExecuted = false
+
+		if (command)
+			try
+			{
+				await command.onMessage(...args)
+				commandExecuted = true
+			}
+			catch (error)
+			{
+				console.error(error)
+			}
+
+		if (!commandExecuted)
+			await message.reply({
+					content: this.translator.translate('commands.run.error')
+				})
+
+		return commandExecuted
+	}
+
+	/**
+	 *
+	 * @param {string} commandName
+	 * @param  {...any} args
+	 */
+	async onInteraction(commandName, ...args)
+	{
+		const command = this.get(commandName)
+		let commandExecuted = false
+
+		if (command)
+			try
+			{
+				await command.onInteraction(...args)
+				commandExecuted = true
+			}
+			catch (error)
+			{
+				console.error(error)
+			}
+
+		if (!commandExecuted)
+			await message.reply({
+					content: this.translator.translate('commands.run.error')
+				})
+
+		return commandExecuted
+	}
 }
 
 module.exports = CommandsCollection

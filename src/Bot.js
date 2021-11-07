@@ -220,25 +220,7 @@ class Bot
 			{
 				if (interaction.isCommand() || interaction.isContextMenu())
 				{
-					/** @type {AbstractCommand} */
-					const command = this.commands.get(interaction.commandName)
-					let commandExecuted = false
-
-					if (command)
-						try
-						{
-							await command.onInteraction(interaction)
-							commandExecuted = true
-						}
-						catch (error)
-						{
-							console.error(error)
-						}
-
-					if (!commandExecuted)
-						await interaction.reply({
-								content: this.translator.translate('commands.run.error')
-							})
+					this.commands.onInteraction(interaction.commandName, interaction)
 				}
 			})
 
@@ -276,25 +258,7 @@ class Bot
 							return { commandName: content, commandArgs: undefined }
 						})()
 
-					/** @type {AbstractCommand} */
-					const command = this.commands.get(commandName)
-					let commandExecuted = false
-
-					if (command)
-						try
-						{
-							await command.onMessage(message, commandArgs)
-							commandExecuted = true
-						}
-						catch (error)
-						{
-							console.error(error)
-						}
-
-					if (!commandExecuted)
-						await message.reply({
-								content: this.translator.translate('commands.run.error')
-							})
+					this.commands.onMessage(commandName, message, commandArgs)
 				}
 			})
 	}
