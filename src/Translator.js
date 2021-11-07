@@ -7,7 +7,7 @@ const path = require('path');
 class Translator
 {
 	/**
-	 * @type {Object<string, Object<string, Object>>}
+	 * @type {Object<string, Object<string, string>>}
 	 */
 	translations = {}
 
@@ -142,18 +142,23 @@ class Translator
 			language = undefined
 		}
 
-		/** @type {string} */
-		let translation = this.translations?.[language]?.[key]
-		if (!translation) translation = this.translations?.[this.currentLanguage]?.[key]
-		if (!translation) translation = this.translations?.[this.defaultLanguage]?.[key]
-		if (!translation && this.defaultLanguage !== 'en') translation = this.translations?.['en']?.[key]
-		if (!translation)
-		{
-			translation = key
-			console.error(this.translate('translator.missing_key', {
-					'%key%': key
-				}))
-		}
+		let translation = (() =>
+			{
+				let translation = this.translations?.[language]?.[key]
+				if (translation) return translation
+
+				translation = this.translations?.[this.currentLanguage]?.[key]
+				if (translation) return translation
+
+				translation = this.translations?.[this.defaultLanguage]?.[key]
+				if (translation) return translation
+
+				translation = this.translations?.['en']?.[key]
+				if (translation) return translation
+
+				console.error(this.translate('translator.missing_key', { '%key%': key }))
+				return key
+			})()
 
 		if (typeof args === 'object')
 			for (const [key, value] of Object.entries(args))
