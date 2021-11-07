@@ -7,6 +7,7 @@ Discord bot for the 2GETHER community
 ## Dependencies
 
 - `discord.js`
+- `js-yaml`
 
 ## Run
 
