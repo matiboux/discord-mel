@@ -22,11 +22,6 @@ class AbstractCommand
 	guildOnly = false
 
 	/**
-	 * @type {boolean}
-	 */
-	slashCommand = false
-
-	/**
 	 * @type {string[]}
 	 */
 	permissions = []
