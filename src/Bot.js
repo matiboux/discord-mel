@@ -236,7 +236,7 @@ class Bot
 						}
 
 					if (!commandExecuted)
-						await message.reply({
+						await interaction.reply({
 								content: this.translator.translate('commands.run.error')
 							})
 				}
