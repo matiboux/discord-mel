@@ -101,12 +101,12 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Integration} interaction
+	 * @param {Discord.Message|Discord.Integration} object
 	 */
-	async onError()
+	async onError(object)
 	{
 		console.error(this.translator.translate('commands.run.error', {
-				'%name%': commandName
+				'%name%': this.name
 			}))
 	}
 
