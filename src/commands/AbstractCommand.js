@@ -102,20 +102,12 @@ class AbstractCommand
 
 	/**
 	 * @param {Discord.Message|Discord.Integration} object
-	 * @param {boolean} reply
 	 */
-	async onNotEnabled(object, reply = true)
+	async onNotEnabled(object)
 	{
-		const content = this.translator.translate('commands.run.not_enabled', {
+		console.error(this.translator.translate('commands.run.not_enabled', {
 				'%name%': this.name
-			})
-
-		if (reply && object.reply)
-		{
-			object.reply({ content, ephemeral: true })
-		}
-
-		console.error(content)
+			}))
 	}
 
 	/**
