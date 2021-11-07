@@ -123,7 +123,7 @@ class Translator
 		// return false
 	}
 
-	clearCurrentLanguage()
+	resetCurrentLanguage()
 	{
 		this.currentLanguage = undefined
 	}
