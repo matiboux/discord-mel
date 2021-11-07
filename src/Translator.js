@@ -146,6 +146,7 @@ class Translator
 		let translation = this.translations?.[language]?.[key]
 		if (!translation) translation = this.translations?.[this.currentLanguage]?.[key]
 		if (!translation) translation = this.translations?.[this.defaultLanguage]?.[key]
+		if (!translation && this.defaultLanguage !== 'en') translation = this.translations?.['en']?.[key]
 		if (!translation)
 		{
 			translation = key
