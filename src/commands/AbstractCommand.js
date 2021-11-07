@@ -2,9 +2,9 @@
 
 const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
 const Discord = require('discord.js');
-const Base = require('../Base');
+const Bot = require('../Bot');
 
-class AbstractCommand extends Base
+class AbstractCommand
 {
 	/**
 	 * @type {string}
@@ -31,10 +31,15 @@ class AbstractCommand extends Base
 	 */
 	permissions = []
 
+	/**
+	 * @type {Bot}
+	 */
+	_bot = undefined
+
 	static create(bot = undefined)
 	{
 		const instance = new this()
-		instance._setBot(bot)
+		instance.#setBot(bot)
 		return instance
 	}
 
@@ -43,8 +48,6 @@ class AbstractCommand extends Base
 	 */
 	constructor(name)
 	{
-		super()
-
 		this.name = name
 	}
 
@@ -61,8 +64,7 @@ class AbstractCommand extends Base
 				return false
 		}
 
-		console.log('isEnabled')
-		return false
+		return true
 	}
 
 	/**
@@ -78,8 +80,7 @@ class AbstractCommand extends Base
 				return false
 		}
 
-		console.log('isAllowed')
-		return false
+		return true
 	}
 
 	/**
@@ -105,6 +106,19 @@ class AbstractCommand extends Base
 	getApplicationCommand()
 	{
 		return undefined
+	}
+
+	/**
+	 * @param {Bot} bot
+	 */
+	#setBot(bot)
+	{
+		this._bot = bot
+	}
+
+	get translator()
+	{
+		return this._bot?.translator
 	}
 }
 
