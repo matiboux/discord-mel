@@ -71,7 +71,9 @@ class CommandsCollection extends Collection
 
 		if (!commandExecuted)
 			await message.reply({
-					content: this.translator.translate('commands.run.error')
+					content: this.translator.translate('commands.run.error', {
+							'%name%': commandName
+						})
 				})
 
 		return commandExecuted
@@ -100,7 +102,9 @@ class CommandsCollection extends Collection
 
 		if (!commandExecuted)
 			await message.reply({
-					content: this.translator.translate('commands.run.error')
+					content: this.translator.translate('commands.run.error', {
+							'%name%': commandName
+						})
 				})
 
 		return commandExecuted

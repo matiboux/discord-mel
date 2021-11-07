@@ -14,7 +14,7 @@ commands:
     registered: Registered %count% guild commands.
     fail: Failed to register %count% guild commands.
   run:
-    error: There was an error while executing this command!
+    error: 'There was an error while executing the command: %name%'
 
 translator:
   missing_key: Missing translation key for %key%
