@@ -218,27 +218,28 @@ class Bot
 
 		this.client.on('interactionCreate', async interaction =>
 			{
-				if (!interaction.isCommand()) return
+				if (interaction.isCommand() || interaction.isContextMenu())
+				{
+					/** @type {AbstractCommand} */
+					const command = this.commands.get(interaction.commandName)
+					let commandExecuted = false
 
-				/** @type {AbstractCommand} */
-				const command = this.commands.get(interaction.commandName)
-				let commandExecuted = false
+					if (command)
+						try
+						{
+							await command.execute(interaction)
+							commandExecuted = true
+						}
+						catch (error)
+						{
+							console.error(error)
+						}
 
-				if (command)
-					try
-					{
-						await command.execute(interaction)
-						commandExecuted = true
-					}
-					catch (error)
-					{
-						console.error(error)
-					}
-
-				if (!commandExecuted)
-					await message.reply({
-							content: this.translator.translate('commands.run.error')
-						})
+					if (!commandExecuted)
+						await message.reply({
+								content: this.translator.translate('commands.run.error')
+							})
+				}
 			})
 
 		this.client.on('messageCreate', async message =>
