@@ -1,5 +1,6 @@
 'use strict';
 
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Discord = require('discord.js');
 const Bot = require('./Bot');
 
@@ -89,6 +90,14 @@ class AbstractCommand
 	async execute(message, args)
 	{
 		throw new Error('You have to implement the method execute!')
+	}
+
+	/**
+	 * @returns {SlashCommandBuilder}
+	 */
+	getSlashCommand()
+	{
+		return undefined
 	}
 
 	/**

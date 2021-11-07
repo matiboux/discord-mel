@@ -187,17 +187,13 @@ class Bot
 						.then(guilds => guilds.forEach(guild =>
 							{
 								const slashCommands = []
-								this.commands.forEach(command => {
-									if (!command.slashCommand)
-										return;
+								this.commands.forEach(command =>
+									{
+										const slashCommand = command.getSlashCommand()
+										if (slashCommand === undefined) return
 
-									const slashCommand = new SlashCommandBuilder()
-									slashCommand.setName(command.name)
-									if (command.description)
-										slashCommand.setDescription(command.description)
-
-									slashCommands.push(slashCommand.toJSON())
-								})
+										slashCommands.push(slashCommand.toJSON())
+									})
 
 								this.rest.put(Routes.applicationGuildCommands(this.client.user.id, guild.id),
 								              { body: slashCommands })
