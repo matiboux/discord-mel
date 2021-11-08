@@ -39,10 +39,13 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {string} name
+	 * @param {string|undefined} name
 	 */
-	constructor(name)
+	constructor(name = undefined)
 	{
+		if (name === undefined)
+			throw new Error('You have to specify a command name')
+
 		this.name = name
 	}
 
