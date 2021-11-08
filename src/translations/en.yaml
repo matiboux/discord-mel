@@ -24,3 +24,6 @@ commands:
 
 translator:
   missing_key: Missing translation key for %key%
+
+ping:
+  pong: Pong!
