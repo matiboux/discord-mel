@@ -26,4 +26,5 @@ translator:
   missing_key: Missing translation key for %key%
 
 ping:
+  description: Ping!
   pong: Pong!

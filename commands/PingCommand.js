@@ -7,7 +7,7 @@ class PingCommand extends AbstractCommand
 	{
 		super(bot, 'ping')
 
-		this.description = 'Ping!'
+		this.description = this.translator.translate('ping.description')
 		this.cooldown = 5
 	}
 
