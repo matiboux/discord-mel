@@ -27,18 +27,18 @@ class Translator
 	/**
 	 * @type {string}
 	 */
-	defaultLanguage: string | undefined = undefined
+	defaultLanguage?: string
 
 	/**
 	 * @type {string}
 	 */
-	currentLanguage: string | undefined = undefined
+	currentLanguage?: string
 
 	/**
 	 * @param {string} dirpath
 	 * @param {string} defaultLanguage
 	 */
-	constructor(dirpath: string, defaultLanguage: string | undefined = undefined)
+	constructor(dirpath: string, defaultLanguage?: string)
 	{
 		this.addTranslations(dirpath, defaultLanguage)
 	}
@@ -47,7 +47,7 @@ class Translator
 	 * @param {string} dirpath
 	 * @param {string} defaultLanguage
 	 */
-	addTranslations(dirpath: string, defaultLanguage: string | undefined = undefined)
+	addTranslations(dirpath: string, defaultLanguage?: string)
 	{
 		if (dirpath)
 			fs.readdirSync(dirpath)
@@ -58,7 +58,7 @@ class Translator
 						{
 							const translationsYaml = yaml.load(fs.readFileSync(`${dirpath}/${file}`, 'utf8'))
 							const translations: ITranslationEntry = {}
-							const flattenTranslations = (obj: Object, keyPrefix: string) =>
+							const flattenTranslations = (obj: object, keyPrefix: string) =>
 								{
 									if (!obj) return
 									for (const [key, value] of Object.entries(obj))
@@ -70,7 +70,7 @@ class Translator
 											translations[flatKey.slice(1)] = value
 									}
 								}
-							flattenTranslations(translationsYaml as Object, '');
+							flattenTranslations(translationsYaml as object, '');
 
 							const language = path.parse(`${file}`).name
 							if (!this.defaultLanguage)
@@ -142,12 +142,12 @@ class Translator
 	}
 
 	/**
-	 * @param {string} key
-	 * @param {string} language
-	 * @param {Object<string, string>} arguments
+	 * @param {string} translationKey
+	 * @param {string|ITranslationArgument|undefined} language
+	 * @param {ITranslationArgument} args
 	 * @return {string}
 	 */
-	translate(key: string, language: string | ITranslationArgument | undefined = undefined, args: ITranslationArgument = {}): string
+	translate(translationKey: string, language?: string | ITranslationArgument, args: ITranslationArgument = {}): string
 	{
 		if (typeof language === 'object')
 		{
@@ -157,35 +157,35 @@ class Translator
 
 		let translation = (() =>
 			{
-				let translation
 				if (language !== undefined)
 				{
-					translation = this.translations?.[language]?.[key]
-					if (translation) return translation
+					const candidate = this.translations?.[language]?.[translationKey]
+					if (candidate) return candidate
 				}
 
 				if (this.currentLanguage !== undefined)
 				{
-					translation = this.translations?.[this.currentLanguage]?.[key]
-					if (translation) return translation
+					const candidate = this.translations?.[this.currentLanguage]?.[translationKey]
+					if (candidate) return candidate
 				}
 
 				if (this.defaultLanguage !== undefined)
 				{
-					translation = this.translations?.[this.defaultLanguage]?.[key]
-					if (translation) return translation
+					const candidate = this.translations?.[this.defaultLanguage]?.[translationKey]
+					if (candidate) return candidate
 				}
 
-				if (this.defaultLanguage !== 'en')
+				const fallbackLanguage = 'en'
+				if (this.defaultLanguage !== fallbackLanguage)
 				{
-					translation = this.translations?.['en']?.[key]
-					if (translation) return translation
+					const candidate = this.translations?.[fallbackLanguage]?.[translationKey]
+					if (candidate) return candidate
 				}
 
-				console.error(key !== 'translator.missing_key'
-					? this.translate('translator.missing_key', { '%key%': key })
+				console.error(translationKey !== 'translator.missing_key'
+					? this.translate('translator.missing_key', { '%key%': translationKey })
 					: 'translator.missing_key')
-				return key
+				return translationKey
 			})()
 
 		if (typeof args === 'object')

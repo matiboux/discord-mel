@@ -37,7 +37,7 @@ class AbstractCommand
 	/**
 	 * @param {string|undefined} name
 	 */
-	constructor(bot: Bot, name: string | undefined = undefined)
+	constructor(bot: Bot, name?: string)
 	{
 		if (name === undefined)
 			throw new Error('You have to specify a command name')

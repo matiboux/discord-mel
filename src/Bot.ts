@@ -62,7 +62,7 @@ export default class Bot
 		prefix: null,
 	}
 
-	constructor(userOptions: Object, discordJsOptions: Discord.ClientOptions)
+	constructor(userOptions: object, discordJsOptions: Discord.ClientOptions)
 	{
 		const options = {...this.#defaultOptions, ...userOptions}
 
@@ -106,7 +106,7 @@ export default class Bot
 	 *
 	 * @param {string|undefined} token
 	 */
-	start(token: string | undefined = undefined)
+	start(token?: string)
 	{
 		if (!token)
 			token = this.config.token
@@ -192,7 +192,7 @@ export default class Bot
 					this.client.guilds.fetch()
 						.then(guilds => guilds.forEach(guild =>
 							{
-								const slashCommands: Object[] = []
+								const slashCommands: object[] = []
 								this.commands.forEach(command =>
 									{
 										const slashCommand = command.getApplicationCommand()

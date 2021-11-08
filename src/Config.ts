@@ -2,12 +2,12 @@ class Config
 {
 	[x: string]: any
 
-	token: string | undefined = undefined
+	token?: string
 
-	commandsDir: string | undefined = undefined
-	translationsDir: string | undefined = undefined
+	commandsDir?: string
+	translationsDir?: string
 	defaultLanguage: string | undefined = 'en'
-	prefix: string | undefined = undefined
+	prefix?: string
 
 	constructor(configFile: string | null)
 	{
