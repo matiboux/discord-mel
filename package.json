@@ -20,6 +20,6 @@
 	},
 	"devDependencies": {
 		"@types/js-yaml": "^4.0.4",
-		"eslint": "^8.1.0"
+		"tslint": "^6.1.3"
 	}
 }
