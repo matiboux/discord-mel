@@ -3,9 +3,14 @@ const AbstractCommand = require("../src/commands/AbstractCommand");
 
 class PingCommand extends AbstractCommand
 {
-	constructor()
+	static make(bot = undefined)
 	{
-		super('ping')
+		return this.create('ping', bot)
+	}
+
+	constructor(name)
+	{
+		super(name)
 
 		this.description = 'Ping!'
 		this.cooldown = 5

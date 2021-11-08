@@ -139,7 +139,7 @@ class Bot
 								if (typeof commandObject.create === 'function')
 								{
 									/** @type {AbstractCommand} */
-									const command = commandObject.create(this);
+									const command = commandObject.make(this)
 									this.commands.add(command)
 								}
 								else
