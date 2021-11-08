@@ -9,7 +9,7 @@ class AbstractCommand
 	/**
 	 * @type {string}
 	 */
-	name
+	name = undefined
 
 	/**
 	 * @type {string}
@@ -31,24 +31,11 @@ class AbstractCommand
 	 */
 	_bot = undefined
 
-	static create(name, bot = undefined)
+	static create(bot = undefined)
 	{
-		try
-		{
-			const instance = new this(name)
-			instance.#setBot(bot)
-			return instance
-		}
-		catch(error)
-		{
-			throw new Error('You have to implement the method onMessage!')
-		}
-	}
-
-	static make(bot = undefined)
-	{
-		throw new Error('You have to implement the static method make')
-		// return this.create('name', bot)
+		const instance = new this()
+		instance.#setBot(bot)
+		return instance
 	}
 
 	/**

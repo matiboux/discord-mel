@@ -136,7 +136,7 @@ class Bot
 							const commandObject = require(`${dirpath}/${file}`)
 
 							/** @type {AbstractCommand} */
-							const command = commandObject.make(this);
+							const command = commandObject.create(this);
 							this.commands.add(command)
 						})
 
