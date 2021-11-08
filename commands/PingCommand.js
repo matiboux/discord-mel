@@ -8,7 +8,7 @@ class PingCommand extends AbstractCommand
 		super(bot, 'ping')
 
 		this.description = this.translator.translate('ping.description')
-		this.cooldown = 5
+		// this.cooldown = 5
 	}
 
 	async onMessage(message)
