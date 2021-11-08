@@ -29,24 +29,28 @@ class AbstractCommand
 	/**
 	 * @type {Bot}
 	 */
-	_bot = undefined
+	_bot
 
-	static create(bot = undefined)
+	static create(bot)
 	{
-		const instance = new this()
-		instance.#setBot(bot)
-		return instance
+		return new this(bot)
 	}
 
 	/**
 	 * @param {string|undefined} name
 	 */
-	constructor(name = undefined)
+	constructor(bot, name = undefined)
 	{
 		if (name === undefined)
 			throw new Error('You have to specify a command name')
 
+		this._bot = bot
 		this.name = name
+	}
+
+	get translator()
+	{
+		return this._bot.translator
 	}
 
 	/**
@@ -150,19 +154,6 @@ class AbstractCommand
 	getApplicationCommand()
 	{
 		return undefined
-	}
-
-	/**
-	 * @param {Bot} bot
-	 */
-	#setBot(bot)
-	{
-		this._bot = bot
-	}
-
-	get translator()
-	{
-		return this._bot?.translator
 	}
 }
 
