@@ -132,21 +132,12 @@ class Bot
 					.filter(file => file.endsWith('.js'))
 					.forEach(file =>
 						{
-							/** @type {AbstractCommand|Object} */
+							/** @type {typeof AbstractCommand} */
 							const commandObject = require(`${dirpath}/${file}`)
-							if (commandObject.name !== undefined)
-							{
-								if (typeof commandObject.create === 'function')
-								{
-									/** @type {AbstractCommand} */
-									const command = commandObject.make(this)
-									this.commands.add(command)
-								}
-								else
-								{
-									this.commands.add(commandObject)
-								}
-							}
+
+							/** @type {AbstractCommand} */
+							const command = commandObject.make(this);
+							this.commands.add(command)
 						})
 
 				console.log(this.translator.translate('commands.loaded', {
