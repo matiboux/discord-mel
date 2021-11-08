@@ -1,10 +1,8 @@
-'use strict'
-
-global.ABSPATH = __dirname
-
-const Bot = require('./src/Bot')
+import path from 'path'
+import Bot from './src/Bot'
 
 const bot = new Bot({
+	absPath: path.dirname(__dirname),
 	configFile: 'config.json',
 }, {
 	intents: [

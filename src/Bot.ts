@@ -1,39 +1,57 @@
-'use strict'
+import fs = require('fs')
+import path = require('path')
 
-const fs = require('fs')
-const path = require('path')
+import Discord = require('discord.js')
+import { REST } from '@discordjs/rest'
+import { Routes } from 'discord-api-types/v9'
 
-const Discord = require('discord.js')
-const { REST } = require('@discordjs/rest')
-const { Routes } = require('discord-api-types/v9')
-const { SlashCommandBuilder } = require('@discordjs/builders')
+import AbstractCommand from './commands/AbstractCommand'
+import CommandsCollection from './commands/CommandsCollection'
+import Config from './Config'
+import Translator from './Translator'
 
-const AbstractCommand = require('./commands/AbstractCommand')
-const CommandsCollection = require('./commands/CommandsCollection')
-const Config = require('./Config')
-const Translator = require('./Translator')
+/**
+ * @todo Type config of config should be an interface for an object
+ */
+interface IOptions {
+	absPath: string
+	config: Config | null
+	configPath: string | null
+	configFile: string | null
+	token: string | null
+	commandsDir: string | null
+	translationsDir: string | null
+	defaultLanguage: string | null
+	prefix: string | null
+}
 
-class Bot
+export default class Bot
 {
 	static Intents = Discord.Intents
 
+	startTimestamp: number
+
+	config: Config
+
 	/**
-	 * @type {Discord.Client|null}
+	 * @type {Discord.Client}
 	 */
-	client = null
+	client: Discord.Client
 
 	/**
 	 * @type {REST|null}
 	 */
-	rest = null
+	rest: REST | null = null
 
 	/**
 	 * @type {CommandsCollection}
 	 */
-	commands = new CommandsCollection(this)
+	commands: CommandsCollection = new CommandsCollection(this)
 
-	#defaultOptions = {
-		absPath: ABSPATH !== undefined ? ABSPATH : __dirname,
+	translator: Translator
+
+	#defaultOptions: IOptions = {
+		absPath: __dirname, // ABSPATH !== undefined ? ABSPATH : __dirname,
 		config: null,
 		configPath: null,
 		configFile: "config.json",
@@ -44,21 +62,16 @@ class Bot
 		prefix: null,
 	}
 
-	constructor(userOptions = {}, discordJsOptions = null)
+	constructor(userOptions: Object, discordJsOptions: Discord.ClientOptions)
 	{
 		const options = {...this.#defaultOptions, ...userOptions}
-		if (!options)
-			options = this.#defaultOptions
 
 		/** @type {number} */
 		this.startTimestamp = Date.now()
 
-		if (options.configFile)
-		{
-			if (!options.configPath)
-				options.configPath = path.join(options.absPath, options.configFile)
-			this.config = new Config(options.configPath)
-		}
+		if (!options.configPath && options.configFile)
+			options.configPath = path.join(options.absPath, options.configFile)
+		this.config = new Config(options.configPath)
 
 		// Override configuration
 		if (options.config)
@@ -74,12 +87,12 @@ class Bot
 			})
 
 		// Load src and user translations
-		this.translator = new Translator(path.join(__dirname, "translations"), this.config.defaultLanguage)
+		this.translator = new Translator(path.join(options.absPath, "src/translations"), this.config.defaultLanguage)
 		if (this.config.translationsDir)
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
 
 		// Initialize client
-		this.client = new Discord.Client(discordJsOptions || options)
+		this.client = new Discord.Client(discordJsOptions)
 
 		// Load commands
 		this.reloadCommands()
@@ -91,22 +104,27 @@ class Bot
 	/**
 	 * Start the client
 	 *
-	 * @param {string|null} token
+	 * @param {string|undefined} token
 	 */
-	start(token = null)
+	start(token: string | undefined = undefined)
 	{
 		if (!token)
 			token = this.config.token
 
-		this.rest = new REST({ version: '9' }).setToken(token);
-		return this.client.login(token)
-			.catch(error =>
-				{
-					console.error(this.translator.translate('login.fail', {
-							'%reason%': error.message
-						}))
-					return Promise.reject(error)
-				})
+		if (token)
+		{
+			this.rest = new REST({ version: '9' }).setToken(token)
+			return this.client.login(token)
+				.catch(error =>
+					{
+						console.error(this.translator.translate('login.fail', {
+								'%reason%': error.message
+							}))
+						return Promise.reject(error)
+					})
+		}
+
+		return Promise.reject()
 	}
 
 	/**
@@ -115,10 +133,10 @@ class Bot
 	 * @param {string|null} dirpath
 	 * @returns {boolean}
 	 */
-	reloadCommands(dirpath = null)
+	reloadCommands(dirpath: string | null = null): boolean
 	{
 		if (!dirpath && this.config.commandsDir)
-			dirpath = path.join(ABSPATH, this.config.commandsDir)
+			dirpath = path.join(this.config.absPath, this.config.commandsDir)
 
 		if (dirpath)
 		{
@@ -132,11 +150,8 @@ class Bot
 					.filter(file => file.endsWith('.js'))
 					.forEach(file =>
 						{
-							/** @type {typeof AbstractCommand} */
-							const commandObject = require(`${dirpath}/${file}`)
-
-							/** @type {AbstractCommand} */
-							const command = commandObject.create(this);
+							const { default: commandObject }: { default: typeof AbstractCommand } = require(`${dirpath}/${file}`)
+							const command = commandObject.create(this)
 							this.commands.add(command)
 						})
 
@@ -146,7 +161,7 @@ class Bot
 
 				return true
 			}
-			catch (error)
+			catch (error: any)
 			{
 				if (error.code === 'ENOENT')
 					console.error(this.translator.translate('commands.dir.not_found', {
@@ -168,7 +183,7 @@ class Bot
 		this.client.on('ready', () =>
 			{
 				console.log(this.translator.translate('login.ready', {
-						'%user%': this.client.user.tag
+						'%user%': this.client.user?.tag
 					}))
 
 				if (this.rest)
@@ -177,7 +192,7 @@ class Bot
 					this.client.guilds.fetch()
 						.then(guilds => guilds.forEach(guild =>
 							{
-								const slashCommands = []
+								const slashCommands: Object[] = []
 								this.commands.forEach(command =>
 									{
 										const slashCommand = command.getApplicationCommand()
@@ -186,22 +201,29 @@ class Bot
 										slashCommands.push(slashCommand.toJSON())
 									})
 
-								this.rest.put(Routes.applicationGuildCommands(this.client.user.id, guild.id),
-								              { body: slashCommands })
-									.then(() => console.log(this.translator.translate('commands.guild.registered', {
-											'%count%': slashCommands.length
-										})))
-									.catch(error =>
-										{
-											console.error(this.translator.translate('commands.guild.fail', {
+								if (this.rest)
+								{
+									const clientId = this.client.user?.id
+									if (clientId)
+									{
+										this.rest.put(Routes.applicationGuildCommands(clientId, guild.id),
+													{ body: slashCommands })
+											.then(() => console.log(this.translator.translate('commands.guild.registered', {
 													'%count%': slashCommands.length
-												}))
+												})))
+											.catch(error =>
+												{
+													console.error(this.translator.translate('commands.guild.fail', {
+															'%count%': slashCommands.length
+														}))
 
-											if (error.code === 50001)
-												console.error(this.translator.translate('scopes.missing.applications.commands'))
-											else
-												console.error(error)
-										})
+													if (error.code === 50001)
+														console.error(this.translator.translate('scopes.missing.applications.commands'))
+													else
+														console.error(error)
+												})
+									}
+								}
 							}))
 						.catch(console.error)
 				}
@@ -232,7 +254,7 @@ class Bot
 
 				// Check if the bot was called for a command
 				const mentionMatch = content.match(/^<@!?([^>]+)>\s*(.*)$/is)
-				if (mentionMatch && mentionMatch[1] === this.client.user.id)
+				if (mentionMatch && mentionMatch[1] === this.client.user?.id)
 				{
 					isCommand = true
 					content = mentionMatch[2]
@@ -246,7 +268,7 @@ class Bot
 							if (commandMatch)
 								return { commandName: commandMatch[1], commandArgs: commandMatch[2] }
 
-							return { commandName: content, commandArgs: undefined }
+							return { commandName: content, commandArgs: '' }
 						})()
 
 					this.commands.onMessage(commandName, message, commandArgs)
@@ -254,5 +276,3 @@ class Bot
 			})
 	}
 }
-
-module.exports = Bot

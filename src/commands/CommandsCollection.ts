@@ -1,21 +1,20 @@
-'use strict';
-
-const Discord = require('discord.js')
-const Collection = Discord.Collection
-const Bot = require('../Bot');
-const AbstractCommand = require('./AbstractCommand');
+import Discord from 'discord.js'
+import Collection = Discord.Collection
+import Bot from '../Bot'
+import AbstractCommand from './AbstractCommand'
+import Translator from '../Translator';
 
 /**
  * @extends {Collection<string, AbstractCommand>}
  */
-class CommandsCollection extends Collection
+class CommandsCollection extends Collection<string, AbstractCommand>
 {
 	/**
-	 * @type {Bot}
+	 * @type {Bot|undefined}
 	 */
-	#bot = undefined
+	#bot: Bot | undefined = undefined
 
-	constructor(bot = undefined)
+	constructor(bot: Bot | undefined = undefined)
 	{
 		super()
 
@@ -23,14 +22,14 @@ class CommandsCollection extends Collection
 	}
 
 	/**
-	 * @param {Bot} bot
+	 * @param {Bot|undefined} bot
 	 */
-	#setBot(bot)
+	#setBot(bot: Bot | undefined): void
 	{
 		this.#bot = bot
 	}
 
-	get translator()
+	get translator(): Translator | undefined
 	{
 		return this.#bot?.translator
 	}
@@ -41,7 +40,7 @@ class CommandsCollection extends Collection
 	 * @param {AbstractCommand} command
 	 * @returns {this}
 	 */
-	add(command)
+	add(command: AbstractCommand): this
 	{
 		if (command.name === undefined)
 			throw new Error('Invalid command object')
@@ -54,7 +53,7 @@ class CommandsCollection extends Collection
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async onMessage(commandName, message, args)
+	async onMessage(commandName: string, message: Discord.Message, args: string)
 	{
 		const command = this.get(commandName)
 		let commandExecuted = false
@@ -85,7 +84,7 @@ class CommandsCollection extends Collection
 		}
 		else
 		{
-			console.error(this.translator.translate('commands.run.not_found', {
+			console.error(this.translator?.translate('commands.run.not_found', {
 					'%name%': commandName
 				}))
 		}
@@ -97,7 +96,7 @@ class CommandsCollection extends Collection
 	 * @param {string} commandName
 	 * @param {Discord.Interaction} interaction
 	 */
-	async onInteraction(commandName, interaction)
+	async onInteraction(commandName: string, interaction: Discord.Interaction)
 	{
 		const command = this.get(commandName)
 		let commandExecuted = false
@@ -128,7 +127,7 @@ class CommandsCollection extends Collection
 		}
 		else
 		{
-			console.error(this.translator.translate('commands.run.not_found', {
+			console.error(this.translator?.translate('commands.run.not_found', {
 					'%name%': commandName
 				}))
 		}
@@ -137,4 +136,4 @@ class CommandsCollection extends Collection
 	}
 }
 
-module.exports = CommandsCollection
+export default CommandsCollection

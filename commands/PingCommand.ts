@@ -1,9 +1,12 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const AbstractCommand = require("../src/commands/AbstractCommand");
+import { SlashCommandBuilder } from '@discordjs/builders'
+import Discord from 'discord.js'
+
+import AbstractCommand from '../src/commands/AbstractCommand'
+import Bot from '../src/Bot'
 
 class PingCommand extends AbstractCommand
 {
-	constructor(bot)
+	constructor(bot: Bot)
 	{
 		super(bot, 'ping')
 
@@ -11,12 +14,12 @@ class PingCommand extends AbstractCommand
 		// this.cooldown = 5
 	}
 
-	async onMessage(message)
+	async onMessage(message: Discord.Message)
 	{
 		message.reply(this.translator.translate('ping.pong'))
 	}
 
-	async onInteraction(interaction)
+	async onInteraction(interaction: Discord.CommandInteraction)
 	{
 		interaction.reply(this.translator.translate('ping.pong'))
 	}
@@ -25,10 +28,11 @@ class PingCommand extends AbstractCommand
 	{
 		const slashCommand = new SlashCommandBuilder()
 		slashCommand.setName(this.name)
-		slashCommand.setDescription(this.description)
+		if (this.description)
+			slashCommand.setDescription(this.description)
 
 		return slashCommand
 	}
 }
 
-module.exports = PingCommand
+export default PingCommand

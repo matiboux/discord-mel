@@ -1,31 +1,44 @@
-'use strict';
+import fs from 'fs'
+import path from 'path'
+import yaml from 'js-yaml'
 
-const fs = require('fs');
-const yaml = require('js-yaml');
-const path = require('path');
+interface ITranslations
+{
+	[s: string]: ITranslationEntry
+}
+
+interface ITranslationEntry
+{
+	[s: string]: any
+}
+
+interface ITranslationArgument
+{
+	[s: string]: any
+}
 
 class Translator
 {
 	/**
 	 * @type {Object<string, Object<string, string>>}
 	 */
-	translations = {}
+	translations: ITranslations = {}
 
 	/**
 	 * @type {string}
 	 */
-	defaultLanguage = undefined
+	defaultLanguage: string | undefined = undefined
 
 	/**
 	 * @type {string}
 	 */
-	currentLanguage = undefined
+	currentLanguage: string | undefined = undefined
 
 	/**
 	 * @param {string} dirpath
 	 * @param {string} defaultLanguage
 	 */
-	constructor(dirpath, defaultLanguage = undefined)
+	constructor(dirpath: string, defaultLanguage: string | undefined = undefined)
 	{
 		this.addTranslations(dirpath, defaultLanguage)
 	}
@@ -34,7 +47,7 @@ class Translator
 	 * @param {string} dirpath
 	 * @param {string} defaultLanguage
 	 */
-	addTranslations(dirpath, defaultLanguage = undefined)
+	addTranslations(dirpath: string, defaultLanguage: string | undefined = undefined)
 	{
 		if (dirpath)
 			fs.readdirSync(dirpath)
@@ -44,8 +57,8 @@ class Translator
 						try
 						{
 							const translationsYaml = yaml.load(fs.readFileSync(`${dirpath}/${file}`, 'utf8'))
-							const translations = {}
-							const flattenTranslations = (obj, keyPrefix) =>
+							const translations: ITranslationEntry = {}
+							const flattenTranslations = (obj: Object, keyPrefix: string) =>
 								{
 									if (!obj) return
 									for (const [key, value] of Object.entries(obj))
@@ -57,7 +70,7 @@ class Translator
 											translations[flatKey.slice(1)] = value
 									}
 								}
-							flattenTranslations(translationsYaml, '');
+							flattenTranslations(translationsYaml as Object, '');
 
 							const language = path.parse(`${file}`).name
 							if (!this.defaultLanguage)
@@ -78,9 +91,9 @@ class Translator
 	}
 
 	/**
-	 * @return {string}
+	 * @return {string|undefined}
 	 */
-	getDefaultLanguage()
+	getDefaultLanguage(): string | undefined
 	{
 		return this.defaultLanguage
 	}
@@ -89,7 +102,7 @@ class Translator
 	 * @param {string} defaultLanguage
 	 * @returns {boolean}
 	 */
-	setDefaultLanguage(defaultLanguage)
+	setDefaultLanguage(defaultLanguage: string): boolean
 	{
 		// if (defaultLanguage && typeof this.translations[defaultLanguage] !== 'undefined')
 		// {
@@ -101,9 +114,9 @@ class Translator
 	}
 
 	/**
-	 * @return {string}
+	 * @return {string|undefined}
 	 */
-	getCurrentLanguage()
+	getCurrentLanguage(): string | undefined
 	{
 		return this.currentLanguage
 	}
@@ -112,7 +125,7 @@ class Translator
 	 * @param {string} currentLanguage
 	 * @returns {boolean}
 	 */
-	setCurrentLanguage(currentLanguage)
+	setCurrentLanguage(currentLanguage: string): boolean
 	{
 		// if (currentLanguage && typeof this.translations[currentLanguage] !== 'undefined')
 		// {
@@ -134,7 +147,7 @@ class Translator
 	 * @param {Object<string, string>} arguments
 	 * @return {string}
 	 */
-	translate(key, language = undefined, args = undefined)
+	translate(key: string, language: string | ITranslationArgument | undefined = undefined, args: ITranslationArgument = {}): string
 	{
 		if (typeof language === 'object')
 		{
@@ -144,14 +157,24 @@ class Translator
 
 		let translation = (() =>
 			{
-				let translation = this.translations?.[language]?.[key]
-				if (translation) return translation
+				let translation
+				if (language !== undefined)
+				{
+					translation = this.translations?.[language]?.[key]
+					if (translation) return translation
+				}
 
-				translation = this.translations?.[this.currentLanguage]?.[key]
-				if (translation) return translation
+				if (this.currentLanguage !== undefined)
+				{
+					translation = this.translations?.[this.currentLanguage]?.[key]
+					if (translation) return translation
+				}
 
-				translation = this.translations?.[this.defaultLanguage]?.[key]
-				if (translation) return translation
+				if (this.defaultLanguage !== undefined)
+				{
+					translation = this.translations?.[this.defaultLanguage]?.[key]
+					if (translation) return translation
+				}
 
 				translation = this.translations?.['en']?.[key]
 				if (translation) return translation
@@ -168,4 +191,4 @@ class Translator
 	}
 }
 
-module.exports = Translator
+export default Translator
