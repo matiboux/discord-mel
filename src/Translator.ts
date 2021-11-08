@@ -182,7 +182,9 @@ class Translator
 					if (translation) return translation
 				}
 
-				console.error(this.translate('translator.missing_key', { '%key%': key }))
+				console.error(key !== 'translator.missing_key'
+					? this.translate('translator.missing_key', { '%key%': key })
+					: 'translator.missing_key')
 				return key
 			})()
 
