@@ -88,7 +88,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Integration} interaction
+	 * @param {Discord.Interaction} interaction
 	 */
 	async onInteraction(interaction)
 	{
@@ -96,7 +96,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {Discord.Message|Discord.Interaction} object
 	 */
 	async onNotEnabled(object)
 	{
@@ -106,7 +106,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {Discord.Message|Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
 	async onNotAllowed(object, reply = true)
@@ -124,7 +124,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Integration} object
+	 * @param {Discord.Message|Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
 	async onError(object, reply = true)

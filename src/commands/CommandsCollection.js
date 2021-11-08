@@ -95,7 +95,7 @@ class CommandsCollection extends Collection
 
 	/**
 	 * @param {string} commandName
-	 * @param {Discord.Integration} interaction
+	 * @param {Discord.Interaction} interaction
 	 */
 	async onInteraction(commandName, interaction)
 	{
