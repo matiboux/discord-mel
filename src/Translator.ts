@@ -176,8 +176,11 @@ class Translator
 					if (translation) return translation
 				}
 
-				translation = this.translations?.['en']?.[key]
-				if (translation) return translation
+				if (this.defaultLanguage !== 'en')
+				{
+					translation = this.translations?.['en']?.[key]
+					if (translation) return translation
+				}
 
 				console.error(this.translate('translator.missing_key', { '%key%': key }))
 				return key
