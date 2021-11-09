@@ -36,16 +36,16 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Setup to publish to GitHub Packages
-      - name: Log in to GitHub npm Registry
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@matiboux'
+      # # Setup to publish to GitHub Packages
+      # - name: Log in to GitHub npm Registry
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '12.x'
+      #     registry-url: 'https://npm.pkg.github.com'
+      #     scope: '@matiboux'
 
-      - run: npm clean-install
+      # - run: npm clean-install
 
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
