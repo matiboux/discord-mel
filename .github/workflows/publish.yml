@@ -24,6 +24,19 @@ jobs:
       # Checkout the repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v2
 
+      # Setup to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm clean-install
+
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Setup to publish to GitHub Packages
       - name: Log in to GitHub npm Registry
         uses: actions/setup-node@v2
         with:
