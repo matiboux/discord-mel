@@ -2,7 +2,7 @@
 	"name": "2gether-bot",
 	"version": "1.0.0",
 	"description": "Multi-purpose Discord bot for the 2GETHER community",
-	"main": "dist/main.js",
+	"main": "dist/index.js",
 	"scripts": {
 		"start": "npx tsc && node .",
 		"test": "echo \"Error: no test specified\" && exit 1"
