@@ -1,13 +1,13 @@
 {
-	"name": "2gether-bot",
+	"name": "discord-mel",
 	"version": "1.0.0",
-	"description": "Multi-purpose Discord bot for the 2GETHER community",
+	"description": "Modulable Discord bot framework",
 	"main": "dist/index.js",
 	"scripts": {
 		"start": "npx tsc && node .",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"repository": "https://github.com/2gether-asso/2gether-bot",
+	"repository": "https://github.com/matiboux/discord-mel",
 	"author": "Matiboux",
 	"license": "MIT",
 	"dependencies": {
