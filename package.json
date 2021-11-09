@@ -6,6 +6,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"start": "npx tsc && node .",
+		"prepublish": "npx tsc",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": "https://github.com/matiboux/discord-mel",
