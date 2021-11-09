@@ -4,17 +4,27 @@
 
 Modulable Discord bot framework
 
-## Dependencies
+## Get started
 
-- `discord.js`
-- `js-yaml`
+Use the framework in your dicord bot project:
+```
+npm i discord-mel
+```
 
-## Run
+And then get started with this code:
+```js
+const { Bot } = require('discord-mel')
 
-- Copy `config.default.json` to `config.json`.
-- Edit the new file (you especially need to specify your bot `token`).
-- Start your bot:
-  ```
-  npm install
-  npm start
-  ```
+const bot = new Bot({
+	absPath: __dirname,
+	configFile: 'config.json',
+}, {
+	intents: [],
+})
+
+// Start the bot
+bot.start()
+```
+
+You'll need to create the `config.json`.
+See the [`config.default.json`](config.default.json) file as an example.
