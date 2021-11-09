@@ -1,5 +1,5 @@
 {
-	"name": "@matiboux/discord-mel",
+	"name": "discord-mel",
 	"version": "1.0.0",
 	"description": "Modulable Discord bot framework",
 	"main": "dist/index.js",
