@@ -182,17 +182,29 @@ class Translator
 					if (candidate) return candidate
 				}
 
-				console.error(translationKey !== 'translator.missing_key'
-					? this.translate('translator.missing_key', { '%key%': translationKey })
-					: 'translator.missing_key')
-				return translationKey
+				if (translationKey !== 'translator.missing_key')
+					console.error(this.translate('translator.missing_key', { '%key%': translationKey }))
+
+				return null
 			})()
 
-		if (typeof args === 'object')
-			for (const [key, value] of Object.entries(args))
+		const argsEntries = Object.entries(args)
+		if (translation !== null)
+		{
+			for (const [key, value] of argsEntries)
 				translation = translation.replaceAll(key, value)
 
-		return translation
+			return translation
+		}
+		else if (argsEntries.length > 0)
+		{
+			const argsString = argsEntries.map(([key, value]) => `'${key}'='${value}'`).join(', ')
+			return `${translationKey}[${argsString}]`
+		}
+		else
+		{
+			return translationKey
+		}
 	}
 }
 
