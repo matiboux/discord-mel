@@ -9,6 +9,7 @@ import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
 import Translator from './Translator'
+import Services from './Services'
 
 /**
  * @todo Type config of config should be an interface for an object
@@ -28,6 +29,8 @@ interface IOptions {
 export default class Bot
 {
 	static Intents = Discord.Intents
+
+	static Services = Services
 
 	startTimestamp: number
 
@@ -71,7 +74,7 @@ export default class Bot
 
 		if (!options.configPath && options.configFile)
 			options.configPath = path.join(options.absPath, options.configFile)
-		this.config = new Config(options.configPath)
+		this.config = new Bot.Services.Config(options.configPath)
 
 		// Override configuration
 		if (options.config)
