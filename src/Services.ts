@@ -1,8 +1,8 @@
-import ConfigService from './Config'
+import Config from './Config'
 
 const Services =
 	{
-		Config: ConfigService,
+		Config: Config,
 	}
 
 export default Services;
