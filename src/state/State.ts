@@ -4,7 +4,7 @@ import IState from './IState'
 
 class State
 {
-	stateFile: string
+	stateFile?: string
 
 	_db: IState
 
@@ -12,19 +12,24 @@ class State
 
 	accessed: boolean = false
 
-	constructor(stateFile: string, charset: BufferEncoding = 'utf8')
+	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		this.stateFile = stateFile
 
+		this._db = {}
+
 		// Create the storage file if it does not exist
-		if (fs.existsSync(stateFile))
+		if (stateFile)
 		{
-			this._db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
-		}
-		else
-		{
-			this._db = {}
-			this.save()
+			if (fs.existsSync(stateFile))
+			{
+				this._db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
+			}
+			else
+			{
+				this.accessed = true
+				this.save()
+			}
 		}
 	}
 
@@ -39,11 +44,15 @@ class State
 
 		// Save changes
 		this.accessed = true
-		this.save()
+		if (this.stateFile)
+			this.save()
 	}
 
 	async save()
 	{
+		if (!this.stateFile)
+			throw new Error('State file not found')
+
 		if (!this.accessed)
 			return; // No changes to save
 
