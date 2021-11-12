@@ -1,5 +1,6 @@
 {
 	"token": "xxx",
+	"stateFile": null,
 	"commandsDir": null,
 	"translationsDir": null,
 	"defaultLanguage": null,
