@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 class Config
 {
 	[x: string]: any
@@ -9,11 +11,11 @@ class Config
 	defaultLanguage: string | undefined = 'en'
 	prefix?: string
 
-	constructor(configFile: string | null)
+	constructor(configFile: string | null, charset: BufferEncoding = 'utf8')
 	{
 		if (configFile)
 		{
-			const config = require(configFile)
+			const config = JSON.parse(fs.readFileSync(configFile, { encoding: charset }))
 			Object.assign(this, config)
 		}
 	}
