@@ -90,9 +90,17 @@ class State
 		return true
 	}
 
-	async dbStructureFix(model: IState)
+	async dbStructureFix(model: IState): Promise<boolean>
 	{
-		return this._objectStructureFix(this._db, model)
+		const fixed = await this._objectStructureFix(this._db, model)
+		if (fixed)
+		{
+			this.accessed = true
+			this.save()
+			return true
+		}
+
+		return false
 	}
 
 	async jsStructureFix(model: IState)
