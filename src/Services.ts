@@ -1,5 +1,5 @@
 import Config from './Config'
-import State from './State';
+import State from './state/State'
 
 const Services =
 	{
