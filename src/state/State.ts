@@ -49,12 +49,12 @@ class State
 			this.save()
 	}
 
-	async save()
+	async save(forceSave: boolean = false)
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
 
-		if (!this.accessed)
+		if (!forceSave && !this.accessed)
 			return; // No changes to save
 
 		// Save changes
