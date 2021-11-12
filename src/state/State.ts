@@ -6,7 +6,7 @@ class State
 {
 	stateFile?: string
 
-	_db: IState
+	_db: IState = {}
 
 	js: IState = {}
 
@@ -15,8 +15,6 @@ class State
 	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		this.stateFile = stateFile
-
-		this._db = {}
 
 		// Create the storage file if it does not exist
 		if (stateFile)
