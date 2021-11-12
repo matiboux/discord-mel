@@ -14,7 +14,7 @@ class Config
 	defaultLanguage: string | undefined = 'en'
 	prefix?: string
 
-	constructor(configFile: string | null, charset: BufferEncoding = 'utf8')
+	constructor(configFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		if (configFile)
 		{

@@ -17,16 +17,16 @@ import State from './state/State'
  */
 interface IOptions {
 	absPath: string
-	config: Config | null
-	configPath: string | null
-	configFile: string | null
-	token: string | null
-	statePath: string | null
-	stateFile: string | null
-	commandsDir: string | null
-	translationsDir: string | null
-	defaultLanguage: string | null
-	prefix: string | null
+	config?: Config
+	configPath?: string
+	configFile?: string
+	token?: string
+	statePath?: string
+	stateFile?: string
+	commandsDir?: string
+	translationsDir?: string
+	defaultLanguage?: string
+	prefix?: string
 }
 
 export default class Bot
@@ -60,16 +60,16 @@ export default class Bot
 
 	#defaultOptions: IOptions = {
 		absPath: __dirname, // ABSPATH !== undefined ? ABSPATH : __dirname,
-		config: null,
-		configPath: null,
+		config: undefined,
+		configPath: undefined,
 		configFile: "config.json",
-		token: null,
-		statePath: null,
-		stateFile: null,
-		commandsDir: null,
-		translationsDir: null,
-		defaultLanguage: null,
-		prefix: null,
+		token: undefined,
+		statePath: undefined,
+		stateFile: undefined,
+		commandsDir: undefined,
+		translationsDir: undefined,
+		defaultLanguage: undefined,
+		prefix: undefined,
 	}
 
 	constructor(userOptions: object, discordJsOptions: Discord.ClientOptions)
