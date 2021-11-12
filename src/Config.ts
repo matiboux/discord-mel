@@ -6,6 +6,9 @@ class Config
 
 	token?: string
 
+	statePath?: string
+	stateFile?: string
+
 	commandsDir?: string
 	translationsDir?: string
 	defaultLanguage: string | undefined = 'en'
