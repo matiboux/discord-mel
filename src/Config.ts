@@ -11,7 +11,7 @@ class Config
 
 	commandsDir?: string
 	translationsDir?: string
-	defaultLanguage: string | undefined = 'en'
+	defaultLanguage?: string = 'en'
 	prefix?: string
 
 	constructor(configFile?: string, charset: BufferEncoding = 'utf8')
