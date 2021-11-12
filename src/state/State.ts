@@ -33,7 +33,7 @@ class State
 		return this._db;
 	}
 
-	async setState(callback: (state: object) => void)
+	async setState(callback: (state: IState) => void)
 	{
 		callback(this._db)
 
