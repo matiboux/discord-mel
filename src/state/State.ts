@@ -33,9 +33,10 @@ class State
 		}
 	}
 
-	get db() {
-		this.accessed = true;
-		return this._db;
+	get db()
+	{
+		this.accessed = true
+		return this._db
 	}
 
 	async setState(callback: (state: IState) => void)
