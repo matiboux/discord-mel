@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import IStateType from './IStateType'
+import IStateType from './IBaseStateType'
 
 class State
 {

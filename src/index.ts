@@ -5,7 +5,7 @@ import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
 import State from './state/State'
-import IStateType from './state/IStateType'
+import IBaseStateType from './state/IBaseStateType'
 import Translator from './Translator'
 
 export
@@ -16,6 +16,6 @@ export
     CommandsCollection,
     Config,
     State,
-    IStateType,
+    IBaseStateType,
     Translator,
 }
