@@ -10,6 +10,7 @@ import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
 import Translator from './Translator'
 import Services from './Services'
+import State from './state/State'
 
 /**
  * @todo Type config of config should be an interface for an object
@@ -20,6 +21,8 @@ interface IOptions {
 	configPath: string | null
 	configFile: string | null
 	token: string | null
+	statePath: string | null
+	stateFile: string | null
 	commandsDir: string | null
 	translationsDir: string | null
 	defaultLanguage: string | null
@@ -46,6 +49,8 @@ export default class Bot
 	 */
 	rest: REST | null = null
 
+	state: State
+
 	/**
 	 * @type {CommandsCollection}
 	 */
@@ -59,6 +64,8 @@ export default class Bot
 		configPath: null,
 		configFile: "config.json",
 		token: null,
+		statePath: null,
+		stateFile: null,
 		commandsDir: null,
 		translationsDir: null,
 		defaultLanguage: null,
@@ -69,9 +76,9 @@ export default class Bot
 	{
 		const options = {...this.#defaultOptions, ...userOptions}
 
-		/** @type {number} */
 		this.startTimestamp = Date.now()
 
+		// Load configuration
 		if (!options.configPath && options.configFile)
 			options.configPath = path.join(options.absPath, options.configFile)
 		this.config = new Bot.Services.Config(options.configPath)
@@ -88,6 +95,11 @@ export default class Bot
 
 				this.config[key] = value
 			})
+
+		// Load state
+		if (!this.config.statePath && this.config.stateFile)
+			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
+		this.state = new Bot.Services.State(this.config.statePath)
 
 		// Load src and user translations
 		this.translator = new Translator(path.join(__dirname, "../translations"), this.config.defaultLanguage)
