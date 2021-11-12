@@ -60,6 +60,7 @@ class State
 		// Save changes
 		const data = JSON.stringify(this._db, null, '\t')
 		fs.writeFileSync(this.stateFile, data)
+		this.accessed = false
 	}
 
 	async _objectStructureFix(object: IState, model: IState)
