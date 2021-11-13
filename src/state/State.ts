@@ -1,14 +1,14 @@
 import fs from 'fs'
 
-import IStateType from './IBaseStateType'
+import IBaseStateType from './IBaseStateType'
 
 class State
 {
 	stateFile?: string
 
-	_db: IStateType = {}
+	_db: IBaseStateType = {}
 
-	js: IStateType = {}
+	js: IBaseStateType = {}
 
 	accessed: boolean = false
 
@@ -37,7 +37,7 @@ class State
 		return this._db
 	}
 
-	async setState(callback: (state: IStateType) => void)
+	async setState(callback: (state: IBaseStateType) => void)
 	{
 		callback(this._db)
 
@@ -61,7 +61,7 @@ class State
 		this.accessed = false
 	}
 
-	async _objectStructureFix(object: IStateType, model: IStateType): Promise<boolean>
+	async _objectStructureFix(object: IBaseStateType, model: IBaseStateType): Promise<boolean>
 	{
 		if (typeof model !== 'object') return true
 		if (typeof object !== 'object') throw false
@@ -93,7 +93,7 @@ class State
 		return true
 	}
 
-	async dbStructureFix(model: IStateType): Promise<boolean>
+	async dbStructureFix(model: IBaseStateType): Promise<boolean>
 	{
 		const result = await this._objectStructureFix(this._db, model)
 		if (!result)
@@ -104,7 +104,7 @@ class State
 		return true
 	}
 
-	jsStructureFix(model: IStateType)
+	jsStructureFix(model: IBaseStateType)
 	{
 		return this._objectStructureFix(this.js, model)
 	}
