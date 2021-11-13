@@ -16,6 +16,9 @@ class State
 	{
 		this.stateFile = stateFile
 
+		// Initialize properties
+		this.initProperties()
+
 		// Create the storage file if it does not exist
 		if (stateFile)
 		{
@@ -29,6 +32,12 @@ class State
 				this.save()
 			}
 		}
+	}
+
+	protected initProperties()
+	{
+		this._db = {}
+		this.js = {}
 	}
 
 	get db()
