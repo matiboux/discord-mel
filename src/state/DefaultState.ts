@@ -1,5 +1,3 @@
-import fs from 'fs'
-
 import AbstractState from './AbstractState'
 import DefaultStateType from './DefaultStateType'
 
