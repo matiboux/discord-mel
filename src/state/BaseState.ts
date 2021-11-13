@@ -2,13 +2,13 @@ import fs from 'fs'
 
 import IBaseStateType from './IBaseStateType'
 
-class State
+abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
 {
 	stateFile?: string
 
-	_db: IBaseStateType = {}
+	_db!: T
 
-	js: IBaseStateType = {}
+	js!: U
 
 	accessed: boolean = false
 
@@ -36,8 +36,8 @@ class State
 
 	protected initProperties()
 	{
-		this._db = {}
-		this.js = {}
+		this._db = {} as T
+		this.js = {} as U
 	}
 
 	get db()
@@ -46,7 +46,7 @@ class State
 		return this._db
 	}
 
-	async setState(callback: (state: IBaseStateType) => void)
+	async setState(callback: (state: T) => void)
 	{
 		callback(this._db)
 
@@ -119,4 +119,4 @@ class State
 	}
 }
 
-export default State
+export default BaseState
