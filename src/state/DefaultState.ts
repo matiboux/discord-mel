@@ -1,9 +1,9 @@
 import fs from 'fs'
 
 import AbstractState from './AbstractState'
-import BaseStateType from './BaseStateType'
+import DefaultStateType from './DefaultStateType'
 
-class DefaultState extends AbstractState<BaseStateType, BaseStateType>
+class DefaultState extends AbstractState<DefaultStateType, DefaultStateType>
 {
 	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
@@ -12,8 +12,8 @@ class DefaultState extends AbstractState<BaseStateType, BaseStateType>
 
 	protected initProperties(): void
 	{
-		this._db = new BaseStateType()
-		this.js = new BaseStateType()
+		this._db = new DefaultStateType()
+		this.js = new DefaultStateType()
 	}
 }
 
