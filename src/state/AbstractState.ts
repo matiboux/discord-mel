@@ -6,9 +6,9 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 {
 	stateFile?: string
 
-	_db!: T
+	_db: T
 
-	js!: U
+	js: U
 
 	accessed: boolean = false
 
@@ -16,8 +16,18 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 	{
 		this.stateFile = stateFile
 
+		// Illegal default properties initialization
+		this._db = undefined as any
+		this.js = undefined as any
+
 		// Initialize properties
 		this.initProperties()
+
+		// Check for properties being initialized
+		if (!this._db)
+			throw new Error('State database object is not defined');
+		if (!this.js)
+			throw new Error('State javascript object is not defined');
 
 		// Create the storage file if it does not exist
 		if (stateFile)
