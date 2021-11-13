@@ -1,11 +1,11 @@
 import Config from './Config'
-import State from './state/State'
+import BaseState from './state/BaseState'
 
 const Services =
 	{
 		Config: Config,
 
-		State: State,
+		State: BaseState,
 	}
 
 export default Services;

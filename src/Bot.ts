@@ -10,7 +10,7 @@ import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
 import Translator from './Translator'
 import Services from './Services'
-import State from './state/State'
+import BaseState from './state/BaseState'
 
 /**
  * @todo Type config of config should be an interface for an object
@@ -49,7 +49,7 @@ export default class Bot
 	 */
 	rest: REST | null = null
 
-	state: State
+	state: BaseState
 
 	/**
 	 * @type {CommandsCollection}
