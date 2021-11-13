@@ -3,12 +3,12 @@ import DefaultState from './state/DefaultState'
 
 const Services:
 	{
-		Config: typeof Config,
-		State: any,
+		Config: any, // extends Config
+		State: any, // extends AbstractState
 	} =
 	{
 		Config: Config,
 		State: DefaultState,
 	}
 
-export default Services;
+export default Services
