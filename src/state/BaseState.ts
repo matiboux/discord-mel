@@ -34,19 +34,19 @@ abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
 		}
 	}
 
-	protected initProperties()
+	protected initProperties(): void
 	{
 		this._db = {} as T
 		this.js = {} as U
 	}
 
-	get db()
+	get db(): T
 	{
 		this.accessed = true
 		return this._db
 	}
 
-	async setState(callback: (state: T) => void)
+	async setState(callback: (state: T) => void): Promise<void>
 	{
 		callback(this._db)
 
@@ -56,7 +56,7 @@ abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
 			this.save()
 	}
 
-	async save(forceSave: boolean = false)
+	async save(forceSave: boolean = false): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
@@ -113,7 +113,7 @@ abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
 		return true
 	}
 
-	jsStructureFix(model: IBaseStateType)
+	async jsStructureFix(model: IBaseStateType): Promise<boolean>
 	{
 		return this._objectStructureFix(this.js, model)
 	}
