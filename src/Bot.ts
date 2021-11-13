@@ -11,6 +11,7 @@ import Config from './Config'
 import Translator from './Translator'
 import Services from './Services'
 import BaseState from './state/BaseState'
+import { IBaseStateType } from '.'
 
 /**
  * @todo Type config of config should be an interface for an object
@@ -49,7 +50,7 @@ export default class Bot
 	 */
 	rest: REST | null = null
 
-	state: BaseState
+	state: BaseState<IBaseStateType, IBaseStateType>
 
 	/**
 	 * @type {CommandsCollection}
