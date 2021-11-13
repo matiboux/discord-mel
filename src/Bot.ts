@@ -37,7 +37,7 @@ export default class Bot
 
 	startTimestamp: number
 
-	config: Config
+	config: typeof Services.Config
 
 	/**
 	 * @type {Discord.Client}
@@ -49,7 +49,7 @@ export default class Bot
 	 */
 	rest: REST | null = null
 
-	state: State
+	state: typeof Services.State
 
 	/**
 	 * @type {CommandsCollection}
