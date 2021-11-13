@@ -4,7 +4,7 @@ import Bot from './Bot'
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
-import BaseState from './state/BaseState'
+import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/IBaseStateType'
 import Translator from './Translator'
 
@@ -15,7 +15,7 @@ export
     AbstractCommand,
     CommandsCollection,
     Config,
-    BaseState,
+    AbstractState,
     IBaseStateType,
     Translator,
 }

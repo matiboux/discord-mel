@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import IBaseStateType from './IBaseStateType'
 
-abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
+abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 {
 	stateFile?: string
 
@@ -119,4 +119,4 @@ abstract class BaseState<T extends IBaseStateType, U extends IBaseStateType>
 	}
 }
 
-export default BaseState
+export default AbstractState

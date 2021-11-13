@@ -1,9 +1,9 @@
 import fs from 'fs'
 
-import BaseState from './BaseState'
+import AbstractState from './AbstractState'
 import BaseStateType from './BaseStateType'
 
-class DefaultState extends BaseState<BaseStateType, BaseStateType>
+class DefaultState extends AbstractState<BaseStateType, BaseStateType>
 {
 	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{

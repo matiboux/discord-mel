@@ -10,7 +10,7 @@ import CommandsCollection from './commands/CommandsCollection'
 import Config from './Config'
 import Translator from './Translator'
 import Services from './Services'
-import BaseState from './state/BaseState'
+import AbstractState from './state/AbstractState'
 import { IBaseStateType } from '.'
 
 /**
@@ -50,7 +50,7 @@ export default class Bot
 	 */
 	rest: REST | null = null
 
-	state: BaseState<IBaseStateType, IBaseStateType>
+	state: AbstractState<IBaseStateType, IBaseStateType>
 
 	/**
 	 * @type {CommandsCollection}
