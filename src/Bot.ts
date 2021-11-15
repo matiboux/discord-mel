@@ -7,7 +7,7 @@ import { Routes } from 'discord-api-types/v9'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import Config from './Config'
+import Config from './config/Config'
 import Translator from './Translator'
 import Services from './Services'
 import AbstractState from './state/AbstractState'
