@@ -14,7 +14,7 @@ namespace LogLevel
         return LogLevel[mode]
     }
 
-    export function parse(mode: string): LogLevel
+    export function fromString(mode: string): LogLevel
 	{
         return LogLevel[mode as any] as any
     }

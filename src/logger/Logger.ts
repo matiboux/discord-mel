@@ -141,7 +141,7 @@ class Logger implements ILogger
 	public setLevel(level: LogLevel | string): void
 	{
 		if (typeof level === 'string')
-			level = LogLevel.parse(level)
+			level = LogLevel.fromString(level)
 
 		this.level = level
 	}
