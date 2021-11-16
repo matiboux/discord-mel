@@ -1,12 +1,10 @@
 import Discord from 'discord.js'
 import Collection = Discord.Collection
+
 import Bot from '../Bot'
 import AbstractCommand from './AbstractCommand'
 import Translator from '../Translator';
 
-/**
- * @extends {Collection<string, AbstractCommand>}
- */
 class CommandsCollection extends Collection<string, AbstractCommand>
 {
 	/**
