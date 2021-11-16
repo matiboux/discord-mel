@@ -4,6 +4,9 @@ interface IConfig
 
 	token?: string
 
+	logPath?: string
+	logFile?: string
+
 	statePath?: string
 	stateFile?: string
 

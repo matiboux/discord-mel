@@ -6,6 +6,9 @@ class Config
 
 	token?: string
 
+	logPath?: string
+	logFile?: string
+
 	statePath?: string
 	stateFile?: string
 

@@ -1,5 +1,6 @@
 import Config from './Config'
 import IOptions from './IOptions'
+import Logger from '../logger/Logger'
 
 class Options implements IOptions
 {
@@ -8,9 +9,12 @@ class Options implements IOptions
 	absPath: string = __dirname
 
 	config?: Config
-
 	configPath?: string
 	configFile?: string
+
+	logger?: Logger
+	logPath?: string
+	logFile?: string
 
 	statePath?: string
 	stateFile?: string

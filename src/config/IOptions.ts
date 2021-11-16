@@ -1,3 +1,4 @@
+import Logger from '../logger/Logger'
 import IConfig from './IConfig'
 
 interface IOptions
@@ -7,9 +8,12 @@ interface IOptions
 	absPath: string
 
 	config?: IConfig
-
 	configPath?: string
 	configFile?: string
+
+	logger?: Logger
+	logPath?: string
+	logFile?: string
 
 	statePath?: string
 	stateFile?: string

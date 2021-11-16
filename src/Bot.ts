@@ -14,6 +14,7 @@ import Translator from './Translator'
 import Services from './Services'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/DefaultStateType'
+import Logger from './logger/Logger'
 
 class Bot
 {
@@ -30,6 +31,8 @@ class Bot
 	startTimestamp: number
 
 	config: IConfig
+
+	logger: Logger
 
 	client: Discord.Client
 
@@ -64,6 +67,16 @@ class Bot
 
 				this.config[key] = value
 			})
+
+		// Initialize logger
+		if (this.config.logger !== undefined)
+			this.logger = new Logger(this.config.logger)
+		else
+		{
+			if (!this.config.logPath && this.config.logFile)
+				this.config.logPath = path.join(this.config.absPath, this.config.logFile)
+			this.logger = new Logger(this.config.logPath)
+		}
 
 		// Load state
 		if (!this.config.statePath && this.config.stateFile)
