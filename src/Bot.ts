@@ -15,7 +15,7 @@ import Services from './Services'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/DefaultStateType'
 
-export default class Bot
+class Bot
 {
 	static Intents = Discord.Intents
 
@@ -269,3 +269,5 @@ export default class Bot
 			})
 	}
 }
+
+export default Bot
