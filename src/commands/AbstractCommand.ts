@@ -1,59 +1,42 @@
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders'
 import Discord, { PermissionResolvable } from 'discord.js'
+
 import Bot from '../Bot'
 
 class AbstractCommand
 {
-	/**
-	 * @type {string}
-	 */
 	name: string
 
-	/**
-	 * @type {string|undefined}
-	 */
-	description: string|undefined = undefined
+	description?: string
 
-	/**
-	 * @type {boolean}
-	 */
 	guildOnly: boolean = false
 
-	/**
-	 * @type {string[]}
-	 */
 	permissions: PermissionResolvable[] = []
 
-	/**
-	 * @type {Bot}
-	 */
-	 _bot: Bot
+	protected bot: Bot
 
 	static create(bot: Bot)
 	{
-	return new this(bot)
+		return new this(bot)
 	}
 
-	/**
-	 * @param {string|undefined} name
-	 */
 	constructor(bot: Bot, name?: string)
 	{
 		if (name === undefined)
 			throw new Error('You have to specify a command name')
 
-		this._bot = bot
+		this.bot = bot
 		this.name = name
 	}
 
 	get translator()
 	{
-		return this._bot.translator
+		return this.bot.translator
 	}
 
 	/**
 	 * Check that the command in enabled in this context
-	 * @param {Discord.Message|Discord.Interaction} message
+	 * @param {Discord.Message | Discord.Interaction} message
 	 */
 	isEnabled(message: Discord.Message | Discord.Interaction)
 	{
@@ -69,7 +52,7 @@ class AbstractCommand
 
 	/**
 	 * Check that the message author has required permissions
-	 * @param {Discord.Message|Discord.Interaction} message
+	 * @param {Discord.Message | Discord.Interaction} message
 	 */
 	isAllowed(message: Discord.Message | Discord.Interaction)
 	{
@@ -110,7 +93,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Interaction} object
+	 * @param {Discord.Message | Discord.Interaction} object
 	 */
 	async onNotEnabled(object: Discord.Message | Discord.Interaction)
 	{
@@ -120,7 +103,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Interaction} object
+	 * @param {Discord.Message | Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
 	async onNotAllowed(object: Discord.Message | Discord.Interaction, reply: boolean = true)
@@ -139,7 +122,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message|Discord.Interaction} object
+	 * @param {Discord.Message | Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
 	async onError(object: Discord.Message | Discord.Interaction, reply: boolean = true)
@@ -158,7 +141,7 @@ class AbstractCommand
 	}
 
 	/**
-	 * @returns {SlashCommandBuilder|ContextMenuCommandBuilder|undefined}
+	 * @returns {SlashCommandBuilder | ContextMenuCommandBuilder | undefined}
 	 */
 	getApplicationCommand(): SlashCommandBuilder | ContextMenuCommandBuilder | undefined
 	{
