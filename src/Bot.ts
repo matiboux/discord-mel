@@ -196,9 +196,11 @@ class Bot
 								this.commands.forEach(command =>
 									{
 										const slashCommand = command.getApplicationCommand()
-										if (slashCommand === undefined) return
+										if (slashCommand !== undefined)
+											slashCommands.push(slashCommand.toJSON())
 
-										slashCommands.push(slashCommand.toJSON())
+										command.getApplicationCommands()
+											.forEach(slashCommand => slashCommands.push(slashCommand.toJSON()))
 									})
 
 								if (this.rest)
