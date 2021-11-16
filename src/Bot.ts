@@ -31,21 +31,12 @@ class Bot
 
 	config: IConfig
 
-	/**
-	 * @type {Discord.Client}
-	 */
 	client: Discord.Client
 
-	/**
-	 * @type {REST|null}
-	 */
 	rest: REST | null = null
 
 	state: AbstractState<IBaseStateType, IBaseStateType>
 
-	/**
-	 * @type {CommandsCollection}
-	 */
 	commands: CommandsCollection = new CommandsCollection(this)
 
 	translator: Translator
