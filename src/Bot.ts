@@ -7,7 +7,7 @@ import { Routes } from 'discord-api-types/v9'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import Config from './config/Config'
+import IConfig from './config/IConfig'
 import IOptions from './config/IOptions'
 import Options from './config/Options'
 import Translator from './Translator'
@@ -21,7 +21,7 @@ class Bot
 
 	static Services = Services
 
-	static readonly defaultOptions = new Options(
+	static readonly defaultOptions: IOptions = new Options(
 		{
 			absPath: __dirname,
 			configFile: "config.json",
@@ -29,7 +29,7 @@ class Bot
 
 	startTimestamp: number
 
-	config: Config
+	config: IConfig
 
 	/**
 	 * @type {Discord.Client}

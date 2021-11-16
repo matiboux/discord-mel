@@ -1,15 +1,8 @@
-import IConfig from './IConfig'
-
-interface IOptions
+interface IConfig
 {
 	[x: string]: any
 
-	absPath: string
-
-	config?: IConfig
-
-	configPath?: string
-	configFile?: string
+	token?: string
 
 	statePath?: string
 	stateFile?: string
@@ -21,4 +14,4 @@ interface IOptions
 	prefix?: string
 }
 
-export default IOptions
+export default IConfig
