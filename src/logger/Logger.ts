@@ -55,7 +55,12 @@ class Logger implements ILogger
 		this.stream?.write(logMessage + '\n')
 
 		if (this.printConsole)
-			console.error(logMessage)
+		{
+			if (level >= LogLevel.WARN)
+				console.error(logMessage)
+			else
+				console.log(logMessage)
+		}
 	}
 
 	public debug(message: string): void
