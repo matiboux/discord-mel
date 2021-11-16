@@ -114,7 +114,7 @@ class Bot
 			return this.client.login(token)
 				.catch(error =>
 					{
-						console.error(this.translator.translate('login.fail', {
+						this.logger.error(this.translator.translate('login.fail', {
 								'%reason%': error.message
 							}))
 						return Promise.reject(error)
@@ -152,7 +152,7 @@ class Bot
 							this.commands.add(command)
 						})
 
-				console.log(this.translator.translate('commands.loaded', {
+				this.logger.info(this.translator.translate('commands.loaded', {
 						'%count%': this.commands.size
 					}))
 
@@ -161,11 +161,11 @@ class Bot
 			catch (error: any)
 			{
 				if (error.code === 'ENOENT')
-					console.error(this.translator.translate('commands.dir.not_found', {
+					this.logger.warn(this.translator.translate('commands.dir.not_found', {
 							'%dir%': dirpath
 						}))
 				else
-					console.error(error)
+					this.logger.error(error)
 			}
 		}
 
@@ -179,7 +179,7 @@ class Bot
 	{
 		this.client.on('ready', () =>
 			{
-				console.log(this.translator.translate('login.ready', {
+				this.logger.info(this.translator.translate('login.ready', {
 						'%user%': this.client.user?.tag
 					}))
 
@@ -204,25 +204,28 @@ class Bot
 									if (clientId)
 									{
 										this.rest.put(Routes.applicationGuildCommands(clientId, guild.id),
-													{ body: slashCommands })
-											.then(() => console.log(this.translator.translate('commands.guild.registered', {
-													'%count%': slashCommands.length
-												})))
+										              { body: slashCommands })
+											.then(() =>
+												{
+													this.logger.info(this.translator.translate('commands.guild.registered', {
+															'%count%': slashCommands.length
+														}))
+												})
 											.catch(error =>
 												{
-													console.error(this.translator.translate('commands.guild.fail', {
+													this.logger.error(this.translator.translate('commands.guild.fail', {
 															'%count%': slashCommands.length
 														}))
 
 													if (error.code === 50001)
-														console.error(this.translator.translate('scopes.missing.applications.commands'))
+														this.logger.error(this.translator.translate('scopes.missing.applications.commands'))
 													else
-														console.error(error)
+														this.logger.error(error)
 												})
 									}
 								}
 							}))
-						.catch(console.error)
+						.catch(this.logger.warn)
 				}
 		})
 
