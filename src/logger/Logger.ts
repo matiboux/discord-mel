@@ -5,8 +5,8 @@ import ILogger from './ILogger'
 
 class Logger implements ILogger
 {
-	private filePath: string | undefined
-	private stream: fs.WriteStream | undefined
+	private filePath?: string
+	private stream?: fs.WriteStream
 
 	private level: LogLevel
 
@@ -18,22 +18,19 @@ class Logger implements ILogger
 	constructor(filePath: string)
 	constructor(filePath: string, level: LogLevel)
 	constructor(filePath: string, level: LogLevel, stdout: boolean)
-	constructor(filePath?: string, level?: LogLevel, stdout?: boolean)
+	constructor(filePath?: string, level?: LogLevel, printConsole?: boolean)
 	{
-		this.filePath = filePath
-		this.stream = this.filePath !== undefined
-			? fs.createWriteStream(this.filePath, { flags: 'a' })
-			: undefined
+		if (filePath !== undefined)
+			this.setFilePath(filePath)
 
 		this.level = level !== undefined ? level : LogLevel.INFO
 
-		this.printConsole = stdout !== undefined ? stdout : true
+		this.printConsole = printConsole !== undefined ? printConsole : true
 	}
 
 	//#endregion
 
 	//#region Logging methods
-
 
 	public log(level: LogLevel, message: string): void
 	public log(level: LogLevel, error: Error): void
@@ -57,7 +54,6 @@ class Logger implements ILogger
 
 		if (this.printConsole)
 			console.error(logMessage)
-
 	}
 
 	public debug(message: string): void
@@ -129,7 +125,7 @@ class Logger implements ILogger
 
 	//#region Configuration methods
 
-	public setFile(filePath: string): void
+	public setFilePath(filePath: string): void
 	{
 		this.filePath = filePath
 		this.stream = fs.createWriteStream(this.filePath, { flags: 'a' })
