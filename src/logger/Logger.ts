@@ -138,8 +138,11 @@ class Logger implements ILogger
 		this.stream = fs.createWriteStream(this.filePath, { flags: 'a' })
 	}
 
-	public setLevel(level: LogLevel): void
+	public setLevel(level: LogLevel | string): void
 	{
+		if (typeof level === 'string')
+			level = LogLevel.parse(level)
+
 		this.level = level
 	}
 
