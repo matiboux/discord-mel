@@ -7,4 +7,12 @@ enum LogLevel
 	FATAL = 4,
 }
 
+namespace LogLevel
+{
+    export function toString(mode: LogLevel): string
+	{
+        return LogLevel[mode]
+    }
+}
+
 export default LogLevel
