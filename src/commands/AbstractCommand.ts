@@ -3,6 +3,8 @@ import Discord, { PermissionResolvable } from 'discord.js'
 
 import Bot from '../Bot'
 
+type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
+
 class AbstractCommand
 {
 	name: string
@@ -141,11 +143,16 @@ class AbstractCommand
 	}
 
 	/**
-	 * @returns {SlashCommandBuilder | ContextMenuCommandBuilder | undefined}
+	 * @returns {ApplicationCommand | undefined}
 	 */
-	getApplicationCommand(): SlashCommandBuilder | ContextMenuCommandBuilder | undefined
+	getApplicationCommand(): ApplicationCommand | undefined
 	{
 		return undefined
+	}
+
+	getApplicationCommands(): ApplicationCommand[]
+	{
+		return []
 	}
 }
 
