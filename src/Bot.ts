@@ -8,33 +8,24 @@ import { Routes } from 'discord-api-types/v9'
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import Config from './config/Config'
+import IOptions from './config/IOptions'
+import Options from './config/Options'
 import Translator from './Translator'
 import Services from './Services'
 import AbstractState from './state/AbstractState'
-import { IBaseStateType } from '.'
-
-/**
- * @todo Type config of config should be an interface for an object
- */
-interface IOptions {
-	absPath: string
-	config?: Config
-	configPath?: string
-	configFile?: string
-	token?: string
-	statePath?: string
-	stateFile?: string
-	commandsDir?: string
-	translationsDir?: string
-	defaultLanguage?: string
-	prefix?: string
-}
+import IBaseStateType from './state/DefaultStateType'
 
 export default class Bot
 {
 	static Intents = Discord.Intents
 
 	static Services = Services
+
+	static readonly defaultOptions = new Options(
+		{
+			absPath: __dirname,
+			configFile: "config.json",
+		})
 
 	startTimestamp: number
 
@@ -59,23 +50,9 @@ export default class Bot
 
 	translator: Translator
 
-	#defaultOptions: IOptions = {
-		absPath: __dirname, // ABSPATH !== undefined ? ABSPATH : __dirname,
-		config: undefined,
-		configPath: undefined,
-		configFile: "config.json",
-		token: undefined,
-		statePath: undefined,
-		stateFile: undefined,
-		commandsDir: undefined,
-		translationsDir: undefined,
-		defaultLanguage: undefined,
-		prefix: undefined,
-	}
-
-	constructor(userOptions: object, discordJsOptions: Discord.ClientOptions)
+	constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
-		const options = {...this.#defaultOptions, ...userOptions}
+		const options = new Options(Bot.defaultOptions, userOptions)
 
 		this.startTimestamp = Date.now()
 
