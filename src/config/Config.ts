@@ -8,6 +8,7 @@ class Config
 
 	logPath?: string
 	logFile?: string
+	logLevel?: string
 
 	statePath?: string
 	stateFile?: string

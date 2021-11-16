@@ -15,6 +15,7 @@ class Options implements IOptions
 	logger?: Logger
 	logPath?: string
 	logFile?: string
+	logLevel?: string
 
 	statePath?: string
 	stateFile?: string

@@ -78,6 +78,9 @@ class Bot
 			this.logger = new Logger(this.config.logPath)
 		}
 
+		if (this.config.logLevel !== undefined)
+			this.logger.setLevel(this.config.logLevel)
+
 		// Load state
 		if (!this.config.statePath && this.config.stateFile)
 			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
