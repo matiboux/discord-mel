@@ -11,7 +11,7 @@ class Logger implements ILogger
 		[LogLevel.INFO, chalk.bgGreen.white],
 		[LogLevel.WARN, chalk.bgHex('#FFA500').black],
 		[LogLevel.ERROR, chalk.bgRed.white],
-		[LogLevel.FATAL, chalk.black.white],
+		[LogLevel.FATAL, chalk.bgRed.white],
 	])
 
 	private filePath?: string
@@ -71,7 +71,7 @@ class Logger implements ILogger
 		const errorStr = error !== undefined ? `\n${error.stack}` : ''
 
 		// const logStr = `${dateStr} ${timeStr} ${chalk.bold(LogLevel[level])} ${message}${errorStr}`
-		const dateColor = chalk.bgBlue.white
+		const dateColor = chalk.bgGrey.white
 		const levelColor = this.logColors.get(level) || chalk.bgGrey.white
 		const messageColor = chalk.white
 
