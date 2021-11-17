@@ -70,7 +70,7 @@ class Logger implements ILogger
 		const errorStr = error !== undefined ? `\n${error.stack}` : ''
 
 		// const logStr = `${dateStr} ${timeStr} ${chalk.bold(LogLevel[level])} ${message}${errorStr}`
-		const dateColor = chalk.bgGrey.white
+		const dateColor = chalk.bgBlue.white
 		const levelColor = this.logColors.get(level) || chalk.bgGrey.white
 		const messageColor = chalk.white
 
@@ -162,7 +162,9 @@ class Logger implements ILogger
 	public setFilePath(filePath: string): void
 	{
 		this.filePath = filePath
+		const fileExists = fs.existsSync(this.filePath)
 		this.stream = fs.createWriteStream(this.filePath, { flags: 'a' })
+		if (fileExists) this.stream.write('\n')
 	}
 
 	public setLevel(level: LogLevel | string): void
