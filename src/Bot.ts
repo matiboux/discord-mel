@@ -87,7 +87,8 @@ class Bot
 		this.state = new Bot.Services.State(this.config.statePath)
 
 		// Load src and user translations
-		this.translator = new Translator(path.join(__dirname, "../translations"), this.config.defaultLanguage)
+		this.translator = new Translator(this)
+		this.translator.addTranslations(path.join(__dirname, "../translations"), this.config.defaultLanguage)
 		if (this.config.translationsDir)
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
 

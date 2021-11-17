@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import { Bot } from '.'
+import Logger from './logger/Logger'
 
 interface ITranslations
 {
@@ -25,9 +27,13 @@ class Translator
 
 	currentLanguage?: string
 
-	constructor(dirpath: string, defaultLanguage?: string)
+	private bot: Bot | undefined
+	private logger: Logger
+
+	constructor(bot?: Bot)
 	{
-		this.addTranslations(dirpath, defaultLanguage)
+		this.bot = bot
+		this.logger = this.bot?.logger || new Logger()
 	}
 
 	addTranslations(dirpath: string, defaultLanguage?: string)
@@ -65,7 +71,7 @@ class Translator
 						}
 						catch (e)
 						{
-							console.log(e);
+							this.logger.warn(e);
 						}
 					})
 
