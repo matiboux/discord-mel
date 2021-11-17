@@ -1,16 +1,28 @@
 import fs from 'fs'
+import chalk from 'chalk'
 
 import LogLevel from './LogLevel'
 import ILogger from './ILogger'
 
 class Logger implements ILogger
 {
+	static defaultLogColors = new Map<LogLevel, (x: string) => string>([
+		[LogLevel.DEBUG, chalk.bgGrey.white],
+		[LogLevel.INFO, chalk.bgGreen.white],
+		[LogLevel.WARN, chalk.bgHex('#FFA500').black],
+		[LogLevel.ERROR, chalk.bgRed.white],
+		[LogLevel.FATAL, chalk.black.white],
+	])
+
 	private filePath?: string
 	private stream?: fs.WriteStream
 
 	private level: LogLevel
+	private levelStrLength: number = 0
 
 	private printConsole: boolean
+
+	private logColors: Map<LogLevel, (x: string) => string>
 
 	//#region Constructor
 
@@ -24,8 +36,13 @@ class Logger implements ILogger
 			this.setFilePath(filePath)
 
 		this.level = level !== undefined ? level : LogLevel.INFO
+		Object.entries(LogLevel)
+			.filter(entry => isNaN(Number(entry)) && typeof entry[1] === 'number')
+			.forEach(entry => this.levelStrLength = Math.max(this.levelStrLength, entry[0].length))
 
 		this.printConsole = printConsole !== undefined ? printConsole : true
+
+		this.logColors = new Map(Logger.defaultLogColors.entries())
 	}
 
 	//#endregion
@@ -49,17 +66,27 @@ class Logger implements ILogger
 		const date = new Date()
 		const dateStr = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`
 		const timeStr = `${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
+		const levelStr = LogLevel.toString(level)
 		const errorStr = error !== undefined ? `\n${error.stack}` : ''
-		const logMessage = `${dateStr} ${timeStr} [${LogLevel.toString(level)}] ${message}${errorStr}`
+
+		// const logStr = `${dateStr} ${timeStr} ${chalk.bold(LogLevel[level])} ${message}${errorStr}`
+		const dateColor = chalk.bgGrey.white
+		const levelColor = this.logColors.get(level) || chalk.bgGrey.white
+		const messageColor = chalk.white
+
+		const consoleMessage = levelColor(' ') + dateColor(` ${dateStr} ${timeStr} `)
+			+ levelColor(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `)
+			+ messageColor(` ${message}${errorStr}`)
+		const logMessage = `${dateStr} ${timeStr} [${levelStr}] ${message}${errorStr}`
 
 		this.stream?.write(logMessage + '\n')
 
 		if (this.printConsole)
 		{
-			if (level >= LogLevel.WARN)
-				console.error(logMessage)
+			if (this.stream || level >= LogLevel.WARN)
+				console.error(consoleMessage)
 			else
-				console.log(logMessage)
+				console.log(consoleMessage)
 		}
 	}
 
