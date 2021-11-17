@@ -17,10 +17,10 @@ class Logger implements ILogger
 	private filePath?: string
 	private stream?: fs.WriteStream
 
-	private level: LogLevel
+	private level: LogLevel = LogLevel.INFO
 	private levelStrLength: number = 0
 
-	private printConsole: boolean
+	private printConsole: boolean = true
 
 	private logColors: Map<LogLevel, (x: string) => string>
 
@@ -35,12 +35,16 @@ class Logger implements ILogger
 		if (filePath !== undefined)
 			this.setFilePath(filePath)
 
-		this.level = level !== undefined ? level : LogLevel.INFO
+		if (level !== undefined)
+			this.level = level
+
 		Object.entries(LogLevel)
 			.filter(entry => isNaN(Number(entry)) && typeof entry[1] === 'number')
 			.forEach(entry => this.levelStrLength = Math.max(this.levelStrLength, entry[0].length))
 
-		this.printConsole = printConsole !== undefined ? printConsole : true
+
+		if (printConsole !== undefined)
+			this.printConsole = printConsole
 
 		this.logColors = new Map(Logger.defaultLogColors.entries())
 	}
@@ -49,10 +53,7 @@ class Logger implements ILogger
 
 	//#region Logging methods
 
-	public log(level: LogLevel, message: string): void
-	public log(level: LogLevel, error: Error): void
-	public log(level: LogLevel, message: string, error: Error): void
-	public log(level: LogLevel, message: string | Error, error?: Error): void
+	public log(level: LogLevel, message: any, error?: Error): void
 	{
 		if (!this.isEnabled(level))
 			return
@@ -90,69 +91,29 @@ class Logger implements ILogger
 		}
 	}
 
-	public debug(message: string): void
-	public debug(error: Error): void
-	public debug(message: string, error: Error): void
-	public debug(message: string | Error, error?: Error): void
+	public debug(message: any, error?: Error): void
 	{
-		if (message instanceof Error)
-			this.log(LogLevel.DEBUG, message)
-		else if (error instanceof Error)
-			this.log(LogLevel.DEBUG, message, error)
-		else
-			this.log(LogLevel.DEBUG, message)
+		this.log(LogLevel.DEBUG, message, error)
 	}
 
-	public info(message: string): void
-	public info(error: Error): void
-	public info(message: string, error: Error): void
-	public info(message: string | Error, error?: Error): void
+	public info(message: any, error?: Error): void
 	{
-		if (message instanceof Error)
-			this.log(LogLevel.INFO, message)
-		else if (error instanceof Error)
-			this.log(LogLevel.INFO, message, error)
-		else
-			this.log(LogLevel.INFO, message)
+		this.log(LogLevel.INFO, message, error)
 	}
 
-	public warn(message: string): void
-	public warn(error: Error): void
-	public warn(message: string, error: Error): void
-	public warn(message: string | Error, error?: Error): void
+	public warn(message: any, error?: Error): void
 	{
-		if (message instanceof Error)
-			this.log(LogLevel.WARN, message)
-		else if (error instanceof Error)
-			this.log(LogLevel.WARN, message, error)
-		else
-			this.log(LogLevel.WARN, message)
+		this.log(LogLevel.WARN, message, error)
 	}
 
-	public error(message: string): void
-	public error(error: Error): void
-	public error(message: string, error: Error): void
-	public error(message: string | Error, error?: Error): void
+	public error(message: any, error?: Error): void
 	{
-		if (message instanceof Error)
-			this.log(LogLevel.ERROR, message)
-		else if (error instanceof Error)
-			this.log(LogLevel.ERROR, message, error)
-		else
-			this.log(LogLevel.ERROR, message)
+		this.log(LogLevel.ERROR, message, error)
 	}
 
-	public fatal(message: string): void
-	public fatal(error: Error): void
-	public fatal(message: string, error: Error): void
-	public fatal(message: string | Error, error?: Error): void
+	public fatal(message: any, error?: Error): void
 	{
-		if (message instanceof Error)
-			this.log(LogLevel.FATAL, message)
-		else if (error instanceof Error)
-			this.log(LogLevel.FATAL, message, error)
-		else
-			this.log(LogLevel.FATAL, message)
+		this.log(LogLevel.FATAL, message, error)
 	}
 
 	//#endregion
