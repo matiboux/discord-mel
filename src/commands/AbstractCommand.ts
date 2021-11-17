@@ -2,6 +2,7 @@ import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/build
 import Discord, { PermissionResolvable } from 'discord.js'
 
 import Bot from '../Bot'
+import Logger from '../logger/Logger'
 
 type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 
@@ -16,6 +17,7 @@ class AbstractCommand
 	permissions: PermissionResolvable[] = []
 
 	protected bot: Bot
+	protected logger: Logger
 
 	static create(bot: Bot)
 	{
@@ -28,6 +30,7 @@ class AbstractCommand
 			throw new Error('You have to specify a command name')
 
 		this.bot = bot
+		this.logger = bot.logger
 		this.name = name
 	}
 
