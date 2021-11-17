@@ -19,34 +19,17 @@ interface ITranslationArgument
 
 class Translator
 {
-	/**
-	 * @type {Object<string, Object<string, string>>}
-	 */
 	translations: ITranslations = {}
 
-	/**
-	 * @type {string}
-	 */
 	defaultLanguage?: string
 
-	/**
-	 * @type {string}
-	 */
 	currentLanguage?: string
 
-	/**
-	 * @param {string} dirpath
-	 * @param {string} defaultLanguage
-	 */
 	constructor(dirpath: string, defaultLanguage?: string)
 	{
 		this.addTranslations(dirpath, defaultLanguage)
 	}
 
-	/**
-	 * @param {string} dirpath
-	 * @param {string} defaultLanguage
-	 */
 	addTranslations(dirpath: string, defaultLanguage?: string)
 	{
 		if (dirpath)
@@ -90,18 +73,11 @@ class Translator
 			this.setDefaultLanguage(defaultLanguage)
 	}
 
-	/**
-	 * @return {string|undefined}
-	 */
 	getDefaultLanguage(): string | undefined
 	{
 		return this.defaultLanguage
 	}
 
-	/**
-	 * @param {string} defaultLanguage
-	 * @returns {boolean}
-	 */
 	setDefaultLanguage(defaultLanguage: string): boolean
 	{
 		// if (defaultLanguage && typeof this.translations[defaultLanguage] !== 'undefined')
@@ -113,18 +89,11 @@ class Translator
 		// return false
 	}
 
-	/**
-	 * @return {string|undefined}
-	 */
 	getCurrentLanguage(): string | undefined
 	{
 		return this.currentLanguage
 	}
 
-	/**
-	 * @param {string} currentLanguage
-	 * @returns {boolean}
-	 */
 	setCurrentLanguage(currentLanguage: string): boolean
 	{
 		// if (currentLanguage && typeof this.translations[currentLanguage] !== 'undefined')
@@ -141,12 +110,6 @@ class Translator
 		this.currentLanguage = undefined
 	}
 
-	/**
-	 * @param {string} translationKey
-	 * @param {string|ITranslationArgument|undefined} language
-	 * @param {ITranslationArgument} args
-	 * @return {string}
-	 */
 	translate(translationKey: string, language?: string | ITranslationArgument, args: ITranslationArgument = {}): string
 	{
 		if (typeof language === 'object')
