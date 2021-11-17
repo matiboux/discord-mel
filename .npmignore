@@ -1,2 +1,6 @@
 # NodeJS
 node_modules/
+
+# Uncompiled source files
+commands/
+src/
