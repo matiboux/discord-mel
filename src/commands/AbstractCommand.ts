@@ -102,7 +102,7 @@ class AbstractCommand
 	 */
 	async onNotEnabled(object: Discord.Message | Discord.Interaction)
 	{
-		console.error(this.translator?.translate('commands.run.not_enabled', {
+		this.logger.warn(this.translator?.translate('commands.run.not_enabled', {
 				'%name%': this.name
 			}))
 	}
@@ -121,7 +121,7 @@ class AbstractCommand
 				object.reply({ content, ephemeral: true })
 		}
 
-		console.error(this.translator?.translate('commands.run.not_allowed', {
+		this.logger.warn(this.translator?.translate('commands.run.not_allowed', {
 				'%name%': this.name
 			}))
 	}
@@ -140,7 +140,7 @@ class AbstractCommand
 				object.reply({ content, ephemeral: true })
 		}
 
-		console.error(this.translator?.translate('commands.run.error', {
+		this.logger.error(this.translator?.translate('commands.run.error', {
 				'%name%': this.name
 			}))
 	}
