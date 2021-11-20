@@ -152,7 +152,9 @@ class Translator
 				}
 
 				if (translationKey !== 'translator.missing_key')
-					console.error(this.translate('translator.missing_key', { '%key%': translationKey }))
+					this.logger.warn(this.translate('translator.missing_key', {
+							'%key%': translationKey
+						}), this.constructor.name)
 
 				return null
 			})()
