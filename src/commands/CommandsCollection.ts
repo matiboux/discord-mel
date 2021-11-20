@@ -4,32 +4,21 @@ import Collection = Discord.Collection
 import Bot from '../Bot'
 import AbstractCommand from './AbstractCommand'
 import Translator from '../Translator';
+import Logger from '../logger/Logger';
 
 class CommandsCollection extends Collection<string, AbstractCommand>
 {
-	/**
-	 * @type {Bot|undefined}
-	 */
-	#bot: Bot | undefined = undefined
+	private bot: Bot | undefined
+	private logger: Logger
+	private translator: Translator
 
-	constructor(bot: Bot | undefined = undefined)
+	constructor(bot?: Bot)
 	{
 		super()
 
-		if (bot) this.#setBot(bot)
-	}
-
-	/**
-	 * @param {Bot|undefined} bot
-	 */
-	#setBot(bot: Bot | undefined): void
-	{
-		this.#bot = bot
-	}
-
-	get translator(): Translator | undefined
-	{
-		return this.#bot?.translator
+		this.bot = bot
+		this.logger = this.bot?.logger || new Logger()
+		this.translator = this.bot?.translator || new Translator()
 	}
 
 	/**
@@ -76,15 +65,15 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				catch (error)
 				{
 					command.onError(message)
-					console.error(error)
+					this.logger.error(error, this.constructor.name)
 				}
 			}
 		}
 		else
 		{
-			console.error(this.translator?.translate('commands.run.not_found', {
+			this.logger.warn(this.translator.translate('commands.run.not_found', {
 					'%name%': commandName
-				}))
+				}), this.constructor.name)
 		}
 
 		return commandExecuted
@@ -119,15 +108,15 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				catch (error)
 				{
 					command.onError(interaction)
-					console.error(error)
+					this.logger.error(error, this.constructor.name)
 				}
 			}
 		}
 		else
 		{
-			console.error(this.translator?.translate('commands.run.not_found', {
+			this.logger.warn(this.translator.translate('commands.run.not_found', {
 					'%name%': commandName
-				}))
+				}), this.constructor.name)
 		}
 
 		return commandExecuted
