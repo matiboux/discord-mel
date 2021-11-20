@@ -85,15 +85,16 @@ class Logger implements ILogger
 		const levelColor = this.logColors.get(level) || chalk.bgGrey.white
 		const messageColor = chalk.white
 
-		const consoleMessage = levelColor(' ') + dateColor(` ${dateStr} ${timeStr} `)
-			+ levelColor(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `)
-			+ messageColor(` ${namespaceStr}${message}${errorStr}`)
 		const logMessage = `${dateStr} ${timeStr} [${levelStr}] ${namespaceStr}${message}${errorStr}`
 
 		this.stream?.write(logMessage + '\n')
 
 		if (this.printConsole)
 		{
+			const consoleMessage = levelColor(' ') + dateColor(` ${dateStr} ${timeStr} `)
+				+ levelColor(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `)
+				+ messageColor(` ${namespaceStr}${message}${errorStr}`)
+
 			if (this.stream || level >= LogLevel.WARN)
 				console.error(consoleMessage)
 			else
