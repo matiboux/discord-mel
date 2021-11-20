@@ -13,6 +13,9 @@ class AbstractCommand
 
 	description?: string
 
+	/** Command aliases for legacy commands */
+	commandAliases: Set<string> = new Set<string>()
+
 	/** Application commands (interactions) */
 	applicationCommands: ApplicationCommand[] = []
 

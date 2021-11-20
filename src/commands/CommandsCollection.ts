@@ -42,7 +42,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 */
 	async onMessage(commandName: string, message: Discord.Message, args: string)
 	{
-		const command = this.get(commandName)
+		const command = this.find(command => command.commandAliases.has(commandName))
 		let commandExecuted = false
 
 		if (command)
