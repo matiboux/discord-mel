@@ -1,7 +1,7 @@
-import fs = require('fs')
-import path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-import Discord = require('discord.js')
+import Discord from 'discord.js'
 import { REST } from '@discordjs/rest'
 import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-types/v9'
 
