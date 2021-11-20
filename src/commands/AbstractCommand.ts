@@ -104,7 +104,7 @@ class AbstractCommand
 	{
 		this.logger.warn(this.translator?.translate('commands.run.not_enabled', {
 				'%name%': this.name
-			}))
+			}), this.constructor.name)
 	}
 
 	/**
@@ -123,7 +123,7 @@ class AbstractCommand
 
 		this.logger.warn(this.translator?.translate('commands.run.not_allowed', {
 				'%name%': this.name
-			}))
+			}), this.constructor.name)
 	}
 
 	/**
@@ -142,7 +142,7 @@ class AbstractCommand
 
 		this.logger.error(this.translator?.translate('commands.run.error', {
 				'%name%': this.name
-			}))
+			}), this.constructor.name)
 	}
 
 	/**

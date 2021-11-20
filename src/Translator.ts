@@ -71,7 +71,7 @@ class Translator
 						}
 						catch (e)
 						{
-							this.logger.warn(e);
+							this.logger.warn(e, this.constructor.name);
 						}
 					})
 
