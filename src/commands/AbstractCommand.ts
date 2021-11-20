@@ -13,6 +13,9 @@ class AbstractCommand
 
 	description?: string
 
+	/** Application commands (interactions) */
+	applicationCommands: ApplicationCommand[] = []
+
 	guildOnly: boolean = false
 
 	permissions: PermissionResolvable[] = []
@@ -142,19 +145,6 @@ class AbstractCommand
 		this.logger.error(this.translator?.translate('commands.run.error', {
 				'%name%': this.name
 			}), this.constructor.name)
-	}
-
-	/**
-	 * @returns {ApplicationCommand | undefined}
-	 */
-	getApplicationCommand(): ApplicationCommand | undefined
-	{
-		return undefined
-	}
-
-	getApplicationCommands(): ApplicationCommand[]
-	{
-		return []
 	}
 }
 

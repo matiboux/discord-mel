@@ -3,7 +3,7 @@ import path = require('path')
 
 import Discord = require('discord.js')
 import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
+import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-types/v9'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
@@ -193,14 +193,10 @@ class Bot
 					this.client.guilds.fetch()
 						.then(guilds => guilds.forEach(guild =>
 							{
-								const slashCommands: object[] = []
+								const slashCommands: RESTPostAPIApplicationCommandsJSONBody[] = []
 								this.commands.forEach(command =>
 									{
-										const slashCommand = command.getApplicationCommand()
-										if (slashCommand !== undefined)
-											slashCommands.push(slashCommand.toJSON())
-
-										command.getApplicationCommands()
+										command.applicationCommands
 											.forEach(slashCommand => slashCommands.push(slashCommand.toJSON()))
 									})
 
