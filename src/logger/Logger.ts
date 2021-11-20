@@ -53,14 +53,23 @@ class Logger implements ILogger
 
 	//#region Logging methods
 
-	public log(level: LogLevel, message: any, error?: Error): void
+	public log(level: LogLevel, message: any, namespace?: any, error?: Error): void
 	{
 		if (!this.isEnabled(level))
 			return
 
 		if (message instanceof Error)
 		{
-			error = message
+			if (!error) error = message
+			message = error.message
+		}
+		if (namespace instanceof Error)
+		{
+			if (!error) error = namespace
+			namespace = undefined
+		}
+		if (namespace === undefined && error !== undefined)
+		{
 			message = error.message
 		}
 
@@ -68,6 +77,7 @@ class Logger implements ILogger
 		const dateStr = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`
 		const timeStr = `${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
 		const levelStr = LogLevel.toString(level)
+		const namespaceStr = namespace !== undefined ? `[${namespace}] ` : ''
 		const errorStr = error !== undefined ? `\n${error.stack}` : ''
 
 		// const logStr = `${dateStr} ${timeStr} ${chalk.bold(LogLevel[level])} ${message}${errorStr}`
@@ -77,8 +87,8 @@ class Logger implements ILogger
 
 		const consoleMessage = levelColor(' ') + dateColor(` ${dateStr} ${timeStr} `)
 			+ levelColor(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `)
-			+ messageColor(` ${message}${errorStr}`)
-		const logMessage = `${dateStr} ${timeStr} [${levelStr}] ${message}${errorStr}`
+			+ messageColor(` ${namespaceStr}${message}${errorStr}`)
+		const logMessage = `${dateStr} ${timeStr} [${levelStr}] ${namespaceStr}${message}${errorStr}`
 
 		this.stream?.write(logMessage + '\n')
 
@@ -91,29 +101,29 @@ class Logger implements ILogger
 		}
 	}
 
-	public debug(message: any, error?: Error): void
+	public debug(message: any, namespace?: any, error?: Error): void
 	{
-		this.log(LogLevel.DEBUG, message, error)
+		this.log(LogLevel.DEBUG, message, namespace, error)
 	}
 
-	public info(message: any, error?: Error): void
+	public info(message: any, namespace?: any, error?: Error): void
 	{
-		this.log(LogLevel.INFO, message, error)
+		this.log(LogLevel.INFO, message, namespace, error)
 	}
 
-	public warn(message: any, error?: Error): void
+	public warn(message: any, namespace?: any, error?: Error): void
 	{
-		this.log(LogLevel.WARN, message, error)
+		this.log(LogLevel.WARN, message, namespace, error)
 	}
 
-	public error(message: any, error?: Error): void
+	public error(message: any, namespace?: any, error?: Error): void
 	{
-		this.log(LogLevel.ERROR, message, error)
+		this.log(LogLevel.ERROR, message, namespace, error)
 	}
 
-	public fatal(message: any, error?: Error): void
+	public fatal(message: any, namespace?: any, error?: Error): void
 	{
-		this.log(LogLevel.FATAL, message, error)
+		this.log(LogLevel.FATAL, message, namespace, error)
 	}
 
 	//#endregion
