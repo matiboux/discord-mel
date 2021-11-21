@@ -27,12 +27,12 @@ class AbstractCommand
 	protected logger: Logger
 	protected translator: Translator
 
-	static create(bot?: Bot)
+	static create(bot: Bot)
 	{
 		return new this(bot)
 	}
 
-	constructor(bot?: Bot, name?: string)
+	constructor(bot: Bot, name?: string)
 	{
 		if (name === undefined)
 			throw new Error('You have to specify a command name')
