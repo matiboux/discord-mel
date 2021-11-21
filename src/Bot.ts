@@ -99,7 +99,9 @@ class Bot
 		this.reloadCommands()
 
 		// Load Discord client events
-		this.#loadEvents()
+		this.client.on('ready', this.onReady.bind(this))
+		this.client.on('interactionCreate', this.onInteractionCreate.bind(this))
+		this.client.on('messageCreate', this.onMessageCreate.bind(this))
 	}
 
 	/**
@@ -176,106 +178,100 @@ class Bot
 		return false
 	}
 
-	/**
-	 * Load Discord client events
-	 */
-	#loadEvents()
+	private onReady()
 	{
-		this.client.on('ready', () =>
-			{
-				this.logger.info(this.translator.translate('login.ready', {
-						'%user%': this.client.user?.tag
-					}))
+		this.logger.info(this.translator.translate('login.ready', {
+				'%user%': this.client.user?.tag
+			}))
 
-				if (this.rest)
-				{
-					// Register slash commands in guilds
-					this.client.guilds.fetch()
-						.then(guilds => guilds.forEach(guild =>
+		if (this.rest)
+		{
+			// Register slash commands in guilds
+			this.client.guilds.fetch()
+				.then(guilds => guilds.forEach(guild =>
+					{
+						const slashCommands: RESTPostAPIApplicationCommandsJSONBody[] = []
+						this.commands.forEach(command =>
 							{
-								const slashCommands: RESTPostAPIApplicationCommandsJSONBody[] = []
-								this.commands.forEach(command =>
-									{
-										command.applicationCommands
-											.forEach(slashCommand => slashCommands.push(slashCommand.toJSON()))
-									})
+								command.applicationCommands
+									.forEach(slashCommand => slashCommands.push(slashCommand.toJSON()))
+							})
 
-								if (this.rest)
-								{
-									const clientId = this.client.user?.id
-									if (clientId)
-									{
-										this.rest.put(Routes.applicationGuildCommands(clientId, guild.id),
-										              { body: slashCommands })
-											.then(() =>
-												{
-													this.logger.info(this.translator.translate('commands.guild.registered', {
-															'%count%': slashCommands.length
-														}))
-												})
-											.catch(error =>
-												{
-													this.logger.error(this.translator.translate('commands.guild.fail', {
-															'%count%': slashCommands.length
-														}))
-
-													if (error.code === 50001)
-														this.logger.error(this.translator.translate('scopes.missing.applications.commands'))
-													else
-														this.logger.error(error)
-												})
-									}
-								}
-							}))
-						.catch(this.logger.warn)
-				}
-		})
-
-		this.client.on('interactionCreate', async interaction =>
-			{
-				if (interaction.isCommand() || interaction.isContextMenu())
-				{
-					this.commands.onInteraction(interaction.commandName, interaction)
-				}
-			})
-
-		this.client.on('messageCreate', async message =>
-			{
-				// Ignore messages from bots
-				if (message.author.bot) return
-
-				let isCommand = false
-				let content = message.content
-
-				// Check if a command was sent
-				if (this.config.prefix && content.startsWith(this.config.prefix))
-				{
-					isCommand = true
-					content = content.slice(this.config.prefix.length)
-				}
-
-				// Check if the bot was called for a command
-				const mentionMatch = content.match(/^<@!?([^>]+)>\s*(.*)$/is)
-				if (mentionMatch && mentionMatch[1] === this.client.user?.id)
-				{
-					isCommand = true
-					content = mentionMatch[2]
-				}
-
-				if (isCommand)
-				{
-					const { commandName, commandArgs } = (() =>
+						if (this.rest)
 						{
-							const commandMatch = content.match(/^([^\s]*)\s*(.*)$/is)
-							if (commandMatch)
-								return { commandName: commandMatch[1], commandArgs: commandMatch[2] }
+							const clientId = this.client.user?.id
+							if (clientId)
+							{
+								this.rest.put(Routes.applicationGuildCommands(clientId, guild.id),
+											  { body: slashCommands })
+									.then(() =>
+										{
+											this.logger.info(this.translator.translate('commands.guild.registered', {
+													'%count%': slashCommands.length
+												}))
+										})
+									.catch(error =>
+										{
+											this.logger.error(this.translator.translate('commands.guild.fail', {
+													'%count%': slashCommands.length
+												}))
 
-							return { commandName: content, commandArgs: '' }
-						})()
+											if (error.code === 50001)
+												this.logger.error(this.translator.translate('scopes.missing.applications.commands'))
+											else
+												this.logger.error(error)
+										})
+							}
+						}
+					}))
+				.catch(this.logger.warn)
+		}
+	}
 
-					this.commands.onMessage(commandName, message, commandArgs)
-				}
-			})
+	private async onInteractionCreate(interaction: Discord.Interaction)
+	{
+		if (interaction.isCommand() || interaction.isContextMenu())
+		{
+			this.commands.onInteraction(interaction.commandName, interaction)
+		}
+	}
+
+	private async onMessageCreate(message: Discord.Message)
+	{
+		// Ignore messages from bots
+		if (message.author.bot) return
+
+		let isCommand = false
+		let content = message.content
+
+		// Check if a command was sent
+		if (this.config.prefix && content.startsWith(this.config.prefix))
+		{
+			isCommand = true
+			content = content.slice(this.config.prefix.length)
+		}
+
+		// Check if the bot was called for a command
+		const mentionMatch = content.match(/^<@!?([^>]+)>\s*(.*)$/is)
+		if (mentionMatch && mentionMatch[1] === this.client.user?.id)
+		{
+			isCommand = true
+			content = mentionMatch[2]
+		}
+
+		if (isCommand)
+		{
+			const { commandName, commandArgs } = (() =>
+				{
+					const commandMatch = content.match(/^([^\s]*)\s*(.*)$/is)
+					if (commandMatch)
+						return { commandName: commandMatch[1], commandArgs: commandMatch[2] }
+
+					return { commandName: content, commandArgs: '' }
+				})()
+
+			this.commands.onMessage(commandName, message, commandArgs)
+		}
 	}
 }
 
