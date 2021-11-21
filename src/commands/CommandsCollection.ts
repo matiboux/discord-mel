@@ -98,7 +98,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 			{
 				try
 				{
-					await command.onInteraction(interaction)
+					await command.onCommandInteraction(interaction)
 					commandExecuted = true
 				}
 				catch (error)
@@ -137,7 +137,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 			{
 				try
 				{
-					await command.onInteraction(interaction)
+					await command.onComponentInteraction(interaction)
 					commandExecuted = true
 				}
 				catch (error)
