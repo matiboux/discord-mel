@@ -9,8 +9,11 @@ type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 
 class AbstractCommand
 {
-	name: string
+	protected bot: Bot
+	protected logger: Logger
+	protected translator: Translator
 
+	name: string
 	description?: string
 
 	/** Command aliases for legacy commands */
@@ -23,12 +26,7 @@ class AbstractCommand
 	componentIds: Set<string> = new Set<string>()
 
 	guildOnly: boolean = false
-
 	permissions: PermissionResolvable[] = []
-
-	protected bot: Bot
-	protected logger: Logger
-	protected translator: Translator
 
 	static create(bot: Bot)
 	{
