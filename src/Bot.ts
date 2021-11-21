@@ -230,9 +230,25 @@ class Bot
 
 	private async onInteractionCreate(interaction: Discord.Interaction)
 	{
-		if (interaction.isCommand() || interaction.isContextMenu())
+		if (interaction.isApplicationCommand())
 		{
-			this.commands.onInteraction(interaction.commandName, interaction)
+			// interaction.isCommand() || interaction.isContextMenu()
+			this.commands.onCommandInteraction(interaction)
+		}
+		else if (interaction.isMessageComponent())
+		{
+			// interaction.isButton() || interaction.isSelectMenu()
+			this.commands.onComponentInteraction(interaction)
+		}
+		else if (interaction.isAutocomplete())
+		{
+			this.commands.onAutocompleteInteraction(interaction)
+		}
+		else
+		{
+			this.logger.error(this.translator.translate('interaction.unknown', {
+					'%type%': interaction.type
+				}))
 		}
 	}
 

@@ -79,13 +79,9 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 		return commandExecuted
 	}
 
-	/**
-	 * @param {string} commandName
-	 * @param {Discord.Interaction} interaction
-	 */
-	async onInteraction(commandName: string, interaction: Discord.Interaction)
+	async onCommandInteraction(interaction: Discord.BaseCommandInteraction)
 	{
-		const command = this.get(commandName)
+		const command = this.get(interaction.commandName)
 		let commandExecuted = false
 
 		if (command)
@@ -115,11 +111,29 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 		else
 		{
 			this.logger.warn(this.translator.translate('commands.run.not_found', {
-					'%name%': commandName
+					'%name%': interaction.commandName
 				}), this.constructor.name)
 		}
 
 		return commandExecuted
+	}
+
+	async onComponentInteraction(interaction: Discord.MessageComponentInteraction)
+	{
+		this.logger.error(this.translator.translate('interaction.not_supported', {
+				'%type%': interaction.type
+			}))
+
+		return false
+	}
+
+	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction)
+	{
+		this.logger.error(this.translator.translate('interaction.not_supported', {
+				'%type%': interaction.type
+			}))
+
+		return false
 	}
 }
 
