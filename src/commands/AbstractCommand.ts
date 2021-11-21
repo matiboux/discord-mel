@@ -26,7 +26,7 @@ class AbstractCommand
 
 	permissions: PermissionResolvable[] = []
 
-	protected bot: Bot | undefined
+	protected bot: Bot
 	protected logger: Logger
 	protected translator: Translator
 
@@ -45,6 +45,11 @@ class AbstractCommand
 		this.translator = this.bot?.translator || new Translator()
 
 		this.name = name
+	}
+
+	protected get state()
+	{
+		return this.bot.state
 	}
 
 	/**
