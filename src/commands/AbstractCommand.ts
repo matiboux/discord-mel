@@ -95,22 +95,22 @@ class AbstractCommand
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async onMessage(message: Discord.Message, args: string)
+	async onMessage(message: Discord.Message, args: string): Promise<void>
 	{
 		throw new Error('You have to implement the method onMessage!')
 	}
 
-	async onCommandInteraction(interaction: Discord.BaseCommandInteraction)
+	async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onCommandInteraction!')
 	}
 
-	async onComponentInteraction(interaction: Discord.MessageComponentInteraction)
+	async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onComponentInteraction!')
 	}
 
-	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction)
+	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onAutocompleteInteraction!')
 	}

@@ -40,7 +40,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async onMessage(commandName: string, message: Discord.Message, args: string)
+	async onMessage(commandName: string, message: Discord.Message, args: string): Promise<void>
 	{
 		const command = this.find(command => command.commandAliases.has(commandName))
 		let commandExecuted = false
@@ -76,10 +76,11 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				}), this.constructor.name)
 		}
 
-		return commandExecuted
+		if (!commandExecuted)
+			throw undefined
 	}
 
-	async onCommandInteraction(interaction: Discord.BaseCommandInteraction)
+	async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
 	{
 		const command = this.get(interaction.commandName)
 		let commandExecuted = false
@@ -115,10 +116,11 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				}), this.constructor.name)
 		}
 
-		return commandExecuted
+		if (!commandExecuted)
+			throw undefined
 	}
 
-	async onComponentInteraction(interaction: Discord.MessageComponentInteraction)
+	async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		const command = this.find(command => command.componentIds.has(interaction.customId))
 		let commandExecuted = false
@@ -154,16 +156,17 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				}), this.constructor.name)
 		}
 
-		return commandExecuted
+		if (!commandExecuted)
+			throw undefined
 	}
 
-	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction)
+	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
 	{
 		this.logger.error(this.translator.translate('interaction.not_supported', {
 				'%type%': interaction.type
 			}))
 
-		return false
+		throw undefined
 	}
 }
 
