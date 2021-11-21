@@ -19,6 +19,9 @@ class AbstractCommand
 	/** Application commands (interactions) */
 	applicationCommands: ApplicationCommand[] = []
 
+	/** Components (interactions) */
+	componentIds: Set<string> = new Set<string>()
+
 	guildOnly: boolean = false
 
 	permissions: PermissionResolvable[] = []

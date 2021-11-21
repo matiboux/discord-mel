@@ -120,11 +120,41 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 
 	async onComponentInteraction(interaction: Discord.MessageComponentInteraction)
 	{
-		this.logger.error(this.translator.translate('interaction.not_supported', {
-				'%type%': interaction.type
-			}))
+		const command = this.find(command => command.componentIds.has(interaction.customId))
+		let commandExecuted = false
 
-		return false
+		if (command)
+		{
+			if (!command.isEnabled(interaction))
+			{
+				command.onNotEnabled(interaction)
+			}
+			else if (!command.isAllowed(interaction))
+			{
+				command.onNotAllowed(interaction)
+			}
+			else
+			{
+				try
+				{
+					await command.onInteraction(interaction)
+					commandExecuted = true
+				}
+				catch (error)
+				{
+					command.onError(interaction)
+					this.logger.error(error, this.constructor.name)
+				}
+			}
+		}
+		else
+		{
+			this.logger.warn(this.translator.translate('commands.run.not_found', {
+					'%name%': interaction.customId
+				}), this.constructor.name)
+		}
+
+		return commandExecuted
 	}
 
 	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction)
