@@ -15,6 +15,7 @@ import Services from './Services'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/DefaultStateType'
 import Logger from './logger/Logger'
+import HookManager from './hooks/HookManager'
 
 class Bot
 {
@@ -43,6 +44,8 @@ class Bot
 	public commands: CommandsCollection = new CommandsCollection(this)
 
 	public translator: Translator
+
+	public readonly hooks: HookManager = new HookManager()
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
@@ -98,10 +101,15 @@ class Bot
 		// Load commands
 		this.reloadCommands()
 
-		// Load Discord client events
-		this.client.on('ready', this.onReady.bind(this))
-		this.client.on('interactionCreate', this.onInteractionCreate.bind(this))
-		this.client.on('messageCreate', this.onMessageCreate.bind(this))
+		// Register Mel hooks
+		this.hooks.get('ready').add(this.onReady.bind(this))
+		this.hooks.get('interactionCreate').add(this.onInteractionCreate.bind(this))
+		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
+
+		// Register Discord client events
+		this.client.on('ready', this.hooks.get('ready').execute)
+		this.client.on('interactionCreate', this.hooks.get('interactionCreate').execute)
+		this.client.on('messageCreate', this.hooks.get('messageCreate').execute)
 	}
 
 	/**
