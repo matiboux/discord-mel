@@ -36,6 +36,11 @@ class Hook
 			callbacks.forEach(callback =>
 				callback.apply(null, args)))
     }
+
+	public get callback(): (...args: any[]) => void
+	{
+		return this.execute.bind(this)
+    }
 }
 
 export default Hook

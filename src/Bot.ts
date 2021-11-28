@@ -107,9 +107,9 @@ class Bot
 		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
 
 		// Register Discord client events
-		this.client.on('ready', this.hooks.get('ready').execute)
-		this.client.on('interactionCreate', this.hooks.get('interactionCreate').execute)
-		this.client.on('messageCreate', this.hooks.get('messageCreate').execute)
+		this.client.on('ready', this.hooks.get('ready').callback)
+		this.client.on('interactionCreate', this.hooks.get('interactionCreate').callback)
+		this.client.on('messageCreate', this.hooks.get('messageCreate').callback)
 	}
 
 	/**
