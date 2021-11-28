@@ -1,8 +1,8 @@
 class Hook
 {
-	public readonly name: string;
+	public readonly name: string
 
-	private _callbacks: Function[][] = [];
+	private _callbacks: Function[][] = []
 
 	public constructor(name: string)
 	{
