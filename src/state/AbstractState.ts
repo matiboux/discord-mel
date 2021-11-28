@@ -108,11 +108,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 			{
 				if (typeof source[key] === 'object')
 				{
-					// if (target[key] === undefined)
-					// 	Object.assign(target, { [key]: {} })
-					// else
-					// 	target[key] = Object.assign({}, target[key])
-
+					target[key] = target[key] !== undefined ? Object(target[key]) : {}
 					this.assignDeep(target[key], source[key])
 				}
 				else
