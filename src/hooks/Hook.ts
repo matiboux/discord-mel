@@ -1,23 +1,13 @@
 class Hook
 {
-	private _name: string;
+	public readonly name: string;
+
 	private _callbacks: Function[][] = [];
 
 	public constructor(name: string, callback?: Function)
 	{
-		this._name = name;
+		this.name = name;
 	}
-
-	public get name(): string
-
-	{
-		return this._name;
-	}
-
-	// public get callbacks(): Function[]
-	// {
-	// 	return this._callbacks;
-	// }
 
     public add(callback: Function, priority: number = 10): void
 	{
