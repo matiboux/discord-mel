@@ -9,7 +9,7 @@ class Hook
 		this.name = name;
 	}
 
-    public add(callback: Function, priority: number = 10): void
+    public add(callback: Function, priority: number = 10): Hook
 	{
 		if (!Array.isArray(this.callbacks[priority]))
 		{
@@ -17,6 +17,7 @@ class Hook
 		}
 
         this.callbacks[priority].push(callback)
+		return this
     }
 
     public remove(callback: Function, priority: number = 10): void
@@ -31,7 +32,6 @@ class Hook
 
 	public execute(...args: any[]): void
 	{
-		console.log(this.callbacks)
 		this.callbacks.forEach(callbacks =>
 			callbacks.forEach(callback =>
 				callback.apply(null, args)))

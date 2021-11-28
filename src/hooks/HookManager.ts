@@ -14,9 +14,9 @@ class HookManager
 		return this._hooks[name]
 	}
 
-	public add(name: string, callback: Function, priority: number = 10): void
+	public add(name: string, callback: Function, priority: number = 10): Hook
 	{
-		this.get(name).add(callback, priority)
+		return this.get(name).add(callback, priority)
 	}
 
 	public remove(name: string, callback: Function, priority: number = 10): void
