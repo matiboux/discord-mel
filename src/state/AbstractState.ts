@@ -34,7 +34,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		{
 			if (fs.existsSync(stateFile))
 			{
-				this._db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
+				Object.assign(this._db, JSON.parse(fs.readFileSync(stateFile, { encoding: charset })))
 				this.saveBackup(this._db)
 			}
 			else
