@@ -4,7 +4,7 @@ class Hook
 
 	private _callbacks: Function[][] = [];
 
-	public constructor(name: string, callback?: Function)
+	public constructor(name: string)
 	{
 		this.name = name;
 	}
