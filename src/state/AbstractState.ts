@@ -34,7 +34,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		{
 			if (fs.existsSync(stateFile))
 			{
-				Object.assign(this._db, JSON.parse(fs.readFileSync(stateFile, { encoding: charset })))
+				AbstractState.assignDeep(this._db, JSON.parse(fs.readFileSync(stateFile, { encoding: charset })))
 				this.saveBackup(this._db)
 			}
 			else
@@ -92,6 +92,37 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 
 		// Save backup
 		fs.writeFileSync(stateBackupFile, data)
+	}
+
+	public static assignDeep(target: any, ...sources: any[]): any
+	{
+		if (sources.length <= 0)
+			return target
+
+		target = Object(target)
+		const source = sources.shift()
+
+		if (typeof source === 'object')
+		{
+			for (const key in source)
+			{
+				if (typeof source[key] === 'object')
+				{
+					// if (target[key] === undefined)
+					// 	Object.assign(target, { [key]: {} })
+					// else
+					// 	target[key] = Object.assign({}, target[key])
+
+					this.assignDeep(target[key], source[key])
+				}
+				else
+				{
+					Object.assign(target, { [key]: source[key] })
+				}
+			}
+		}
+
+		return this.assignDeep(target, ...sources)
 	}
 
 	async _objectStructureFix(object: IBaseStateType, model: IBaseStateType): Promise<boolean>
