@@ -18,33 +18,33 @@ import Logger from './logger/Logger'
 
 class Bot
 {
-	static Intents = Discord.Intents
+	public static Intents = Discord.Intents
 
-	static Services = Services
+	public static Services = Services
 
-	static readonly defaultOptions: IOptions = new Options(
+	public static readonly defaultOptions: IOptions = new Options(
 		{
 			absPath: __dirname,
 			configFile: "config.json",
 		})
 
-	startTimestamp: number
+	public readonly startTimestamp: number
 
-	config: IConfig
+	public config: IConfig
 
-	logger: Logger
+	public logger: Logger
 
-	client: Discord.Client
+	public client: Discord.Client
 
-	rest: REST | null = null
+	public rest: REST | null = null
 
-	state: AbstractState<IBaseStateType, IBaseStateType>
+	public state: AbstractState<IBaseStateType, IBaseStateType>
 
-	commands: CommandsCollection = new CommandsCollection(this)
+	public commands: CommandsCollection = new CommandsCollection(this)
 
-	translator: Translator
+	public translator: Translator
 
-	constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
+	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
 		const options = new Options(Bot.defaultOptions, userOptions)
 
@@ -109,7 +109,7 @@ class Bot
 	 *
 	 * @param {string|undefined} token
 	 */
-	start(token?: string)
+	public start(token?: string)
 	{
 		if (!token)
 			token = this.config.token
@@ -136,7 +136,7 @@ class Bot
 	 * @param {string|null} dirpath
 	 * @returns {boolean}
 	 */
-	reloadCommands(dirpath: string | null = null): boolean
+	private reloadCommands(dirpath: string | null = null): boolean
 	{
 		if (!dirpath && this.config.commandsDir)
 			dirpath = path.join(this.config.absPath, this.config.commandsDir)
