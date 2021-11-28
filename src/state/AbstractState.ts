@@ -82,13 +82,10 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		this.accessed = false
 	}
 
-	async saveBackup(db?: T): Promise<void>
+	async saveBackup(db: T = this._db): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
-
-		if (db === undefined)
-			db = this._db
 
 		const data = JSON.stringify(db, null, '\t')
 		const stateBackupFile = this.stateFile + '.bak'
