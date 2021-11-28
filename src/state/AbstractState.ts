@@ -35,6 +35,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 			if (fs.existsSync(stateFile))
 			{
 				this._db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
+				this.saveBackup(this._db)
 			}
 			else
 			{
@@ -74,10 +75,26 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		if (!forceSave && !this.accessed)
 			return; // No changes to save
 
-		// Save changes
 		const data = JSON.stringify(this._db, null, '\t')
+
+		// Save changes
 		fs.writeFileSync(this.stateFile, data)
 		this.accessed = false
+	}
+
+	async saveBackup(db?: T): Promise<void>
+	{
+		if (!this.stateFile)
+			throw new Error('State file not found')
+
+		if (db === undefined)
+			db = this._db
+
+		const data = JSON.stringify(db, null, '\t')
+		const stateBackupFile = this.stateFile + '.bak'
+
+		// Save backup
+		fs.writeFileSync(stateBackupFile, data)
 	}
 
 	async _objectStructureFix(object: IBaseStateType, model: IBaseStateType): Promise<boolean>
