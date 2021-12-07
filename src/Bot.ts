@@ -105,6 +105,8 @@ class Bot
 		this.hooks.get('ready').add(this.onReady.bind(this))
 		this.hooks.get('interactionCreate').add(this.onInteractionCreate.bind(this))
 		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
+		this.hooks.get('error').add(this.onError.bind(this))
+		this.hooks.get('shardError').add(this.onShardError.bind(this))
 
 		// Register Discord client events
 		let discordRegisteredEvents = 0
@@ -373,6 +375,16 @@ class Bot
 
 			this.commands.onMessage(commandName, message, commandArgs)
 		}
+	}
+
+	private async onError(error: Error)
+	{
+		this.logger.error(error)
+	}
+
+	private async onShardError(error: Error, shardId: number)
+	{
+		this.logger.error(error)
 	}
 }
 
