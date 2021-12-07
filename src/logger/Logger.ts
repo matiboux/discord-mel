@@ -61,14 +61,14 @@ class Logger implements ILogger
 		if (message instanceof Error)
 		{
 			if (!error) error = message
-			message = error.message
+			message = undefined
 		}
 		if (namespace instanceof Error)
 		{
 			if (!error) error = namespace
 			namespace = undefined
 		}
-		if (namespace === undefined && error !== undefined)
+		if (message === undefined && error !== undefined)
 		{
 			message = error.message
 		}
