@@ -102,10 +102,11 @@ class Bot
 		this.reloadCommands()
 
 		// Register Mel hooks
+		this.hooks.get('debug').add(this.onDebug.bind(this))
+		this.hooks.get('error').add(this.onError.bind(this))
 		this.hooks.get('ready').add(this.onReady.bind(this))
 		this.hooks.get('interactionCreate').add(this.onInteractionCreate.bind(this))
 		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
-		this.hooks.get('error').add(this.onError.bind(this))
 		this.hooks.get('shardError').add(this.onShardError.bind(this))
 
 		// Register Discord client events
@@ -377,14 +378,19 @@ class Bot
 		}
 	}
 
+	private async onDebug(info: string)
+	{
+		this.logger.debug(info, 'djs.debug')
+	}
+
 	private async onError(error: Error)
 	{
-		this.logger.error(error)
+		this.logger.error(error, 'djs.error')
 	}
 
 	private async onShardError(error: Error, shardId: number)
 	{
-		this.logger.error(error)
+		this.logger.error(error, 'djs.shardError')
 	}
 }
 
