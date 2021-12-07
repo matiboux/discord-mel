@@ -45,7 +45,7 @@ class Bot
 
 	public translator: Translator
 
-	public readonly hooks: HookManager = new HookManager()
+	public readonly hooks: HookManager = new HookManager(this)
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
