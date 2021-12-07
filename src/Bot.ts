@@ -107,9 +107,86 @@ class Bot
 		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
 
 		// Register Discord client events
-		this.client.on('ready', this.hooks.get('ready').callback)
-		this.client.on('interactionCreate', this.hooks.get('interactionCreate').callback)
-		this.client.on('messageCreate', this.hooks.get('messageCreate').callback)
+		let discordRegisteredEvents = 0
+		Array.of(
+			'apiRequest',
+			'apiResponse',
+			'applicationCommandCreate',
+			'applicationCommandDelete',
+			'applicationCommandUpdate',
+			'channelCreate',
+			'channelDelete',
+			'channelPinsUpdate',
+			'channelUpdate',
+			'debug',
+			'emojiCreate',
+			'emojiDelete',
+			'emojiUpdate',
+			'error',
+			'guildBanAdd',
+			'guildBanRemove',
+			'guildCreate',
+			'guildDelete',
+			'guildIntegrationsUpdate',
+			'guildMemberAdd',
+			'guildMemberAvailable',
+			'guildMemberRemove',
+			'guildMembersChunk',
+			'guildMemberUpdate',
+			'guildUnavailable',
+			'guildUpdate',
+			// interactionD
+			'interactionCreate',
+			'invalidated',
+			'invalidRequestWarning',
+			'inviteCreate',
+			'inviteDelete',
+			// messageD
+			'messageCreate',
+			'messageDelete',
+			'messageDeleteBulk',
+			'messageReactionAdd',
+			'messageReactionRemove',
+			'messageReactionRemoveAll',
+			'messageReactionRemoveEmoji',
+			'messageUpdate',
+			'presenceUpdate',
+			'rateLimit',
+			'ready',
+			'roleCreate',
+			'roleDelete',
+			'roleUpdate',
+			'shardDisconnect',
+			'shardError',
+			'shardReady',
+			'shardReconnecting',
+			'shardResume',
+			'stageInstanceCreate',
+			'stageInstanceDelete',
+			'stageInstanceUpdate',
+			'stickerCreate',
+			'stickerDelete',
+			'stickerUpdate',
+			'threadCreate',
+			'threadDelete',
+			'threadListSync',
+			'threadMembersUpdate',
+			'threadMemberUpdate',
+			'threadUpdate',
+			'typingStart',
+			'userUpdate',
+			'voiceStateUpdate',
+			'warn',
+			'webhookUpdate',
+		).forEach(eventName =>
+			{
+				this.client.on(eventName, this.hooks.get(eventName).callback)
+				++discordRegisteredEvents
+			})
+
+		this.logger.info(this.translator.translate('events.discordjs.registered', {
+				'%count%': discordRegisteredEvents,
+			}))
 	}
 
 	/**

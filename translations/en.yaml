@@ -2,6 +2,10 @@ login:
   ready: Logged in as %user%!
   fail: 'Failed to start the bot: %reason%'
 
+events:
+  discordjs:
+    registered: Registered %count% Discord.js events
+
 scopes:
   missing:
     applications.commands: Scope permission applications.commands is missing.
