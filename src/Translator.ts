@@ -39,6 +39,7 @@ class Translator
 	addTranslations(dirpath: string, defaultLanguage?: string)
 	{
 		if (dirpath)
+		{
 			fs.readdirSync(dirpath)
 				.filter(file => file.match(/\.ya?ml$/))
 				.forEach(file =>
@@ -74,9 +75,12 @@ class Translator
 							this.logger.warn(e, this.constructor.name);
 						}
 					})
+		}
 
 		if (defaultLanguage)
+		{
 			this.setDefaultLanguage(defaultLanguage)
+		}
 	}
 
 	getDefaultLanguage(): string | undefined
@@ -153,7 +157,7 @@ class Translator
 
 				if (translationKey !== 'translator.missing_key')
 					this.logger.warn(this.translate('translator.missing_key', {
-							'%key%': translationKey
+							'%key%': translationKey,
 						}), this.constructor.name)
 
 				return null
