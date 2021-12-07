@@ -1,14 +1,22 @@
+import Bot from '../Bot'
 import Hook from './Hook'
 
 class HookManager
 {
 	private _hooks: { [key: string]: Hook } = {}
 
+	private bot: Bot | undefined
+
+	constructor(bot?: Bot)
+	{
+		this.bot = bot
+	}
+
 	public get(name: string): Hook
 	{
 		if (typeof this._hooks[name] === 'undefined')
 		{
-			this._hooks[name] = new Hook(name)
+			this._hooks[name] = new Hook(name, this.bot)
 		}
 
 		return this._hooks[name]

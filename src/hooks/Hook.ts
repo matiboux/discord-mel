@@ -1,12 +1,24 @@
+import Bot from '../Bot'
+import Logger from '../logger/Logger'
+import Translator from '../Translator'
+
 class Hook
 {
 	public readonly name: string
 
 	private callbacks: Function[][] = []
 
-	public constructor(name: string)
+	private bot: Bot | undefined
+	private logger: Logger
+	private translator: Translator
+
+	constructor(name: string, bot?: Bot)
 	{
 		this.name = name;
+
+		this.bot = bot
+		this.logger = this.bot?.logger || new Logger()
+		this.translator = this.bot?.translator || new Translator()
 	}
 
     public add(callback: Function, priority: number = 10): Hook
@@ -32,9 +44,18 @@ class Hook
 
 	public execute(...args: any[]): void
 	{
-		this.callbacks.forEach(callbacks =>
-			callbacks.forEach(callback =>
-				callback.apply(null, args)))
+		if (this.callbacks.length > 0)
+		{
+			this.callbacks.forEach(callbacks =>
+				callbacks.forEach(callback =>
+					callback.apply(null, args)))
+		}
+		else
+		{
+			this.logger.debug(this.translator.translate('hooks.empty', {
+					'%name%': this.name,
+				}), 'Hook')
+		}
     }
 
 	public get callback(): (...args: any[]) => void

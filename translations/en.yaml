@@ -6,6 +6,9 @@ events:
   discordjs:
     registered: Registered %count% Discord.js events
 
+hooks:
+  empty: 'Empty hook triggered: %name%'
+
 scopes:
   missing:
     applications.commands: Scope permission applications.commands is missing.
