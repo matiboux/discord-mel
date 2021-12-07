@@ -5,6 +5,7 @@ login:
 events:
   discordjs:
     registered: Registered %count% Discord.js events
+    triggered: 'Discord.js event triggered: %name%'
 
 scopes:
   missing:
