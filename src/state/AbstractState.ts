@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 
 import IBaseStateType from './IBaseStateType'
 
@@ -87,10 +88,32 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		if (!this.stateFile)
 			throw new Error('State file not found')
 
-		const data = JSON.stringify(db, null, '\t')
+		const stateBasename = path.basename(this.stateFile)
 		const stateBackupFile = this.stateFile + '.bak'
+		const stateBackupBasename = stateBasename + '.bak'
+		let backupExists = false
+		let lastBackupNumber = 0
+		fs.readdirSync(path.dirname(this.stateFile))
+			.forEach(file =>
+				{
+					if (file === stateBackupBasename)
+					{
+						backupExists = true
+					}
+					else if (file.startsWith(stateBasename + '.bak.'))
+					{
+						const backupNumber = parseInt(file.replace(/^.*\.bak\./, ''))
+						if (backupNumber > lastBackupNumber)
+							lastBackupNumber = backupNumber
+					}
+				})
+		if (backupExists)
+		{
+			fs.renameSync(stateBackupFile, stateBackupFile + '.' + (lastBackupNumber + 1))
+		}
 
 		// Save backup
+		const data = JSON.stringify(db, null, '\t')
 		fs.writeFileSync(stateBackupFile, data)
 	}
 
