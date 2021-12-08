@@ -5,15 +5,15 @@ import IBaseStateType from './IBaseStateType'
 
 abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 {
-	stateFile?: string
+	protected stateFile?: string
 
-	_db: T
+	protected _db: T
 
-	js: U
+	public js: U
 
-	accessed: boolean = false
+	protected accessed: boolean = false
 
-	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
+	public constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		this.stateFile = stateFile
 
@@ -52,13 +52,13 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		this.js = {} as U
 	}
 
-	get db(): T
+	public get db(): T
 	{
 		this.accessed = true
 		return this._db
 	}
 
-	async setState(callback: (state: T) => void): Promise<void>
+	public async setState(callback: (state: T) => void): Promise<void>
 	{
 		callback(this._db)
 
@@ -68,7 +68,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 			this.save()
 	}
 
-	async save(forceSave: boolean = false): Promise<void>
+	public async save(forceSave: boolean = false): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
@@ -83,7 +83,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		this.accessed = false
 	}
 
-	async saveBackup(db: T = this._db): Promise<void>
+	public async saveBackup(db: T = this._db): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
