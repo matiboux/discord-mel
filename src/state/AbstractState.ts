@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
+import assignDeep from '../functions/assignDeep'
 import IBaseStateType from './IBaseStateType'
 
 abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBaseStateType>
@@ -35,7 +36,8 @@ abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBase
 		{
 			if (fs.existsSync(stateFile))
 			{
-				AbstractState.assignDeep(this._db, JSON.parse(fs.readFileSync(stateFile, { encoding: charset })))
+				const db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
+				assignDeep(this._db, db)
 				this.saveBackup(this._db)
 			}
 			else
@@ -115,33 +117,6 @@ abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBase
 		// Save backup
 		const data = JSON.stringify(db, null, '\t')
 		fs.writeFileSync(stateBackupFile, data)
-	}
-
-	public static assignDeep(target: any, ...sources: any[]): any
-	{
-		if (sources.length <= 0)
-			return target
-
-		target = Object(target)
-		const source = sources.shift()
-
-		if (typeof source === 'object')
-		{
-			for (const key in source)
-			{
-				if (typeof source[key] === 'object')
-				{
-					target[key] = target[key] !== undefined ? Object(target[key]) : {}
-					this.assignDeep(target[key], source[key])
-				}
-				else
-				{
-					Object.assign(target, { [key]: source[key] })
-				}
-			}
-		}
-
-		return this.assignDeep(target, ...sources)
 	}
 
 	async _objectStructureFix(object: IBaseStateType, model: IBaseStateType): Promise<boolean>
