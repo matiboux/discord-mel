@@ -7,7 +7,6 @@ import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-type
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import IConfig from './config/IConfig'
 import IOptions from './config/IOptions'
 import Options from './config/Options'
 import Translator from './Translator'
@@ -16,6 +15,7 @@ import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/DefaultStateType'
 import Logger from './logger/Logger'
 import HookManager from './hooks/HookManager'
+import DefaultConfig from './config/DefaultConfig'
 
 class Bot
 {
@@ -31,7 +31,7 @@ class Bot
 
 	public readonly startTimestamp: number
 
-	public config: IConfig
+	public config: DefaultConfig
 
 	public logger: Logger
 
@@ -56,7 +56,8 @@ class Bot
 		// Load configuration
 		if (!options.configPath && options.configFile)
 			options.configPath = path.join(options.absPath, options.configFile)
-		this.config = new Bot.Services.Config(options.configPath)
+		this.config = new Bot.Services.Config()
+		this.config.loadConfigFile(options.configPath)
 
 		// Override configuration
 		if (options.config)

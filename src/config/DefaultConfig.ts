@@ -19,7 +19,7 @@ class DefaultConfig
 	defaultLanguage?: string = 'en'
 	prefix?: string
 
-	constructor(configFile?: string, charset: BufferEncoding = 'utf8')
+	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		if (configFile)
 		{
