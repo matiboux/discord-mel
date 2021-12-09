@@ -1,4 +1,5 @@
 import fs from 'fs'
+import assignDeep from '../functions/assignDeep'
 
 class DefaultConfig
 {
@@ -23,7 +24,7 @@ class DefaultConfig
 		if (configFile)
 		{
 			const config = JSON.parse(fs.readFileSync(configFile, { encoding: charset }))
-			Object.assign(this, config)
+			assignDeep(this, config)
 		}
 	}
 }
