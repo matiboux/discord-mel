@@ -3,13 +3,13 @@ import path from 'path'
 
 import IBaseStateType from './IBaseStateType'
 
-abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
+abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBaseStateType>
 {
 	protected stateFile?: string
 
-	protected _db: T
+	protected _db: DBType
 
-	public js: U
+	public js: JSType
 
 	protected accessed: boolean = false
 
@@ -17,9 +17,9 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 	{
 		this.stateFile = stateFile
 
-		// Illegal default properties initialization
-		this._db = undefined as any
-		this.js = undefined as any
+		// Default properties initialization
+		this._db = {} as DBType
+		this.js = {} as JSType
 
 		// Initialize properties
 		this.initProperties()
@@ -48,17 +48,17 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 
 	protected initProperties(): void
 	{
-		this._db = {} as T
-		this.js = {} as U
+		// Override this method to initialize properties
+		throw new Error(`Method 'initProperties' is not implemented`)
 	}
 
-	public get db(): T
+	public get db(): DBType
 	{
 		this.accessed = true
 		return this._db
 	}
 
-	public async setState(callback: (state: T) => void): Promise<void>
+	public async setState(callback: (state: DBType) => void): Promise<void>
 	{
 		callback(this._db)
 
@@ -83,7 +83,7 @@ abstract class AbstractState<T extends IBaseStateType, U extends IBaseStateType>
 		this.accessed = false
 	}
 
-	public async saveBackup(db: T = this._db): Promise<void>
+	public async saveBackup(db: DBType = this._db): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
