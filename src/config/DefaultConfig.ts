@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-class Config
+class DefaultConfig
 {
 	[x: string]: any
 
@@ -28,4 +28,4 @@ class Config
 	}
 }
 
-export default Config
+export default DefaultConfig

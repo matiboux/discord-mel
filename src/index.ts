@@ -3,7 +3,7 @@ import Discord from 'discord.js'
 import Bot from './Bot'
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import Config from './config/Config'
+import DefaultConfig from './config/DefaultConfig'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/IBaseStateType'
 import Translator from './Translator'
@@ -14,7 +14,7 @@ export
     Bot,
     AbstractCommand,
     CommandsCollection,
-    Config,
+    DefaultConfig,
     AbstractState,
     IBaseStateType,
     Translator,

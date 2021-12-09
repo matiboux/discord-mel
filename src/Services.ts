@@ -1,13 +1,13 @@
-import Config from './config/Config'
+import DefaultConfig from './config/DefaultConfig'
 import DefaultState from './state/DefaultState'
 
 const Services:
 	{
-		Config: any, // extends Config
+		Config: any, // extends DefaultConfig
 		State: any, // extends AbstractState
 	} =
 	{
-		Config: Config,
+		Config: DefaultConfig,
 		State: DefaultState,
 	}
 

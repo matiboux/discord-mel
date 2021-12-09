@@ -1,4 +1,4 @@
-import Config from './Config'
+import DefaultConfig from './DefaultConfig'
 import IOptions from './IOptions'
 import Logger from '../logger/Logger'
 
@@ -8,7 +8,7 @@ class Options implements IOptions
 
 	absPath: string = __dirname
 
-	config?: Config
+	config?: DefaultConfig
 	configPath?: string
 	configFile?: string
 
