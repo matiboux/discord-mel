@@ -7,32 +7,32 @@ class Options implements IOptions
 {
 	[x: string]: any
 
-	absPath: string = __dirname
+	public absPath: string = __dirname
 
-	config?: DefaultConfig
-	configPath?: string
-	configFile?: string
+	public config?: DefaultConfig
+	public configPath?: string
+	public configFile?: string
 
-	logger?: Logger
-	logPath?: string
-	logFile?: string
-	logLevel?: string
+	public logger?: Logger
+	public logPath?: string
+	public logFile?: string
+	public logLevel?: string
 
-	statePath?: string
-	stateFile?: string
+	public statePath?: string
+	public stateFile?: string
 
-	translationsDir?: string
-	defaultLanguage?: string
+	public translationsDir?: string
+	public defaultLanguage?: string
 
-	commandsDir?: string
-	prefix?: string
+	public commandsDir?: string
+	public prefix?: string
 
-	constructor(...optionsArray: IOptions[])
+	public constructor(...optionsArray: IOptions[])
 	{
 		optionsArray.forEach(options => this.set(options))
 	}
 
-	set(options: IOptions)
+	public set(options: IOptions)
 	{
 		assignDeep(this, options)
 	}
