@@ -9,6 +9,8 @@ class Options implements IOptions
 
 	public absPath: string = __dirname
 
+	public token?: string
+
 	public config?: DefaultConfig
 	public configPath?: string
 	public configFile?: string
