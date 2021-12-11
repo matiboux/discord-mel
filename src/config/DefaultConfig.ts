@@ -1,7 +1,8 @@
 import fs from 'fs'
 import assignDeep from '../functions/assignDeep'
+import IConfig from './IConfig'
 
-class DefaultConfig
+class DefaultConfig implements IConfig
 {
 	[x: string]: any
 
@@ -16,9 +17,10 @@ class DefaultConfig
 	public statePath?: string
 	public stateFile?: string
 
-	public commandsDir?: string
 	public translationsDir?: string
 	public defaultLanguage?: string = 'en'
+
+	public commandsDir?: string
 	public prefix?: string
 
 	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
