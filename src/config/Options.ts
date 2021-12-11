@@ -1,6 +1,7 @@
 import DefaultConfig from './DefaultConfig'
 import IOptions from './IOptions'
 import Logger from '../logger/Logger'
+import assignDeep from '../functions/assignDeep'
 
 class Options implements IOptions
 {
@@ -33,7 +34,7 @@ class Options implements IOptions
 
 	set(options: IOptions)
 	{
-		Object.assign(this, options)
+		assignDeep(this, options)
 	}
 }
 
