@@ -14,7 +14,7 @@ import Services from './Services'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/DefaultStateType'
 import Logger from './logger/Logger'
-import HookManager from './hooks/HookManager'
+import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
 
 class Bot
@@ -45,7 +45,7 @@ class Bot
 
 	public translator: Translator
 
-	public readonly hooks: HookManager = new HookManager(this)
+	public readonly hooks: HooksManager = new HooksManager(this)
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{

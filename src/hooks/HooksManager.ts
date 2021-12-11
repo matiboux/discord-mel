@@ -1,7 +1,7 @@
 import Bot from '../Bot'
 import Hook from './Hook'
 
-class HookManager
+class HooksManager
 {
 	private _hooks: { [key: string]: Hook } = {}
 
@@ -38,4 +38,4 @@ class HookManager
 	}
 }
 
-export default HookManager
+export default HooksManager
