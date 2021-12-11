@@ -16,6 +16,7 @@ import IBaseStateType from './state/DefaultStateType'
 import Logger from './logger/Logger'
 import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
+import assignDeep from './functions/assignDeep'
 
 class Bot
 {
@@ -61,22 +62,25 @@ class Bot
 		}
 		this.config.loadConfigFile(options.configPath)
 
+		const optionConfig = options.config
+		const optionLogger = options.logger
+
+		// Merge configuration with options
+		delete options.config
+		delete options.logger
+		this.config.mergeWith(options)
+
 		// Override configuration
-		if (options.config)
-			Object.assign(this.config, options.config)
-
-		const ignoredOptionsKeys = ['config']
-		Object.entries(options).forEach(([key, value]) =>
-			{
-				if (!value || ignoredOptionsKeys.includes(key))
-					return // Ignore this option
-
-				this.config[key] = value
-			})
+		if (optionConfig)
+		{
+			assignDeep(this.config, optionConfig)
+		}
 
 		// Initialize logger
-		if (this.config.logger !== undefined)
-			this.logger = new Logger(this.config.logger)
+		if (optionLogger !== undefined)
+		{
+			this.logger = optionLogger
+		}
 		else
 		{
 			if (!this.config.logPath && this.config.logFile)
