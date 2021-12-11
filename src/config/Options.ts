@@ -1,7 +1,7 @@
-import DefaultConfig from './DefaultConfig'
 import IOptions from './IOptions'
 import Logger from '../logger/Logger'
 import assignDeep from '../functions/assignDeep'
+import IConfig from './IConfig'
 
 class Options implements IOptions
 {
@@ -11,7 +11,7 @@ class Options implements IOptions
 
 	public token?: string
 
-	public config?: DefaultConfig
+	public config?: IConfig
 	public configPath?: string
 	public configFile?: string
 
