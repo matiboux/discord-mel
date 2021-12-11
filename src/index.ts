@@ -10,12 +10,21 @@ import Translator from './Translator'
 
 export
 {
-    Discord,
+    // Bot
     Bot,
+    Discord,
+
+    // Commands
     AbstractCommand,
     CommandsCollection,
+
+    // Config
     DefaultConfig,
+
+    // State
     AbstractState,
     IBaseStateType,
+
+    // Translator
     Translator,
 }
