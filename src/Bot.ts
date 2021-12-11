@@ -26,7 +26,7 @@ class Bot
 	public static readonly defaultOptions: IOptions = new Options(
 		{
 			absPath: __dirname,
-			configFile: "config.json",
+			configFile: 'config.json',
 		})
 
 	public readonly startTimestamp: number
@@ -54,9 +54,11 @@ class Bot
 		this.startTimestamp = Date.now()
 
 		// Load configuration
-		if (!options.configPath && options.configFile)
-			options.configPath = path.join(options.absPath, options.configFile)
 		this.config = new Bot.Services.Config()
+		if (!options.configPath && options.configFile)
+		{
+			options.configPath = path.join(options.absPath, options.configFile)
+		}
 		this.config.loadConfigFile(options.configPath)
 
 		// Override configuration
@@ -83,18 +85,24 @@ class Bot
 		}
 
 		if (this.config.logLevel !== undefined)
+		{
 			this.logger.setLevel(this.config.logLevel)
+		}
 
 		// Load state
 		if (!this.config.statePath && this.config.stateFile)
+		{
 			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
+		}
 		this.state = new Bot.Services.State(this.config.statePath)
 
 		// Load src and user translations
 		this.translator = new Translator(this)
 		this.translator.addTranslations(path.join(__dirname, "../translations"), this.config.defaultLanguage)
 		if (this.config.translationsDir)
+		{
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
+		}
 
 		// Initialize client
 		this.client = new Discord.Client(discordJsOptions)
@@ -201,7 +209,9 @@ class Bot
 	public start(token?: string)
 	{
 		if (!token)
+		{
 			token = this.config.token
+		}
 
 		if (token)
 		{
@@ -228,7 +238,9 @@ class Bot
 	private reloadCommands(dirpath: string | null = null): boolean
 	{
 		if (!dirpath && this.config.commandsDir)
+		{
 			dirpath = path.join(this.config.absPath, this.config.commandsDir)
+		}
 
 		if (dirpath)
 		{
@@ -256,11 +268,15 @@ class Bot
 			catch (error: any)
 			{
 				if (error.code === 'ENOENT')
+				{
 					this.logger.warn(this.translator.translate('commands.dir.not_found', {
 							'%dir%': dirpath
 						}))
+				}
 				else
+				{
 					this.logger.error(error)
+				}
 			}
 		}
 
