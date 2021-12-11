@@ -31,10 +31,10 @@ class Options implements IOptions
 
 	public constructor(...optionsArray: IOptions[])
 	{
-		optionsArray.forEach(options => this.set(options))
+		optionsArray.forEach(options => this.mergeWith(options))
 	}
 
-	public set(options: IOptions)
+	public mergeWith(options: IOptions)
 	{
 		assignDeep(this, options)
 	}
