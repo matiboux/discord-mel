@@ -5,19 +5,21 @@ class DefaultConfig
 {
 	[x: string]: any
 
-	token?: string
+	public static readonly assignDeep = assignDeep
 
-	logPath?: string
-	logFile?: string
-	logLevel?: string
+	public token?: string
 
-	statePath?: string
-	stateFile?: string
+	public logPath?: string
+	public logFile?: string
+	public logLevel?: string
 
-	commandsDir?: string
-	translationsDir?: string
-	defaultLanguage?: string = 'en'
-	prefix?: string
+	public statePath?: string
+	public stateFile?: string
+
+	public commandsDir?: string
+	public translationsDir?: string
+	public defaultLanguage?: string = 'en'
+	public prefix?: string
 
 	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
 	{

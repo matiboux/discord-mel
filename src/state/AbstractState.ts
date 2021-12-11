@@ -6,6 +6,8 @@ import IBaseStateType from './IBaseStateType'
 
 abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBaseStateType>
 {
+	public static readonly assignDeep = assignDeep
+
 	protected stateFile?: string
 
 	protected _db: DBType
