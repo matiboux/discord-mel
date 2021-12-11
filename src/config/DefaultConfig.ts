@@ -31,6 +31,12 @@ class DefaultConfig implements IConfig
 			assignDeep(this, config)
 		}
 	}
+
+	public mergeWith(config: IConfig): this
+	{
+		assignDeep(this, config)
+		return this
+	}
 }
 
 export default DefaultConfig
