@@ -2,6 +2,8 @@ interface IConfig
 {
 	[x: string]: any
 
+	absPath: string
+
 	token?: string
 
 	logPath?: string

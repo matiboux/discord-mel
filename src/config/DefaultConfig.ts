@@ -4,9 +4,9 @@ import IConfig from './IConfig'
 
 class DefaultConfig implements IConfig
 {
-	[x: string]: any
-
 	public static readonly assignDeep = assignDeep
+
+	public absPath: string = __dirname
 
 	public token?: string
 
