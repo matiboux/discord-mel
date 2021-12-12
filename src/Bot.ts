@@ -339,28 +339,66 @@ class Bot
 
 	private async onInteractionCreate(interaction: Discord.Interaction)
 	{
-		if (interaction.guild)
+		// Ignore interactions from bots
+		if (interaction.user.bot) return
+
+		const contextConfig = this.config.getContextConfig(interaction.guild?.id)
+
+		// Ignore interactions if the bot is disabled in this context
+		if (!contextConfig.enabled)
 		{
-			// Check guild config
-			const guildConfig = this.config.getGuildConfig(interaction.guild.id)
-			if (!guildConfig.enabled)
-			{
-				// Guild is disabled
-				this.logger.debug(this.translator.translate('guild.disabled.interaction.console', {
-						'%guild%': `${interaction.guild.name} (${interaction.guild.id})`,
-					}))
-
-				if (interaction.isApplicationCommand() || interaction.isMessageComponent())
+			const {
+				consoleMessageKey,
+				consoleMessageArgs,
+				replyMessageKey,
+				replyMessageArgs,
+			} = (() =>
 				{
-					// Reply to the interaction
-					interaction.reply({
-							content: this.translator.translate('guild.disabled.interaction.reply'),
-							ephemeral: true,
-						})
-				}
+					if (interaction.guild)
+					{
+						return {
+							consoleMessageKey: 'interaction.disabled.guild.console',
+							consoleMessageArgs: {
+								'%guild%': `${interaction.guild.name} (${interaction.guild.id})`,
+							},
+							replyMessageKey: 'interaction.disabled.guild.reply',
+							replyMessageArgs: {},
+						}
+					}
 
-				return
+					if (interaction.channel)
+					{
+						return {
+							consoleMessageKey: 'interaction.disabled.channel.console',
+							consoleMessageArgs: {
+								'%channel%': `${interaction.channel.id}`,
+							},
+							replyMessageKey: 'interaction.disabled.channel.reply',
+							replyMessageArgs: {},
+						}
+					}
+
+					return {
+						consoleMessageKey: 'interaction.disabled.context',
+						consoleMessageArgs: {},
+						replyMessageKey: 'interaction.disabled.context',
+						replyMessageArgs: {},
+					}
+				})()
+
+			// Context is disabled
+			this.logger.debug(this.translator.translate(consoleMessageKey, consoleMessageArgs))
+
+			if (interaction.isApplicationCommand() || interaction.isMessageComponent())
+			{
+				// Reply to the interaction
+				interaction.reply({
+						content: this.translator.translate(replyMessageKey, replyMessageArgs),
+						ephemeral: true,
+					})
 			}
+
+			return
 		}
 
 		if (interaction.isApplicationCommand())

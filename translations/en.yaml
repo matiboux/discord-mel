@@ -32,11 +32,15 @@ commands:
 interaction:
   unknown: 'Unknown interaction triggered: %type%'
 
-guild:
+interaction:
   disabled:
-    interaction:
+    guild:
       console: 'Interactions are disabled in the guild %guild%.'
       reply: 'Interactions are disabled in this guild.'
+    channel:
+      console: 'Interactions are disabled in the channel %channel%.'
+      reply: 'Interactions are disabled in this channel.'
+    context: 'Interactions are disabled in this context.'
 
 translator:
   missing_key: Missing translation key for %key%
