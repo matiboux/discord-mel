@@ -29,6 +29,9 @@ commands:
     not_allowed: You are not allowed to execute this command.
     error: There was an error while executing this command!
 
+interaction:
+  unknown: 'Unknown interaction triggered: %type%'
+
 translator:
   missing_key: Missing translation key for %key%
 
