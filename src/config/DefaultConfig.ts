@@ -48,6 +48,13 @@ class DefaultConfig implements IConfig
 		return this
 	}
 
+	public getGlobalConfig(): Guild
+	{
+		const contextConfig = new Guild()
+		contextConfig.mergeWith(this.global)
+		return contextConfig
+	}
+
 	public getGuildConfig(guildId: string): Guild
 	{
 		const guildConfig = this.guildConfigs.get(guildId)
@@ -56,18 +63,30 @@ class DefaultConfig implements IConfig
 			return guildConfig
 		}
 
-		const newGuildConfig = new Guild()
-		newGuildConfig.mergeWith(this.global)
-		newGuildConfig.mergeWith(this.guildDefault)
+		const contextConfig = new Guild()
+		contextConfig.mergeWith(this.global)
+		contextConfig.mergeWith(this.guildDefault)
 
 		const guild = this.guilds.get(guildId)
 		if (guild)
 		{
-			newGuildConfig.mergeWith(guild)
+			contextConfig.mergeWith(guild)
 		}
 
-		this.guildConfigs.set(guildId, newGuildConfig)
-		return newGuildConfig
+		this.guildConfigs.set(guildId, contextConfig)
+		return contextConfig
+	}
+
+	public getContextConfig(guildId?: string): Guild
+	{
+		if (guildId !== undefined)
+		{
+			return this.getGuildConfig(guildId)
+		}
+		else
+		{
+			return this.getGlobalConfig()
+		}
 	}
 }
 
