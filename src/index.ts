@@ -3,12 +3,19 @@ import Discord from 'discord.js'
 import Bot from './Bot'
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import DefaultConfig from './config/DefaultConfig'
+import DefaultConfig, { Context, Global, Guild, Guilds } from './config/DefaultConfig'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/IBaseStateType'
 import Translator from './Translator'
+
+const config = {
+    Context,
+    Global,
+    Guild,
+    Guilds,
+}
 
 export
 {
@@ -22,6 +29,7 @@ export
 
     // Config
     DefaultConfig,
+    config,
 
     // Hooks
     Hook,
