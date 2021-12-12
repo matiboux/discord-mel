@@ -1,6 +1,7 @@
 import fs from 'fs'
 import assignDeep from '../functions/assignDeep'
 import IConfig from './IConfig'
+import Context from './types/Context'
 import Global from './types/Global'
 import Guild from './types/Guild'
 import Guilds from './types/Guilds'
@@ -47,9 +48,9 @@ class DefaultConfig implements IConfig
 		return this
 	}
 
-	public getGlobalConfig(): Guild
+	public getGlobalConfig(): Global
 	{
-		const contextConfig = new Guild()
+		const contextConfig = new Global()
 		contextConfig.mergeWith(this.global)
 		return contextConfig
 	}
@@ -76,7 +77,7 @@ class DefaultConfig implements IConfig
 		return contextConfig
 	}
 
-	public getContextConfig(guildId?: string): Guild
+	public getContextConfig(guildId?: string): Context
 	{
 		if (guildId !== undefined)
 		{
