@@ -1,6 +1,7 @@
 import fs from 'fs'
 import assignDeep from '../functions/assignDeep'
 import IConfig from './IConfig'
+import Global from './types/Global'
 import Guild from './types/Guild'
 import Guilds from './types/Guilds'
 
@@ -25,8 +26,9 @@ class DefaultConfig implements IConfig
 	public commandsDir?: string
 	public prefix?: string
 
-	public guilds: Guilds = new Guilds()
+	public global: Global = new Global()
 	public guildDefault: Guild = new Guild()
+	public guilds: Guilds = new Guilds()
 	private guildConfigs: Guilds = new Guilds()
 
 	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
@@ -55,6 +57,7 @@ class DefaultConfig implements IConfig
 		}
 
 		const newGuildConfig = new Guild()
+		newGuildConfig.mergeWith(this.global)
 		newGuildConfig.mergeWith(this.guildDefault)
 
 		const guild = this.guilds.get(guildId)

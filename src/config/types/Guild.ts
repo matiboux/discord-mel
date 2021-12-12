@@ -1,11 +1,9 @@
 import assignDeep from '../../functions/assignDeep'
+import Context from './Context'
 
-class Guild
+class Guild extends Context
 {
-	/**	Whether the bot is enabled on this server */
-	public enabled: boolean = true
-
-	public mergeWith(guild: Guild): this
+	public mergeWith(guild: Guild | Context): this
 	{
 		assignDeep(this, guild)
 		return this
