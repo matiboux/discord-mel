@@ -34,7 +34,9 @@ interaction:
 
 guild:
   disabled:
-    interaction: 'Interaction is disabled in the guild %guild%.'
+    interaction:
+      console: 'Interactions are disabled in the guild %guild%.'
+      reply: 'Interactions are disabled in this guild.'
 
 translator:
   missing_key: Missing translation key for %key%

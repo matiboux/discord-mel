@@ -341,13 +341,24 @@ class Bot
 	{
 		if (interaction.guild)
 		{
+			// Check guild config
 			const guildConfig = this.config.getGuildConfig(interaction.guild.id)
 			if (!guildConfig.enabled)
 			{
 				// Guild is disabled
-				this.logger.debug(this.translator.translate('guild.disabled.interaction', {
+				this.logger.debug(this.translator.translate('guild.disabled.interaction.console', {
 						'%guild%': `${interaction.guild.name} (${interaction.guild.id})`,
 					}))
+
+				if (interaction.isApplicationCommand() || interaction.isMessageComponent())
+				{
+					// Reply to the interaction
+					interaction.reply({
+							content: this.translator.translate('guild.disabled.interaction.reply'),
+							ephemeral: true,
+						})
+				}
+
 				return
 			}
 		}
