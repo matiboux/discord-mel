@@ -29,7 +29,7 @@ class DefaultConfig implements IConfig
 	public global: Global = new Global()
 	public guildDefault: Guild = new Guild()
 	public guilds: Guilds = new Guilds()
-	private guildConfigs: Guilds = new Guilds()
+	protected guildConfigs: Guilds = new Guilds()
 
 	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
 	{
