@@ -6,6 +6,11 @@ class Context
 	public enabled: boolean = true
 
 	/**
+	 * Whether or not the bot should ignore commands from other bots.
+	 */
+	 public ignoreBots: boolean = true
+
+	/**
 	 * Whether or not the bot should respond to message commands.
 	 */
 	public messageCommands: boolean = false

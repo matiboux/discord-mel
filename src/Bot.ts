@@ -339,10 +339,10 @@ class Bot
 
 	private async onInteractionCreate(interaction: Discord.Interaction)
 	{
-		// Ignore interactions from bots
-		if (interaction.user.bot) return
-
 		const contextConfig = this.config.getContextConfig(interaction.guild?.id)
+
+		// Ignore interactions from bots
+		if (contextConfig.ignoreBots && interaction.user.bot) return
 
 		// Ignore interactions if the bot is disabled in this context
 		if (!contextConfig.enabled)
@@ -425,10 +425,10 @@ class Bot
 
 	private async onMessageCreate(message: Discord.Message)
 	{
-		// Ignore messages from bots
-		if (message.author.bot) return
-
 		const contextConfig = this.config.getContextConfig(message.guild?.id)
+
+		// Ignore messages from bots
+		if (contextConfig.ignoreBots && message.author.bot) return
 
 		// Ignore messages if the bot is disabled in this context
 		if (!contextConfig.enabled) return
