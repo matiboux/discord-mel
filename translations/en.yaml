@@ -30,9 +30,6 @@ commands:
     error: There was an error while executing this command!
 
 interaction:
-  unknown: 'Unknown interaction triggered: %type%'
-
-interaction:
   disabled:
     guild:
       console: 'Interactions are disabled in the guild %guild%.'
@@ -41,6 +38,7 @@ interaction:
       console: 'Interactions are disabled in the channel %channel%.'
       reply: 'Interactions are disabled in this channel.'
     context: 'Interactions are disabled in this context.'
+  unknown: 'Unknown interaction triggered: %type%'
 
 translator:
   missing_key: Missing translation key for %key%
