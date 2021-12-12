@@ -32,6 +32,10 @@ commands:
 interaction:
   unknown: 'Unknown interaction triggered: %type%'
 
+guild:
+  disabled:
+    interaction: 'Interaction is disabled in the guild %guild%.'
+
 translator:
   missing_key: Missing translation key for %key%
 

@@ -339,6 +339,19 @@ class Bot
 
 	private async onInteractionCreate(interaction: Discord.Interaction)
 	{
+		if (interaction.guild)
+		{
+			const guildConfig = this.config.getGuildConfig(interaction.guild.id)
+			if (!guildConfig.enabled)
+			{
+				// Guild is disabled
+				this.logger.debug(this.translator.translate('guild.disabled.interaction', {
+						'%guild%': `${interaction.guild.name} (${interaction.guild.id})`,
+					}))
+				return
+			}
+		}
+
 		if (interaction.isApplicationCommand())
 		{
 			// interaction.isCommand() || interaction.isContextMenu()
