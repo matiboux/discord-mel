@@ -24,7 +24,6 @@ class DefaultConfig implements IConfig
 	public defaultLanguage?: string = 'en'
 
 	public commandsDir?: string
-	public prefix?: string
 
 	public global: Global = new Global()
 	public guildDefault: Guild = new Guild()

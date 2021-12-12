@@ -390,23 +390,42 @@ class Bot
 		// Ignore messages from bots
 		if (message.author.bot) return
 
-		let isCommand = false
-		let content = message.content
+		const contextConfig = this.config.getContextConfig(message.guild?.id)
 
-		// Check if a command was sent
-		if (this.config.prefix && content.startsWith(this.config.prefix))
-		{
-			isCommand = true
-			content = content.slice(this.config.prefix.length)
-		}
+		// Ignore messages if the bot is disabled in this context
+		if (!contextConfig.enabled) return
 
-		// Check if the bot was called for a command
-		const mentionMatch = content.match(/^<@!?([^>]+)>\s*(.*)$/is)
-		if (mentionMatch && mentionMatch[1] === this.client.user?.id)
-		{
-			isCommand = true
-			content = mentionMatch[2]
-		}
+		const { isCommand, content } = (() =>
+			{
+				// Check for a message command
+				if (contextConfig.messageCommands
+				    && message.content.startsWith(contextConfig.prefix))
+				{
+					return {
+							isCommand: true,
+							content: message.content.substring(contextConfig.prefix.length),
+						}
+				}
+
+				// Check for a mention command
+				if (contextConfig.mentionCommands)
+				{
+					// Check if the message starts by mentionning the bot
+					const mentionMatch = message.content.match(/^<@!?([^>]+)>\s*(.*)$/is)
+					if (mentionMatch && mentionMatch[1] === this.client.user?.id)
+					{
+						return {
+								isCommand: true,
+								content: mentionMatch[2],
+							}
+					}
+				}
+
+				return {
+						isCommand: false,
+						content: message.content,
+					}
+			})()
 
 		if (isCommand)
 		{
@@ -414,9 +433,17 @@ class Bot
 				{
 					const commandMatch = content.match(/^([^\s]*)\s*(.*)$/is)
 					if (commandMatch)
-						return { commandName: commandMatch[1], commandArgs: commandMatch[2] }
+					{
+						return {
+							commandName: commandMatch[1],
+							commandArgs: commandMatch[2],
+						}
+					}
 
-					return { commandName: content, commandArgs: '' }
+					return {
+						commandName: content,
+						commandArgs: '',
+					}
 				})()
 
 			this.commands.onMessage(commandName, message, commandArgs)
