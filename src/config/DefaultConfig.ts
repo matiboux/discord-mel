@@ -93,6 +93,8 @@ class DefaultConfig implements IConfig
 export
 {
 	DefaultConfig,
+	Context,
+	Global,
 	Guild,
 	Guilds,
 }
