@@ -6,7 +6,11 @@ function assignDeep(target: any, ...sources: any[]): any
 	target = Object(target)
 	const source = sources.shift()
 
-	if (typeof source === 'object')
+	if (typeof target.mergeWith === 'function')
+	{
+		target.mergeWith(source)
+	}
+	else if (typeof source === 'object')
 	{
 		for (const key in source)
 		{

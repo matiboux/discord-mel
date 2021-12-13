@@ -68,7 +68,7 @@ class Bot
 		// Merge configuration with options
 		delete options.config
 		delete options.logger
-		this.config.mergeWith(options)
+		assignDeep(this.config, options)
 
 		// Override configuration
 		if (optionConfig)

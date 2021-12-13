@@ -42,16 +42,10 @@ class DefaultConfig implements IConfig
 		}
 	}
 
-	public mergeWith(config: IConfig): this
-	{
-		assignDeep(this, config)
-		return this
-	}
-
 	public getGlobalConfig(): Global
 	{
 		const contextConfig = new Global()
-		contextConfig.mergeWith(this.global)
+		assignDeep(contextConfig, this.global)
 		return contextConfig
 	}
 
@@ -64,13 +58,13 @@ class DefaultConfig implements IConfig
 		}
 
 		const contextConfig = new Guild()
-		contextConfig.mergeWith(this.global)
-		contextConfig.mergeWith(this.guildDefault)
+		assignDeep(contextConfig, this.global)
+		assignDeep(contextConfig, this.guildDefault)
 
 		const guild = this.guilds.get(guildId)
 		if (guild)
 		{
-			contextConfig.mergeWith(guild)
+			assignDeep(contextConfig, guild)
 		}
 
 		this.guildConfigs.set(guildId, contextConfig)
