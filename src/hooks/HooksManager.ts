@@ -3,7 +3,7 @@ import Hook from './Hook'
 
 class HooksManager
 {
-	private _hooks: { [key: string]: Hook } = {}
+	private _hooks: Map<string, Hook> = new Map<string, Hook>()
 
 	private bot?: Mel
 
@@ -14,12 +14,12 @@ class HooksManager
 
 	public get(name: string): Hook
 	{
-		if (typeof this._hooks[name] === 'undefined')
-		{
-			this._hooks[name] = new Hook(name, this.bot)
-		}
+		const hook = this._hooks.get(name)
+		if (hook !== undefined) return hook
 
-		return this._hooks[name]
+		const newHook = new Hook(name, this.bot)
+		this._hooks.set(name, newHook)
+		return newHook
 	}
 
 	public add(name: string, callback: Function, priority: number = 10): Hook
@@ -29,12 +29,12 @@ class HooksManager
 
 	public remove(name: string, callback: Function, priority: number = 10): void
 	{
-		this._hooks[name]?.remove(callback, priority)
+		this._hooks.get(name)?.remove(callback, priority)
 	}
 
 	public execute(name: string, ...args: any[]): void
 	{
-		this._hooks[name]?.execute(...args)
+		this._hooks.get(name)?.execute(...args)
 	}
 }
 
