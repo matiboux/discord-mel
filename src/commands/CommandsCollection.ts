@@ -3,8 +3,8 @@ import Collection = Discord.Collection
 
 import Mel from '../Mel'
 import AbstractCommand from './AbstractCommand'
-import Translator from '../Translator';
-import Logger from '../logger/Logger';
+import Translator from '../Translator'
+import Logger from '../logger/Logger'
 
 class CommandsCollection extends Collection<string, AbstractCommand>
 {
