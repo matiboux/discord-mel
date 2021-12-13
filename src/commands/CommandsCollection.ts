@@ -1,18 +1,18 @@
 import Discord from 'discord.js'
 import Collection = Discord.Collection
 
-import Bot from '../Bot'
+import Mel from '../Mel'
 import AbstractCommand from './AbstractCommand'
 import Translator from '../Translator';
 import Logger from '../logger/Logger';
 
 class CommandsCollection extends Collection<string, AbstractCommand>
 {
-	private bot: Bot | undefined
+	private bot?: Mel
 	private logger: Logger
 	private translator: Translator
 
-	constructor(bot?: Bot)
+	constructor(bot?: Mel)
 	{
 		super()
 

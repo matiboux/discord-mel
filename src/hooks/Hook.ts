@@ -1,4 +1,4 @@
-import Bot from '../Bot'
+import Mel from '../Mel'
 import Logger from '../logger/Logger'
 import Translator from '../Translator'
 
@@ -8,11 +8,11 @@ class Hook
 
 	private callbacks: Function[][] = []
 
-	private bot: Bot | undefined
+	private bot?: Mel
 	private logger: Logger
 	private translator: Translator
 
-	constructor(name: string, bot?: Bot)
+	constructor(name: string, bot?: Mel)
 	{
 		this.name = name;
 

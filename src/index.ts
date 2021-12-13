@@ -1,11 +1,11 @@
 import Discord from 'discord.js'
 
-import Bot from './Bot'
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import DefaultConfig, { AbstractContext, Global, Guild, Guilds } from './config/DefaultConfig'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
+import Mel from './Mel'
 import AbstractState from './state/AbstractState'
 import IBaseStateType from './state/IBaseStateType'
 import Translator from './Translator'
@@ -20,8 +20,8 @@ const config = {
 export
 {
     // Bot
-    Bot,
     Discord,
+    Mel,
 
     // Commands
     AbstractCommand,

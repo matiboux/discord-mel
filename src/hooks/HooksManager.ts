@@ -1,13 +1,13 @@
-import Bot from '../Bot'
+import Mel from '../Mel'
 import Hook from './Hook'
 
 class HooksManager
 {
 	private _hooks: { [key: string]: Hook } = {}
 
-	private bot: Bot | undefined
+	private bot?: Mel
 
-	constructor(bot?: Bot)
+	constructor(bot?: Mel)
 	{
 		this.bot = bot
 	}

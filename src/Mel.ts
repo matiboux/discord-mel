@@ -18,7 +18,7 @@ import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
 import assignDeep from './functions/assignDeep'
 
-class Bot
+class Mel
 {
 	public static Intents = Discord.Intents
 
@@ -50,12 +50,12 @@ class Bot
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
-		const options = new Options(Bot.defaultOptions, userOptions)
+		const options = new Options(Mel.defaultOptions, userOptions)
 
 		this.startTimestamp = Date.now()
 
 		// Load configuration
-		this.config = new Bot.Services.Config()
+		this.config = new Mel.Services.Config()
 		if (!options.configPath && options.configFile)
 		{
 			options.configPath = path.join(options.absPath, options.configFile)
@@ -98,7 +98,7 @@ class Bot
 		{
 			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
 		}
-		this.state = new Bot.Services.State(this.config.statePath)
+		this.state = new Mel.Services.State(this.config.statePath)
 
 		// Load src and user translations
 		this.translator = new Translator(this)
@@ -504,4 +504,4 @@ class Bot
 	}
 }
 
-export default Bot
+export default Mel
