@@ -1,6 +1,6 @@
-import Context from './Context'
+import AbstractContext from './AbstractContext'
 
-class Global extends Context
+class Global extends AbstractContext
 {
 }
 

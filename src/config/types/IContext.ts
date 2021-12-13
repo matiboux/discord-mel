@@ -1,29 +1,29 @@
-class Context
+interface IContext
 {
 	/**
 	 * Whether or not the bot is enabled in this context.
 	 */
-	public enabled: boolean = true
+	enabled: boolean
 
 	/**
 	 * Whether or not the bot should ignore commands from other bots.
 	 */
-	 public ignoreBots: boolean = true
+	ignoreBots: boolean
 
 	/**
 	 * Whether or not the bot should respond to message commands.
 	 */
-	public messageCommands: boolean = false
+	messageCommands: boolean
 
 	/**
 	 * The prefix for message commands.
 	 */
-	public prefix: string = '!'
+	prefix: string
 
 	/**
 	 * Whether or not the bot should respond to mentions commands.
 	 */
-	public mentionCommands: boolean = false
+	mentionCommands: boolean
 }
 
-export default Context
+export default IContext

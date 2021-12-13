@@ -1,6 +1,6 @@
-import Context from './Context'
+import AbstractContext from './AbstractContext'
 
-class Guild extends Context
+class Guild extends AbstractContext
 {
 }
 

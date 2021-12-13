@@ -1,7 +1,7 @@
 import fs from 'fs'
 import assignDeep from '../functions/assignDeep'
 import IConfig from './IConfig'
-import Context from './types/Context'
+import AbstractContext from './types/AbstractContext'
 import Global from './types/Global'
 import Guild from './types/Guild'
 import Guilds from './types/Guilds'
@@ -71,7 +71,7 @@ class DefaultConfig implements IConfig
 		return contextConfig
 	}
 
-	public getContextConfig(guildId?: string): Context
+	public getContextConfig(guildId?: string): AbstractContext
 	{
 		if (guildId !== undefined)
 		{
@@ -87,7 +87,7 @@ class DefaultConfig implements IConfig
 export
 {
 	DefaultConfig,
-	Context,
+	AbstractContext,
 	Global,
 	Guild,
 	Guilds,

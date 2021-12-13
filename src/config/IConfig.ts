@@ -1,3 +1,7 @@
+import Global from './types/Global'
+import Guild from './types/Guild'
+import Guilds from './types/Guilds'
+
 interface IConfig
 {
 	[x: string]: any
@@ -17,7 +21,10 @@ interface IConfig
 	defaultLanguage?: string
 
 	commandsDir?: string
-	prefix?: string
+
+	global: Global
+	guildDefault: Guild
+	guilds: Guilds
 }
 
 export default IConfig
