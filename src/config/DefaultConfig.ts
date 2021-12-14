@@ -38,8 +38,13 @@ class DefaultConfig implements IConfig
 			const config = JSON.parse(fs.readFileSync(configFile, { encoding: charset }))
 			assignDeep(this, config)
 
-			this.guildConfigs.clear()
+			this.onConfigLoaded()
 		}
+	}
+
+	protected onConfigLoaded()
+	{
+		this.guildConfigs.clear()
 	}
 
 	public getGlobalConfig(): Global
