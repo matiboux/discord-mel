@@ -27,6 +27,14 @@ abstract class AbstractContext implements IContext
 	 */
 	public mentionCommands: boolean = false
 
+	public constructor(config?: AbstractContext)
+	{
+		if (config)
+		{
+			this.mergeWith(config)
+		}
+	}
+
 	public mergeWith(config: AbstractContext): this
 	{
 		this.enabled = config.enabled
