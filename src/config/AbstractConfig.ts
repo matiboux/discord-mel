@@ -47,14 +47,14 @@ abstract class AbstractConfig implements IConfig
 		this.guildConfigs.clear()
 	}
 
-	public getGlobalConfig(): Global
+	public getGlobalConfig(contextGuild?: Global): Global
 	{
-		const contextConfig = new Global()
+		const contextConfig = contextGuild ?? new Global()
 		assignDeep(contextConfig, this.global)
 		return contextConfig
 	}
 
-	public getGuildConfig(guildId: string): Guild
+	public getGuildConfig(guildId: string, contextGuild?: Guild): Guild
 	{
 		const guildConfig = this.guildConfigs.get(guildId)
 		if (guildConfig)
@@ -62,7 +62,7 @@ abstract class AbstractConfig implements IConfig
 			return guildConfig
 		}
 
-		const contextConfig = new Guild()
+		const contextConfig = contextGuild ?? new Guild()
 		assignDeep(contextConfig, this.global)
 		assignDeep(contextConfig, this.guildDefault)
 
