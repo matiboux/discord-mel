@@ -2,7 +2,7 @@ import Discord from 'discord.js'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
-import DefaultConfig, { AbstractContext, Global, Guild, Guilds } from './config/DefaultConfig'
+import AbstractConfig, { AbstractContext, Global, Guild, Guilds } from './config/AbstractConfig'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import Mel from './Mel'
@@ -28,7 +28,7 @@ export
     CommandsCollection,
 
     // Config
-    DefaultConfig,
+    AbstractConfig,
     config,
 
     // Hooks
