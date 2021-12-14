@@ -1,3 +1,4 @@
+import assignDeep from '../../functions/assignDeep'
 import IContext from './IContext'
 
 abstract class AbstractContext implements IContext
@@ -31,19 +32,8 @@ abstract class AbstractContext implements IContext
 	{
 		if (config)
 		{
-			this.mergeWith(config)
+			assignDeep(this, config)
 		}
-	}
-
-	public mergeWith(config: AbstractContext): this
-	{
-		this.enabled = config.enabled
-		this.ignoreBots = config.ignoreBots
-		this.messageCommands = config.messageCommands
-		this.prefix = config.prefix
-		this.mentionCommands = config.mentionCommands
-
-		return this
 	}
 }
 
