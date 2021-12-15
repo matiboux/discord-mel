@@ -3,6 +3,7 @@ import chalk from 'chalk'
 
 import LogLevel from './LogLevel'
 import ILogger from './ILogger'
+import LoggerMessage from './LoggerMessage'
 
 class Logger implements ILogger
 {
@@ -68,9 +69,17 @@ class Logger implements ILogger
 			if (!error) error = namespace
 			namespace = undefined
 		}
-		if (message === undefined && error !== undefined)
+
+		if (error !== undefined)
 		{
-			message = error.message
+			if (message !== undefined)
+			{
+				message = `${message}\n${error.message}`
+			}
+			else
+			{
+				message = `${error.message}`
+			}
 		}
 
 		const date = new Date()
@@ -85,15 +94,26 @@ class Logger implements ILogger
 		const levelColor = this.logColors.get(level) || chalk.bgGrey.white
 		const messageColor = chalk.white
 
-		const logMessage = `${dateStr} ${timeStr} [${levelStr}] ${namespaceStr}${message}${errorStr}`
-
-		this.stream?.write(logMessage + '\n')
+		// Log message in file
+		const logMessage =
+			(new LoggerMessage())
+			.addPrefix(`${dateStr} ${timeStr} [${levelStr}] `)
+			.addMessage(`${namespaceStr}${message}${errorStr}`)
+			.return()
+		this.stream?.write(`${logMessage}\n`)
 
 		if (this.printConsole)
 		{
-			const consoleMessage = levelColor(' ') + dateColor(` ${dateStr} ${timeStr} `)
-				+ levelColor(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `)
-				+ messageColor(` ${namespaceStr}${message}${errorStr}`)
+			// Log message in console
+			const consoleMessage =
+				(new LoggerMessage())
+				.addPrefix(' ', levelColor)
+				.addPrefix(` ${dateStr} ${timeStr} `, dateColor)
+				.addPrefix(` ${' '.repeat(Math.max(0, this.levelStrLength - levelStr.length))}${levelStr} `, levelColor)
+				.addPrefix(' ', messageColor)
+				.addMessage(`${namespaceStr}${message}${errorStr}`, messageColor)
+				.return()
+			this.stream?.write(`${logMessage}\n`)
 
 			if (this.stream || level >= LogLevel.WARN)
 				console.error(consoleMessage)
