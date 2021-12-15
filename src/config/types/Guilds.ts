@@ -8,7 +8,8 @@ class Guilds extends Map<Snowflake, Guild> implements Mergeable
 	{
 		for (const key in object)
 		{
-			this.set(key, object[key])
+			const guild = new Guild(object[key])
+			this.set(key, guild)
 		}
 
 		return this
