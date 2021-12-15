@@ -102,7 +102,7 @@ class Logger implements ILogger
 			.return()
 		this.stream?.write(`${logMessage}\n`)
 
-		if (this.printConsole)
+		if (this.printConsole || !this.stream)
 		{
 			// Log message in console
 			const consoleMessage =
