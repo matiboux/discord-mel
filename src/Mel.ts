@@ -151,13 +151,11 @@ class Mel
 			'guildMemberUpdate',
 			'guildUnavailable',
 			'guildUpdate',
-			// interactionD
 			'interactionCreate',
 			'invalidated',
 			'invalidRequestWarning',
 			'inviteCreate',
 			'inviteDelete',
-			// messageD
 			'messageCreate',
 			'messageDelete',
 			'messageDeleteBulk',
