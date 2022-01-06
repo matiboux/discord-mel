@@ -17,6 +17,7 @@ import Logger from './logger/Logger'
 import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
 import assignDeep from './functions/assignDeep'
+import EventSubscriber from './events/EventSubscriber'
 
 class Mel
 {
@@ -283,6 +284,38 @@ class Mel
 		}
 
 		return false
+	}
+
+	public loadEventSubscriber(eventSubscriberClass: EventSubscriber)
+	{
+		const eventSubscriber = new eventSubscriberClass(this)
+
+		if (!eventSubscriber.enabled)
+		{
+			return
+		}
+
+		Object.entries(eventSubscriber.getSubscribedEvents())
+			.forEach(([eventName, handlers]) =>
+				handlers.forEach(handler =>
+					{
+						if (typeof handler === 'string')
+						{
+							const method = (eventSubscriber as any)[handler]
+							if (method !== undefined)
+							{
+								this.hooks.get(eventName).add(method)
+							}
+						}
+						else if (eventSubscriber.hasOwnProperty(handler.methodName))
+						{
+							const method = (eventSubscriber as any)[handler.methodName]
+							if (method !== undefined)
+							{
+								this.hooks.get(eventName).add(method, handler.priority)
+							}
+						}
+					}))
 	}
 
 	private onReady()
