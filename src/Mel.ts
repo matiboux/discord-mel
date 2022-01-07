@@ -17,7 +17,11 @@ import Logger from './logger/Logger'
 import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
 import assignDeep from './functions/assignDeep'
+import ReadyEventSubscriber from './events/ReadyEventSubscriber'
 import EventSubscriber from './events/EventSubscriber'
+import InteractionCreateEventSubscriber from './events/InteractionCreateEventSubscriber'
+import MessageCreateEventSubscriber from './events/MessageCreateEventSubscriber'
+import ErrorEventSubscriber from './events/ErrorEventSubscriber'
 
 class Mel
 {
@@ -115,13 +119,11 @@ class Mel
 		// Load commands
 		this.reloadCommands()
 
-		// Register Mel hooks
-		this.hooks.get('debug').add(this.onDebug.bind(this))
-		this.hooks.get('error').add(this.onError.bind(this))
-		this.hooks.get('ready').add(this.onReady.bind(this))
-		this.hooks.get('interactionCreate').add(this.onInteractionCreate.bind(this))
-		this.hooks.get('messageCreate').add(this.onMessageCreate.bind(this))
-		this.hooks.get('shardError').add(this.onShardError.bind(this))
+		// Load Mel event subscribers
+		this.loadEventSubscriber(ReadyEventSubscriber)
+		this.loadEventSubscriber(InteractionCreateEventSubscriber)
+		this.loadEventSubscriber(MessageCreateEventSubscriber)
+		this.loadEventSubscriber(ErrorEventSubscriber)
 
 		// Register Discord client events
 		let discordRegisteredEvents = 0
@@ -316,222 +318,6 @@ class Mel
 							}
 						}
 					}))
-	}
-
-	private onReady()
-	{
-		this.logger.info(this.translator.translate('login.ready', {
-				'%user%': this.client.user?.tag
-			}))
-
-		if (this.rest)
-		{
-			// Register slash commands in guilds
-			this.client.guilds.fetch()
-				.then(guilds => guilds.forEach(guild =>
-					{
-						const slashCommands: RESTPostAPIApplicationCommandsJSONBody[] = []
-						this.commands.forEach(command =>
-							{
-								command.applicationCommands
-									.forEach(slashCommand => slashCommands.push(slashCommand.toJSON()))
-							})
-
-						if (this.rest)
-						{
-							const clientId = this.client.user?.id
-							if (clientId)
-							{
-								this.rest.put(Routes.applicationGuildCommands(clientId, guild.id),
-											  { body: slashCommands })
-									.then(() =>
-										{
-											this.logger.info(this.translator.translate('commands.guild.registered', {
-													'%count%': slashCommands.length
-												}))
-										})
-									.catch(error =>
-										{
-											this.logger.error(this.translator.translate('commands.guild.fail', {
-													'%count%': slashCommands.length
-												}))
-
-											if (error.code === 50001)
-												this.logger.error(this.translator.translate('scopes.missing.applications.commands'))
-											else
-												this.logger.error(error)
-										})
-							}
-						}
-					}))
-				.catch(this.logger.warn)
-		}
-	}
-
-	private async onInteractionCreate(interaction: Discord.Interaction)
-	{
-		const contextConfig = this.config.getContextConfig(interaction.guild?.id)
-
-		// Ignore interactions from bots
-		if (contextConfig.ignoreBots && interaction.user.bot) return
-
-		// Ignore interactions if the bot is disabled in this context
-		if (!contextConfig.enabled)
-		{
-			const {
-				consoleMessageKey,
-				consoleMessageArgs,
-				replyMessageKey,
-				replyMessageArgs,
-			} = (() =>
-				{
-					if (interaction.guild)
-					{
-						return {
-							consoleMessageKey: 'interaction.disabled.guild.console',
-							consoleMessageArgs: {
-								'%guild%': `${interaction.guild.name} (${interaction.guild.id})`,
-							},
-							replyMessageKey: 'interaction.disabled.guild.reply',
-							replyMessageArgs: {},
-						}
-					}
-
-					if (interaction.channel)
-					{
-						return {
-							consoleMessageKey: 'interaction.disabled.channel.console',
-							consoleMessageArgs: {
-								'%channel%': `${interaction.channel.id}`,
-							},
-							replyMessageKey: 'interaction.disabled.channel.reply',
-							replyMessageArgs: {},
-						}
-					}
-
-					return {
-						consoleMessageKey: 'interaction.disabled.context',
-						consoleMessageArgs: {},
-						replyMessageKey: 'interaction.disabled.context',
-						replyMessageArgs: {},
-					}
-				})()
-
-			// Context is disabled
-			this.logger.debug(this.translator.translate(consoleMessageKey, consoleMessageArgs))
-
-			if (interaction.isApplicationCommand() || interaction.isMessageComponent())
-			{
-				// Reply to the interaction
-				interaction.reply({
-						content: this.translator.translate(replyMessageKey, replyMessageArgs),
-						ephemeral: true,
-					})
-			}
-
-			return
-		}
-
-		if (interaction.isApplicationCommand())
-		{
-			// interaction.isCommand() || interaction.isContextMenu()
-			this.commands.onCommandInteraction(interaction)
-		}
-		else if (interaction.isMessageComponent())
-		{
-			// interaction.isButton() || interaction.isSelectMenu()
-			this.commands.onComponentInteraction(interaction)
-		}
-		else if (interaction.isAutocomplete())
-		{
-			this.commands.onAutocompleteInteraction(interaction)
-		}
-		else
-		{
-			this.logger.error(this.translator.translate('interaction.unknown', {
-					'%type%': interaction.type
-				}))
-		}
-	}
-
-	private async onMessageCreate(message: Discord.Message)
-	{
-		const contextConfig = this.config.getContextConfig(message.guild?.id)
-
-		// Ignore messages from bots
-		if (contextConfig.ignoreBots && message.author.bot) return
-
-		// Ignore messages if the bot is disabled in this context
-		if (!contextConfig.enabled) return
-
-		const { isCommand, content } = (() =>
-			{
-				// Check for a message command
-				if (contextConfig.messageCommands
-				    && message.content.startsWith(contextConfig.prefix))
-				{
-					return {
-							isCommand: true,
-							content: message.content.substring(contextConfig.prefix.length),
-						}
-				}
-
-				// Check for a mention command
-				if (contextConfig.mentionCommands)
-				{
-					// Check if the message starts by mentionning the bot
-					const mentionMatch = message.content.match(/^<@!?([^>]+)>\s*(.*)$/is)
-					if (mentionMatch && mentionMatch[1] === this.client.user?.id)
-					{
-						return {
-								isCommand: true,
-								content: mentionMatch[2],
-							}
-					}
-				}
-
-				return {
-						isCommand: false,
-						content: message.content,
-					}
-			})()
-
-		if (isCommand)
-		{
-			const { commandName, commandArgs } = (() =>
-				{
-					const commandMatch = content.match(/^([^\s]*)\s*(.*)$/is)
-					if (commandMatch)
-					{
-						return {
-							commandName: commandMatch[1],
-							commandArgs: commandMatch[2],
-						}
-					}
-
-					return {
-						commandName: content,
-						commandArgs: '',
-					}
-				})()
-
-			this.commands.onMessage(commandName, message, commandArgs)
-		}
-	}
-
-	private async onDebug(info: string)
-	{
-		this.logger.debug(info, 'djs.debug')
-	}
-
-	private async onError(error: Error)
-	{
-		this.logger.error(error, 'djs.error')
-	}
-
-	private async onShardError(error: Error, shardId: number)
-	{
-		this.logger.error(error, 'djs.shardError')
 	}
 }
 
