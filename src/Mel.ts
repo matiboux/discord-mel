@@ -125,7 +125,7 @@ class Mel
 		this.loadEventSubscriber(MessageCreateEventSubscriber)
 		this.loadEventSubscriber(ErrorEventSubscriber)
 
-		// Register Discord client events
+		// Attach Discord client events to hooks
 		let discordRegisteredEvents = 0
 		Array.of(
 			'apiRequest',
@@ -201,7 +201,7 @@ class Mel
 				++discordRegisteredEvents
 			})
 
-		this.logger.info(this.translator.translate('events.discordjs.registered', {
+		this.logger.info(this.translator.translate('events.discordjs.attached', {
 				'%count%': discordRegisteredEvents,
 			}))
 	}

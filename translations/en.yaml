@@ -4,7 +4,7 @@ login:
 
 events:
   discordjs:
-    registered: Registered %count% Discord.js events
+    attached: Attached %count% Discord.js events to hooks.
   subscriber:
     loaded: Loaded %count% hooks from %name% subscriber.
 
