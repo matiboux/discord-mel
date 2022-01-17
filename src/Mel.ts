@@ -297,32 +297,43 @@ class Mel
 			return
 		}
 
+		let subcribedHooks = 0
+
 		Object.entries(eventSubscriber.getSubscribedEvents())
 			.forEach(([eventName, handlers]) =>
-				handlers.forEach(handler =>
-					{
-						if (typeof handler === 'string')
+				{
+					handlers.forEach(handler =>
 						{
-							const method = (eventSubscriber as any)[handler]
-							if (method !== undefined)
+							if (typeof handler === 'string')
 							{
-								this.hooks.get(eventName).add(
-									method.bind(eventSubscriber),
-									)
+								const method = (eventSubscriber as any)[handler]
+								if (method !== undefined)
+								{
+									this.hooks.get(eventName).add(
+										method.bind(eventSubscriber),
+										)
+								}
 							}
-						}
-						else
-						{
-							const method = (eventSubscriber as any)[handler.methodName]
-							if (method !== undefined)
+							else
 							{
-								this.hooks.get(eventName).add(
-									method.bind(eventSubscriber),
-									handler.priority,
-									)
+								const method = (eventSubscriber as any)[handler.methodName]
+								if (method !== undefined)
+								{
+									this.hooks.get(eventName).add(
+										method.bind(eventSubscriber),
+										handler.priority,
+										)
+								}
 							}
-						}
-					}))
+						})
+
+					++subcribedHooks
+				})
+
+		this.logger.info(this.translator.translate('events.subscriber.loaded', {
+				'%name%': eventSubscriberClass.name,
+				'%count%': subcribedHooks,
+			}))
 	}
 }
 

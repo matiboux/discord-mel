@@ -5,6 +5,8 @@ login:
 events:
   discordjs:
     registered: Registered %count% Discord.js events
+  subscriber:
+    loaded: Loaded %count% hooks from %name% subscriber.
 
 hooks:
   empty: 'Empty hook triggered: %name%'
