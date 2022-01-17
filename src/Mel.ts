@@ -306,15 +306,20 @@ class Mel
 							const method = (eventSubscriber as any)[handler]
 							if (method !== undefined)
 							{
-								this.hooks.get(eventName).add(method)
+								this.hooks.get(eventName).add(
+									method.bind(eventSubscriber),
+									)
 							}
 						}
-						else if (eventSubscriber.hasOwnProperty(handler.methodName))
+						else
 						{
 							const method = (eventSubscriber as any)[handler.methodName]
 							if (method !== undefined)
 							{
-								this.hooks.get(eventName).add(method, handler.priority)
+								this.hooks.get(eventName).add(
+									method.bind(eventSubscriber),
+									handler.priority,
+									)
 							}
 						}
 					}))
