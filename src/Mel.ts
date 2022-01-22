@@ -218,20 +218,20 @@ class Mel
 			token = this.config.token
 		}
 
-		if (token)
+		if (!token)
 		{
-			this.rest = new REST({ version: '9' }).setToken(token)
-			return this.client.login(token)
-				.catch(error =>
-					{
-						this.logger.error(this.translator.translate('login.fail', {
-								'%reason%': error.message
-							}))
-						return Promise.reject(error)
-					})
+			return Promise.reject()
 		}
 
-		return Promise.reject()
+		this.rest = new REST({ version: '9' }).setToken(token)
+		return this.client.login(token)
+			.catch(error =>
+				{
+					this.logger.error(this.translator.translate('login.fail', {
+							'%reason%': error.message
+						}))
+					return Promise.reject(error)
+				})
 	}
 
 	/**
