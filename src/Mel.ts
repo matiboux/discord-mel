@@ -22,6 +22,7 @@ import EventSubscriber from './events/EventSubscriber'
 import InteractionCreateEventSubscriber from './events/InteractionCreateEventSubscriber'
 import MessageCreateEventSubscriber from './events/MessageCreateEventSubscriber'
 import ErrorEventSubscriber from './events/ErrorEventSubscriber'
+import ServicesManager from './services/ServicesManager'
 
 class Mel
 {
@@ -52,6 +53,8 @@ class Mel
 	public translator: Translator
 
 	public readonly hooks: HooksManager = new HooksManager(this)
+
+	public readonly services: ServicesManager = new ServicesManager(this)
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
