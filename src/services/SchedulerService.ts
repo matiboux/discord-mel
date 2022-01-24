@@ -81,8 +81,12 @@ class SchedulerService extends Service
 	{
 		super.disable()
 
-		// Stop the scheduler
-		this.intervalTimer?.unref()
+		if (this.intervalTimer !== undefined)
+		{
+			// Stop the scheduler
+			clearInterval(this.intervalTimer)
+			this.intervalTimer = undefined
+		}
 
 		return this
 	}
