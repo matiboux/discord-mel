@@ -1,8 +1,9 @@
 import Mel from '../Mel'
 import Logger from '../logger/Logger'
 import Translator from '../Translator'
+import ServiceInterface from './ServiceInterface'
 
-abstract class AbstractService
+abstract class AbstractService implements ServiceInterface
 {
 	public readonly name: string
 
@@ -21,17 +22,11 @@ abstract class AbstractService
 		this.translator = this.bot?.translator || new Translator()
 	}
 
-	/**
-	 * Return whether the service is enabled
-	 */
 	public isEnabled(): boolean
 	{
 		return this.enabled
 	}
 
-	/**
-	 * Enable the service
-	 */
 	public enable(): this
 	{
 		this.enabled = true
@@ -39,9 +34,6 @@ abstract class AbstractService
 		return this
 	}
 
-	/**
-	 * Disable the service
-	 */
 	public disable(): this
 	{
 		this.enabled = false
