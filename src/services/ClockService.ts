@@ -52,10 +52,20 @@ class ClockService extends Service
 		// Increment the ticks counter
 		++this.ticks
 
+		this.logger.debug(this.translator.translate('services.tick', {
+			'%name%': this.name,
+			'%ticks%': this.ticks,
+		}))
+
 		if (this.ticksFor(ClockService.TICKS_MINUTE))
 		{
 			// Increment the minutes ticks counter
 			++this.minutesTicks
+
+			this.logger.debug(this.translator.translate('services.tick.minute', {
+				'%name%': this.name,
+				'%minutesTicks%': this.minutesTicks,
+			}))
 
 			this.bot?.hooks.execute('tickMinute', this.minutesTicks)
 		}
@@ -64,6 +74,11 @@ class ClockService extends Service
 		{
 			// Increment the hours ticks counter
 			++this.hoursTicks
+
+			this.logger.debug(this.translator.translate('services.tick.hour', {
+				'%name%': this.name,
+				'%hoursTicks%': this.hoursTicks,
+			}))
 
 			this.bot?.hooks.execute('tickHour', this.hoursTicks)
 		}
