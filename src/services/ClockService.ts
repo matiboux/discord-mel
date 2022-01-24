@@ -55,7 +55,10 @@ class ClockService extends Service
 		this.logger.debug(this.translator.translate('services.tick', {
 			'%name%': this.name,
 			'%ticks%': this.ticks,
+			'%tickDelay%': ClockService.TICK_DELAY,
 		}))
+
+		this.bot?.hooks.execute('tick', this.ticks, ClockService.TICK_DELAY)
 
 		if (this.ticksFor(ClockService.TICKS_MINUTE))
 		{
