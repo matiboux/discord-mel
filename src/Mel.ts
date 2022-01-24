@@ -23,6 +23,7 @@ import InteractionCreateEventSubscriber from './events/InteractionCreateEventSub
 import MessageCreateEventSubscriber from './events/MessageCreateEventSubscriber'
 import ErrorEventSubscriber from './events/ErrorEventSubscriber'
 import ServicesManager from './services/ServicesManager'
+import Service from './services/Service'
 
 class Mel
 {
@@ -336,6 +337,29 @@ class Mel
 		this.logger.info(this.translator.translate('events.subscriber.loaded', {
 				'%name%': eventSubscriberClass.name,
 				'%count%': subcribedHooks,
+			}))
+	}
+
+	public loadService(serviceName: string, serviceClass: Service, enableOnHook?: string, hookPriority?: number): void
+	public loadService(serviceName: string, serviceClass: Service, enableNow: boolean): void
+	public loadService(serviceName: string, serviceClass: Service, enableNowOrHook?: string | boolean, hookPriority?: number): void
+	{
+		const service = new serviceClass(serviceName, this)
+		this.services.add(service)
+
+		if (enableNowOrHook === true)
+		{
+			// Enable service immediately
+			service.enable()
+		}
+		else if (enableNowOrHook)
+		{
+			// Enable service on fired hook
+			this.hooks.get(enableNowOrHook).add(service.enable.bind(service), hookPriority)
+		}
+
+		this.logger.info(this.translator.translate('services.loaded', {
+				'%name%': serviceClass.name,
 			}))
 	}
 }
