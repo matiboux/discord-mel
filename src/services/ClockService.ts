@@ -1,17 +1,17 @@
 import Service from './Service'
 
-class SchedulerService extends Service
+class ClockService extends Service
 {
 	/**
 	 * Delay between ticks in milliseconds
 	 */
 	public static readonly TICK_DELAY: number = 30000
 
-	public static readonly TICK_DELAY_SECOND: number = SchedulerService.TICK_DELAY / 1000
+	public static readonly TICK_DELAY_SECOND: number = ClockService.TICK_DELAY / 1000
 
-	public static readonly TICKS_MINUTE: number = 60 / SchedulerService.TICK_DELAY_SECOND
+	public static readonly TICKS_MINUTE: number = 60 / ClockService.TICK_DELAY_SECOND
 
-	public static readonly TICKS_HOUR: number = 60 * SchedulerService.TICKS_MINUTE
+	public static readonly TICKS_HOUR: number = 60 * ClockService.TICKS_MINUTE
 
 	protected intervalTimer?: NodeJS.Timer = undefined
 
@@ -37,7 +37,7 @@ class SchedulerService extends Service
 		super.enable()
 
 		// Start the scheduler
-		this.intervalTimer = setInterval(this.tick.bind(this), SchedulerService.TICK_DELAY)
+		this.intervalTimer = setInterval(this.tick.bind(this), ClockService.TICK_DELAY)
 
 		return this
 	}
@@ -52,7 +52,7 @@ class SchedulerService extends Service
 		// Increment the ticks counter
 		++this.ticks
 
-		if (this.ticksFor(SchedulerService.TICKS_MINUTE))
+		if (this.ticksFor(ClockService.TICKS_MINUTE))
 		{
 			// Increment the minutes ticks counter
 			++this.minutesTicks
@@ -60,7 +60,7 @@ class SchedulerService extends Service
 			this.bot?.hooks.execute('tickMinute', this.minutesTicks)
 		}
 
-		if (this.ticksFor(SchedulerService.TICKS_HOUR))
+		if (this.ticksFor(ClockService.TICKS_HOUR))
 		{
 			// Increment the hours ticks counter
 			++this.hoursTicks
@@ -92,4 +92,4 @@ class SchedulerService extends Service
 	}
 }
 
-export default SchedulerService
+export default ClockService
