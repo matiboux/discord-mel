@@ -30,6 +30,11 @@ abstract class AbstractService implements ServiceInterface
 	public enable(): this
 	{
 		this.enabled = true
+
+		this.logger.info(this.translator.translate('services.enabled', {
+			'%name%': this.name,
+		}))
+
 		// Override this method to do something when the service is enabled
 		return this
 	}
@@ -37,6 +42,11 @@ abstract class AbstractService implements ServiceInterface
 	public disable(): this
 	{
 		this.enabled = false
+
+		this.logger.info(this.translator.translate('services.disabled', {
+			'%name%': this.name,
+		}))
+
 		// Override this method to do something when the service is disabled
 		return this
 	}
