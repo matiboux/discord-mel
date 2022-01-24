@@ -24,6 +24,7 @@ import MessageCreateEventSubscriber from './events/MessageCreateEventSubscriber'
 import ErrorEventSubscriber from './events/ErrorEventSubscriber'
 import ServicesManager from './services/ServicesManager'
 import Service from './services/Service'
+import ClockService from './services/ClockService'
 
 class Mel
 {
@@ -208,6 +209,9 @@ class Mel
 		this.logger.info(this.translator.translate('events.discordjs.attached', {
 				'%count%': discordRegisteredEvents,
 			}))
+
+		// Load Mel services
+		this.loadService('clock', ClockService, 'ready')
 	}
 
 	/**
