@@ -1,5 +1,5 @@
 import Mel from '../Mel'
-import Service from './Service'
+import Service from './AbstractService'
 
 class ServicesManager
 {

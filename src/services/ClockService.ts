@@ -1,4 +1,4 @@
-import Service from './Service'
+import Service from './AbstractService'
 
 class ClockService extends Service
 {

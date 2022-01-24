@@ -2,7 +2,7 @@ import Mel from '../Mel'
 import Logger from '../logger/Logger'
 import Translator from '../Translator'
 
-class Service
+abstract class AbstractService
 {
 	public readonly name: string
 
@@ -50,4 +50,4 @@ class Service
 	}
 }
 
-export default Service
+export default AbstractService
