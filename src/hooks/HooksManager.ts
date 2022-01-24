@@ -34,7 +34,7 @@ class HooksManager
 
 	public execute(name: string, ...args: any[]): void
 	{
-		this._hooks.get(name)?.execute(...args)
+		this.get(name).execute(...args)
 	}
 }
 
