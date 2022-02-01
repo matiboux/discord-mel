@@ -1,6 +1,7 @@
 import Global from './types/Global'
 import Guild from './types/Guild'
 import Guilds from './types/Guilds'
+import ServicesConfigType from './types/ServicesConfigType'
 
 interface IConfig
 {
@@ -25,6 +26,8 @@ interface IConfig
 	global: Global
 	guildDefault: Guild
 	guilds: Guilds
+
+	services: ServicesConfigType
 }
 
 export default IConfig

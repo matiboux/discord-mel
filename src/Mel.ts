@@ -345,21 +345,32 @@ class Mel
 	}
 
 	public loadService(serviceName: string, serviceClass: Service, enableOnHook?: string, hookPriority?: number): void
-	public loadService(serviceName: string, serviceClass: Service, enableNow: boolean): void
+	public loadService(serviceName: string, serviceClass: Service, enableNow?: boolean): void
 	public loadService(serviceName: string, serviceClass: Service, enableNowOrHook?: string | boolean, hookPriority?: number): void
 	{
-		const service = new serviceClass(serviceName, this)
+		// Get the service configuration
+		const serviceConfig = this.config.services.get(serviceName)
+
+		const service = new serviceClass(serviceName, serviceConfig, this)
 		this.services.add(service)
 
 		if (enableNowOrHook === true)
 		{
-			// Enable service immediately
+			// Force enabling the service immediately
 			service.enable()
 		}
-		else if (enableNowOrHook)
+		else if (enableNowOrHook !== false && (serviceConfig === undefined || serviceConfig.enabled === true))
 		{
-			// Enable service on fired hook
-			this.hooks.get(enableNowOrHook).add(service.enable.bind(service), hookPriority)
+			if (enableNowOrHook)
+			{
+				// Enable service on fired hook
+				this.hooks.get(enableNowOrHook).add(service.enable.bind(service), hookPriority)
+			}
+			else
+			{
+				// Apply the default behavior and enable the service immediately
+				service.enable()
+			}
 		}
 
 		this.logger.info(this.translator.translate('services.loaded', {

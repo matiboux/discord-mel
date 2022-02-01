@@ -2,6 +2,7 @@ import Mel from '../Mel'
 import Logger from '../logger/Logger'
 import Translator from '../Translator'
 import ServiceInterface from './ServiceInterface'
+import ServiceConfigType from '../config/types/ServiceConfigType'
 
 abstract class AbstractService implements ServiceInterface
 {
@@ -13,7 +14,7 @@ abstract class AbstractService implements ServiceInterface
 	protected logger: Logger
 	protected translator: Translator
 
-	constructor(name: string, bot?: Mel)
+	constructor(name: string, config?: ServiceConfigType, bot?: Mel)
 	{
 		this.name = name;
 

@@ -4,5 +4,11 @@
 	"commandsDir": null,
 	"translationsDir": null,
 	"defaultLanguage": null,
-	"prefix": "!"
+	"prefix": "!",
+
+	"services": {
+		"clock": {
+			"enabled": true
+		}
+	}
 }

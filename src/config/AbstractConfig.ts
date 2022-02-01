@@ -5,6 +5,7 @@ import AbstractContext from './types/AbstractContext'
 import Global from './types/Global'
 import Guild from './types/Guild'
 import Guilds from './types/Guilds'
+import ServicesConfigType from './types/ServicesConfigType'
 
 abstract class AbstractConfig implements IConfig
 {
@@ -30,6 +31,8 @@ abstract class AbstractConfig implements IConfig
 	public guildDefault: Guild = new Guild()
 	public guilds: Guilds = new Guilds()
 	protected guildConfigs: Guilds = new Guilds()
+
+	public services: ServicesConfigType = new ServicesConfigType()
 
 	public loadConfigFile(configFile?: string, charset: BufferEncoding = 'utf8')
 	{
