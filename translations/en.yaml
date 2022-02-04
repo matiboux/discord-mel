@@ -13,7 +13,7 @@ hooks:
 
 services:
   clock:
-    tick: Clock ticked again after %tickDelay%ms (%ticks% ticks total).
+    tick: Clock ticked again (%tickDelay%ms delay, %ticks% ticks total).
     tickMinute: Clock ticked another minute (%minutesTicks% minutes total).
     tickHour: Clock ticked another hour (%hoursTicks% hours total).
 
