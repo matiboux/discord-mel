@@ -69,7 +69,7 @@ class ClockService extends Service
 		this.logger.debug(this.translator.translate('services.clock.tick', {
 			'%ticks%': this.ticks,
 			'%tickDelay%': this.TICK_DELAY,
-		}))
+		}), 'ClockService')
 
 		this.bot?.hooks.execute('tick', this.ticks, this.TICK_DELAY)
 
@@ -80,7 +80,7 @@ class ClockService extends Service
 
 			this.logger.debug(this.translator.translate('services.clock.tickMinute', {
 				'%minutesTicks%': this.minutesTicks,
-			}))
+			}), 'ClockService')
 
 			this.bot?.hooks.execute('tickMinute', this.minutesTicks)
 		}
@@ -92,7 +92,7 @@ class ClockService extends Service
 
 			this.logger.debug(this.translator.translate('services.clock.tick.hour', {
 				'%hoursTicks%': this.hoursTicks,
-			}))
+			}), 'ClockService')
 
 			this.bot?.hooks.execute('tickHour', this.hoursTicks)
 		}
