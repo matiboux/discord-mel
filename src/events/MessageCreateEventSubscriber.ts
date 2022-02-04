@@ -79,6 +79,7 @@ class MessageCreateEventSubscriber extends AbstractEventSubscriber
 				})()
 
 			this.mel.commands.onMessage(commandName, message, commandArgs)
+				.catch(() => {}) // Ignore errors
 		}
 	}
 }
