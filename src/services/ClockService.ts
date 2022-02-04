@@ -1,3 +1,5 @@
+import Mel from '../Mel'
+import ServiceConfigType from '../config/types/ServiceConfigType'
 import Service from './AbstractService'
 
 class ClockService extends Service
@@ -5,13 +7,15 @@ class ClockService extends Service
 	/**
 	 * Delay between ticks in milliseconds
 	 */
-	public static readonly TICK_DELAY: number = 30000
+	public static readonly DEFAULT_TICK_DELAY: number = 30000
 
-	public static readonly TICK_DELAY_SECOND: number = ClockService.TICK_DELAY / 1000
+	public readonly TICK_DELAY: number
 
-	public static readonly TICKS_MINUTE: number = 60 / ClockService.TICK_DELAY_SECOND
+	public readonly TICK_DELAY_SECOND: number
 
-	public static readonly TICKS_HOUR: number = 60 * ClockService.TICKS_MINUTE
+	public readonly TICKS_MINUTE: number
+
+	public readonly TICKS_HOUR: number
 
 	protected intervalTimer?: NodeJS.Timer = undefined
 
@@ -23,6 +27,16 @@ class ClockService extends Service
 	protected hoursTicks: number = 0
 
 	protected minutesTicks: number = 0
+
+	constructor(name: string, config?: ServiceConfigType, bot?: Mel)
+	{
+		super(name, config, bot)
+
+		this.TICK_DELAY = typeof config?.tickDelay === 'number' ? config.tickDelay : ClockService.DEFAULT_TICK_DELAY
+		this.TICK_DELAY_SECOND = this.TICK_DELAY / 1000
+		this.TICKS_MINUTE = 60 / this.TICK_DELAY_SECOND
+		this.TICKS_HOUR = 60 * this.TICKS_MINUTE
+	}
 
 	/**
 	 * Enable the service
@@ -37,7 +51,7 @@ class ClockService extends Service
 		super.enable()
 
 		// Start the scheduler
-		this.intervalTimer = setInterval(this.tick.bind(this), ClockService.TICK_DELAY)
+		this.intervalTimer = setInterval(this.tick.bind(this), this.TICK_DELAY)
 
 		return this
 	}
@@ -55,12 +69,12 @@ class ClockService extends Service
 		this.logger.debug(this.translator.translate('services.tick', {
 			'%name%': this.name,
 			'%ticks%': this.ticks,
-			'%tickDelay%': ClockService.TICK_DELAY,
+			'%tickDelay%': this.TICK_DELAY,
 		}))
 
-		this.bot?.hooks.execute('tick', this.ticks, ClockService.TICK_DELAY)
+		this.bot?.hooks.execute('tick', this.ticks, this.TICK_DELAY)
 
-		if (this.ticksFor(ClockService.TICKS_MINUTE))
+		if (this.ticksFor(this.TICKS_MINUTE))
 		{
 			// Increment the minutes ticks counter
 			++this.minutesTicks
@@ -73,7 +87,7 @@ class ClockService extends Service
 			this.bot?.hooks.execute('tickMinute', this.minutesTicks)
 		}
 
-		if (this.ticksFor(ClockService.TICKS_HOUR))
+		if (this.ticksFor(this.TICKS_HOUR))
 		{
 			// Increment the hours ticks counter
 			++this.hoursTicks
