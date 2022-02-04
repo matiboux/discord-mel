@@ -11,6 +11,12 @@ events:
 hooks:
   empty: 'Empty hook triggered: %name%'
 
+services:
+  clock:
+    tick: Clock ticked again after %tickDelay%ms (%ticks% ticks total).
+    tickMinute: Clock ticked another minute (%minutesTicks% minutes total).
+    tickHour: Clock ticked another hour (%hoursTicks% hours total).
+
 scopes:
   missing:
     applications.commands: Scope permission applications.commands is missing.
