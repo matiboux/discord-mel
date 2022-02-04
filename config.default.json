@@ -1,10 +1,23 @@
 {
-	"token": "xxx",
+	"token": "YOUR_TOKEN_HERE",
+
 	"stateFile": null,
-	"commandsDir": null,
+
 	"translationsDir": null,
 	"defaultLanguage": null,
-	"prefix": "!",
+
+	"commandsDir": null,
+
+	"global": {
+		"enabled": true,
+		"prefix": "!"
+	},
+
+	"guildDefault": {
+		"enabled": true
+	},
+
+	"guilds": {},
 
 	"services": {
 		"clock": {
