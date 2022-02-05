@@ -90,7 +90,7 @@ class ClockService extends Service
 			// Increment the hours ticks counter
 			++this.hoursTicks
 
-			this.logger.debug(this.translator.translate('services.clock.tick.hour', {
+			this.logger.debug(this.translator.translate('services.clock.tickHour', {
 				'%hoursTicks%': this.hoursTicks,
 			}), 'ClockService')
 
