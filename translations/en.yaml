@@ -12,6 +12,7 @@ hooks:
   empty: 'Empty hook triggered: %name%'
 
 services:
+  loaded: 'Loaded service: %name%'
   clock:
     tick: Clock ticked again (%tickDelay%ms delay, %ticks% ticks total).
     tickMinute: Clock ticked another minute (%minutesTicks% minutes total).

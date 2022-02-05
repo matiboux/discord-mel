@@ -375,7 +375,7 @@ class Mel
 
 		this.logger.info(this.translator.translate('services.loaded', {
 				'%name%': serviceClass.name,
-			}))
+			}), 'Services')
 	}
 }
 
