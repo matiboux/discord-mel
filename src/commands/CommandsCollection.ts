@@ -42,7 +42,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 */
 	async onMessage(commandName: string, message: Discord.Message, args: string): Promise<void>
 	{
-		const command = this.find(command => command.commandAliases.has(commandName))
+		const command = this.find(cmd => cmd.commandAliases.has(commandName))
 		let commandExecuted = false
 
 		if (command)
@@ -122,7 +122,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 
 	async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
-		const command = this.find(command => command.componentIds.has(interaction.customId))
+		const command = this.find(cmd => cmd.componentIds.has(interaction.customId))
 		let commandExecuted = false
 
 		if (command)
