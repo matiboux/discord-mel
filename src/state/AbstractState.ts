@@ -120,54 +120,6 @@ abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBase
 		const data = JSON.stringify(db, null, '\t')
 		fs.writeFileSync(stateBackupFile, data)
 	}
-
-	async _objectStructureFix(object: IBaseStateType, model: IBaseStateType): Promise<boolean>
-	{
-		if (typeof model !== 'object') return true
-		if (typeof object !== 'object') throw false
-		if (Array.isArray(model))
-		{
-			if (Array.isArray(object))
-				return true
-			else
-				throw false
-		}
-
-		for (const key in model)
-		{
-			if (typeof model[key] !== 'object')
-				continue
-
-			if (typeof object[key] === 'undefined')
-			{
-				object[key] = Array.isArray(model[key]) ? [] : {}
-			}
-			else if (typeof object[key] !== 'object'
-			         || Array.isArray(object[key]) !== Array.isArray(model[key]))
-				throw false
-
-			if (!this._objectStructureFix(object[key], model[key]))
-				throw false
-		}
-
-		return true
-	}
-
-	async dbStructureFix(model: IBaseStateType): Promise<boolean>
-	{
-		const result = await this._objectStructureFix(this._db, model)
-		if (!result)
-			throw false
-
-		this.accessed = true
-		this.save()
-		return true
-	}
-
-	async jsStructureFix(model: IBaseStateType): Promise<boolean>
-	{
-		return this._objectStructureFix(this.js, model)
-	}
 }
 
 export default AbstractState
