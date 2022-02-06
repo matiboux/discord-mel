@@ -1,7 +1,7 @@
 import AbstractState from './AbstractState'
 import DefaultStateType from './DefaultStateType'
 
-class DefaultState extends AbstractState<DefaultStateType, DefaultStateType>
+class DefaultState extends AbstractState<DefaultStateType>
 {
 	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
@@ -11,7 +11,6 @@ class DefaultState extends AbstractState<DefaultStateType, DefaultStateType>
 	protected initProperties(): void
 	{
 		this._db = new DefaultStateType()
-		this.js = new DefaultStateType()
 	}
 }
 

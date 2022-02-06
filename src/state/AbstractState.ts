@@ -4,15 +4,13 @@ import path from 'path'
 import assignDeep from '../functions/assignDeep'
 import IBaseStateType from './IBaseStateType'
 
-abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBaseStateType>
+abstract class AbstractState<DBType extends IBaseStateType>
 {
 	public static readonly assignDeep = assignDeep
 
 	protected stateFile?: string
 
 	protected _db: DBType
-
-	public js: JSType
 
 	protected accessed: boolean = false
 
@@ -22,7 +20,6 @@ abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBase
 
 		// Default properties initialization
 		this._db = {} as DBType
-		this.js = {} as JSType
 
 		// Initialize properties
 		this.initProperties()
@@ -30,8 +27,6 @@ abstract class AbstractState<DBType extends IBaseStateType, JSType extends IBase
 		// Check for properties being initialized
 		if (!this._db)
 			throw new Error('State database object is not defined');
-		if (!this.js)
-			throw new Error('State javascript object is not defined');
 
 		// Create the storage file if it does not exist
 		if (stateFile)

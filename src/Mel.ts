@@ -48,7 +48,7 @@ class Mel
 
 	public rest: REST | null = null
 
-	public state: AbstractState<IBaseStateType, IBaseStateType>
+	public state: AbstractState<IBaseStateType>
 
 	public commands: CommandsCollection = new CommandsCollection(this)
 
