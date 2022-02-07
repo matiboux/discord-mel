@@ -2,9 +2,9 @@ import fs from 'fs'
 import path from 'path'
 
 import assignDeep from '../functions/assignDeep'
-import IBaseStateType from './IBaseStateType'
+import IBaseDB from './db/IBaseDB'
 
-abstract class AbstractState<DBType extends IBaseStateType>
+abstract class AbstractState<DBType extends IBaseDB>
 {
 	public static readonly assignDeep = assignDeep
 

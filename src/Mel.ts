@@ -12,7 +12,7 @@ import Options from './config/Options'
 import Translator from './Translator'
 import Services from './Services'
 import AbstractState from './state/AbstractState'
-import IBaseStateType from './state/DefaultStateType'
+import IBaseDB from './state/db/IBaseDB'
 import Logger from './logger/Logger'
 import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
@@ -48,7 +48,7 @@ class Mel
 
 	public rest: REST | null = null
 
-	public state: AbstractState<IBaseStateType>
+	public state: AbstractState<IBaseDB>
 
 	public commands: CommandsCollection = new CommandsCollection(this)
 

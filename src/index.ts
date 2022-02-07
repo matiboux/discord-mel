@@ -8,7 +8,7 @@ import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import Mel from './Mel'
 import AbstractState from './state/AbstractState'
-import IBaseStateType from './state/IBaseStateType'
+import IBaseDB from './state/db/IBaseDB'
 import Translator from './Translator'
 
 const config = {
@@ -39,7 +39,7 @@ export
 
     // State
     AbstractState,
-    IBaseStateType,
+    IBaseDB,
 
     // Translator
     Translator,
