@@ -44,19 +44,19 @@ class Mel
 
 	public logger: Logger
 
+	public translator: Translator
+
 	public client: Discord.Client
 
 	public rest: REST | null = null
 
 	public state: AbstractState<IBaseDB>
 
-	public commands: CommandsCollection = new CommandsCollection(this)
+	public readonly commands: CommandsCollection
 
-	public translator: Translator
+	public readonly hooks: HooksManager
 
-	public readonly hooks: HooksManager = new HooksManager(this)
-
-	public readonly services: ServicesManager = new ServicesManager(this)
+	public readonly services: ServicesManager
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
@@ -103,13 +103,6 @@ class Mel
 			this.logger.setLevel(this.config.logLevel)
 		}
 
-		// Load state
-		if (!this.config.statePath && this.config.stateFile)
-		{
-			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
-		}
-		this.state = new Mel.Services.State(this.config.statePath)
-
 		// Load src and user translations
 		this.translator = new Translator(this)
 		this.translator.addTranslations(path.join(__dirname, "../translations"), this.config.defaultLanguage)
@@ -118,8 +111,24 @@ class Mel
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))
 		}
 
+		// Load state
+		if (!this.config.statePath && this.config.stateFile)
+		{
+			this.config.statePath = path.join(this.config.absPath, this.config.stateFile)
+		}
+		this.state = new Mel.Services.State(this.config.statePath)
+
 		// Initialize client
 		this.client = new Discord.Client(discordJsOptions)
+
+		// Initialize commands manager
+		this.commands = new CommandsCollection(this)
+
+		// Initialize hooks manager
+		this.hooks = new HooksManager(this)
+
+		// Initialize services manager
+		this.services = new ServicesManager(this)
 
 		// Load commands
 		this.reloadCommands()
