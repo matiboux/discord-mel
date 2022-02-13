@@ -77,7 +77,7 @@ abstract class AbstractState<DBType extends IBaseDB>
 		if (!forceSave && !this.accessed)
 			return; // No changes to save
 
-		const data = JSON.stringify(this._db, null, '\t')
+		const data = JSON.stringify(serialize(this._db), null, '\t')
 
 		// Save changes
 		fs.writeFileSync(this.stateFile, data)
