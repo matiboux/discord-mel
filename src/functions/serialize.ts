@@ -7,7 +7,16 @@ function serialize(target: any): any
 			return target.serialize()
 		}
 
-		return Object.fromEntries(target)
+		if (typeof target[Symbol.iterator] === 'function')
+		{
+			const entries = Object.fromEntries(target)
+			for (const key in entries)
+			{
+				entries[key] = serialize(entries[key])
+			}
+
+			return entries
+		}
 	}
 
 	return target
