@@ -1,4 +1,6 @@
 import fs from 'fs'
+
+import serialize from '../functions/serialize'
 import unserialize from '../functions/unserialize'
 import IConfig from './IConfig'
 import AbstractContext from './types/AbstractContext'
@@ -9,6 +11,7 @@ import ServicesConfigType from './types/ServicesConfigType'
 
 abstract class AbstractConfig implements IConfig
 {
+	public static readonly serialize = serialize
 	public static readonly unserialize = unserialize
 
 	public absPath: string = __dirname

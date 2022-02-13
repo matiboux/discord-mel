@@ -1,11 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 
+import serialize from '../functions/serialize'
 import unserialize from '../functions/unserialize'
 import IBaseDB from './db/IBaseDB'
 
 abstract class AbstractState<DBType extends IBaseDB>
 {
+	public static readonly serialize = serialize
 	public static readonly unserialize = unserialize
 
 	protected stateFile?: string
