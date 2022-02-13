@@ -1,8 +1,13 @@
 function serialize(target: any): any
 {
-	if (typeof target === 'object' && typeof target.serialize === 'function')
+	if (typeof target === 'object')
 	{
-		return target.serialize()
+		if (typeof target.serialize === 'function')
+		{
+			return target.serialize()
+		}
+
+		return Object.fromEntries(target)
 	}
 
 	return target
