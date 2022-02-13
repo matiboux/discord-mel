@@ -16,7 +16,7 @@ import IBaseDB from './state/db/IBaseDB'
 import Logger from './logger/Logger'
 import HooksManager from './hooks/HooksManager'
 import DefaultConfig from './config/DefaultConfig'
-import assignDeep from './functions/assignDeep'
+import unserialize from './functions/unserialize'
 import ReadyEventSubscriber from './events/ReadyEventSubscriber'
 import EventSubscriber from './events/EventSubscriber'
 import InteractionCreateEventSubscriber from './events/InteractionCreateEventSubscriber'
@@ -78,12 +78,12 @@ class Mel
 		// Merge configuration with options
 		delete options.config
 		delete options.logger
-		assignDeep(this.config, options)
+		unserialize(this.config, options)
 
 		// Override configuration
 		if (optionConfig)
 		{
-			assignDeep(this.config, optionConfig)
+			unserialize(this.config, optionConfig)
 		}
 
 		// Initialize logger

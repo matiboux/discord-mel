@@ -1,9 +1,9 @@
-import Mergeable from '../../functions/Mergeable'
+import IUnserialize from '../../functions/IUnserialize'
 import ServiceConfigType from './ServiceConfigType'
 
-class ServicesConfigType extends Map<string, ServiceConfigType> implements Mergeable
+class ServicesConfigType extends Map<string, ServiceConfigType> implements IUnserialize
 {
-	public mergeWith(object: any): this
+	public unserialize(object: any): this
 	{
 		for (const key in object)
 		{

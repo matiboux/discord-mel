@@ -1,4 +1,4 @@
-import assignDeep from '../../../functions/assignDeep'
+import unserialize from '../../../functions/unserialize'
 
 abstract class AbstractStateType
 {
@@ -6,7 +6,7 @@ abstract class AbstractStateType
 	{
 		if (type)
 		{
-			assignDeep(this, type)
+			unserialize(this, type)
 		}
 	}
 }

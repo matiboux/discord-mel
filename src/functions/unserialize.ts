@@ -1,4 +1,4 @@
-function assignDeep(target: any, ...sources: any[]): any
+function unserialize(target: any, ...sources: any[]): any
 {
 	if (sources.length <= 0)
 		return target
@@ -6,9 +6,9 @@ function assignDeep(target: any, ...sources: any[]): any
 	target = Object(target)
 	const source = sources.shift()
 
-	if (typeof target.mergeWith === 'function')
+	if (typeof target.unserialize === 'function')
 	{
-		target.mergeWith(source)
+		target.unserialize(source)
 	}
 	else if (typeof source === 'object')
 	{
@@ -17,7 +17,7 @@ function assignDeep(target: any, ...sources: any[]): any
 			if (typeof source[key] === 'object')
 			{
 				target[key] = target[key] !== undefined ? Object(target[key]) : {}
-				assignDeep(target[key], source[key])
+				unserialize(target[key], source[key])
 			}
 			else
 			{
@@ -26,7 +26,7 @@ function assignDeep(target: any, ...sources: any[]): any
 		}
 	}
 
-	return assignDeep(target, ...sources)
+	return unserialize(target, ...sources)
 }
 
-export default assignDeep
+export default unserialize

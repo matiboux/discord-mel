@@ -1,6 +1,6 @@
 import IOptions from './IOptions'
 import Logger from '../logger/Logger'
-import assignDeep from '../functions/assignDeep'
+import unserialize from '../functions/unserialize'
 import IConfig from './IConfig'
 
 class Options implements IOptions
@@ -33,7 +33,7 @@ class Options implements IOptions
 	{
 		optionsArray.forEach(options =>
 			{
-				assignDeep(this, options)
+				unserialize(this, options)
 			})
 	}
 }

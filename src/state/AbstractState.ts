@@ -1,12 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 
-import assignDeep from '../functions/assignDeep'
+import unserialize from '../functions/unserialize'
 import IBaseDB from './db/IBaseDB'
 
 abstract class AbstractState<DBType extends IBaseDB>
 {
-	public static readonly assignDeep = assignDeep
+	public static readonly unserialize = unserialize
 
 	protected stateFile?: string
 
@@ -34,7 +34,7 @@ abstract class AbstractState<DBType extends IBaseDB>
 			if (fs.existsSync(stateFile))
 			{
 				const db = JSON.parse(fs.readFileSync(stateFile, { encoding: charset }))
-				assignDeep(this._db, db)
+				unserialize(this._db, db)
 				this.saveBackup(this._db)
 			}
 			else

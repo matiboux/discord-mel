@@ -1,5 +1,5 @@
 import fs from 'fs'
-import assignDeep from '../functions/assignDeep'
+import unserialize from '../functions/unserialize'
 import IConfig from './IConfig'
 import AbstractContext from './types/AbstractContext'
 import Global from './types/Global'
@@ -9,7 +9,7 @@ import ServicesConfigType from './types/ServicesConfigType'
 
 abstract class AbstractConfig implements IConfig
 {
-	public static readonly assignDeep = assignDeep
+	public static readonly unserialize = unserialize
 
 	public absPath: string = __dirname
 
@@ -39,7 +39,7 @@ abstract class AbstractConfig implements IConfig
 		if (configFile)
 		{
 			const config = JSON.parse(fs.readFileSync(configFile, { encoding: charset }))
-			assignDeep(this, config)
+			unserialize(this, config)
 
 			this.onConfigLoaded()
 		}
@@ -53,7 +53,7 @@ abstract class AbstractConfig implements IConfig
 	public getGlobalConfig(contextGuild?: Global): Global
 	{
 		const contextConfig = contextGuild ?? new Global()
-		assignDeep(contextConfig, this.global)
+		unserialize(contextConfig, this.global)
 		return contextConfig
 	}
 
@@ -66,13 +66,13 @@ abstract class AbstractConfig implements IConfig
 		}
 
 		const contextConfig = contextGuild ?? new Guild()
-		assignDeep(contextConfig, this.global)
-		assignDeep(contextConfig, this.guildDefault)
+		unserialize(contextConfig, this.global)
+		unserialize(contextConfig, this.guildDefault)
 
 		const guild = this.guilds.get(guildId)
 		if (guild)
 		{
-			assignDeep(contextConfig, guild)
+			unserialize(contextConfig, guild)
 		}
 
 		this.guildConfigs.set(guildId, contextConfig)

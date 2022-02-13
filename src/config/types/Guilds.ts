@@ -1,10 +1,10 @@
 import { Snowflake } from 'discord-api-types'
-import Mergeable from '../../functions/Mergeable'
+import IUnserialize from '../../functions/IUnserialize'
 import Guild from './Guild'
 
-class Guilds extends Map<Snowflake, Guild> implements Mergeable
+class Guilds extends Map<Snowflake, Guild> implements IUnserialize
 {
-	public mergeWith(object: any): this
+	public unserialize(object: any): this
 	{
 		for (const key in object)
 		{
