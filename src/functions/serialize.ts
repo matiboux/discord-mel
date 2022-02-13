@@ -7,15 +7,15 @@ function serialize(target: any): any
 			return target.serialize()
 		}
 
-		if (typeof target[Symbol.iterator] === 'function')
+		if (Array.isArray(target))
 		{
-			const entries = Object.fromEntries(target)
-			for (const key in entries)
-			{
-				entries[key] = serialize(entries[key])
-			}
+			return target.map(serialize)
+		}
 
-			return entries
+		target = Object.assign({}, target) // Shallow copy
+		for (const key in target)
+		{
+			target[key] = serialize(target[key])
 		}
 	}
 
