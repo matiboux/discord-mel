@@ -3,7 +3,6 @@ import path from 'path'
 
 import Discord from 'discord.js'
 import { REST } from '@discordjs/rest'
-import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-types/v9'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'

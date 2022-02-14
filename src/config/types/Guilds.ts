@@ -1,4 +1,5 @@
 import { Snowflake } from 'discord-api-types'
+
 import IUnserialize from '../../functions/IUnserialize'
 import Guild from './Guild'
 

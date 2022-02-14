@@ -1,5 +1,6 @@
+import Discord from 'discord.js'
 import { Snowflake } from 'discord-api-types'
-import { Discord } from '../..'
+
 import DBListener from '../../state/db/types/Listener'
 import ListenerTypes from '../ListenerTypes'
 
