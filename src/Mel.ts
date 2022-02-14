@@ -25,6 +25,7 @@ import ErrorEventSubscriber from './events/ErrorEventSubscriber'
 import ServicesManager from './services/ServicesManager'
 import Service from './services/Service'
 import ClockService from './services/ClockService'
+import ListenersManager from './listeners/ListenersManager'
 
 class Mel
 {
@@ -57,6 +58,8 @@ class Mel
 	public readonly hooks: HooksManager
 
 	public readonly services: ServicesManager
+
+	public readonly listeners: ListenersManager
 
 	public constructor(userOptions: IOptions, discordJsOptions: Discord.ClientOptions)
 	{
@@ -129,6 +132,9 @@ class Mel
 
 		// Initialize services manager
 		this.services = new ServicesManager(this)
+
+		// Initialize services manager
+		this.listeners = new ListenersManager(this)
 
 		// Load commands
 		this.reloadCommands()

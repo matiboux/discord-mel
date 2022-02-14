@@ -4,6 +4,7 @@ import { Translator } from '..'
 
 import Mel from '../Mel'
 import Logger from '../logger/Logger'
+import AbstractHandler from '../listeners/handler/AbstractHandler'
 
 type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 
@@ -27,6 +28,8 @@ class AbstractCommand
 
 	guildOnly: boolean = false
 	permissions: PermissionResolvable[] = []
+
+	handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
 
 	static create(bot: Mel)
 	{
