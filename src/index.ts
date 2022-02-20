@@ -7,6 +7,8 @@ import AbstractConfigType from './config/types/AbstractConfigType'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractListener from './listeners/AbstractListener'
+import AbstractHandler from './listeners/handler/AbstractHandler'
+import MessageReactionHandler from './listeners/handler/MessageReactionHandler'
 import ListenerTypes from './listeners/ListenerTypes'
 import MessageReactionListener from './listeners/MessageReactionListener'
 import AbstractListenerRegister from './listeners/register/AbstractListenerRegister'
@@ -52,6 +54,12 @@ export
     AbstractListener,
     ListenerTypes,
     MessageReactionListener,
+
+    // Listener Handlers
+    AbstractHandler,
+    MessageReactionHandler,
+
+    // Listener Registers
     AbstractListenerRegister,
     MessageReactionListenerRegister,
 
