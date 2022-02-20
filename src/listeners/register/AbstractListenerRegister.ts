@@ -3,6 +3,7 @@ import { Snowflake } from 'discord-api-types'
 
 import DBListener from '../../state/db/types/Listener'
 import ListenerTypes from '../ListenerTypes'
+import ListenerTargetTypes from './ListenerTargetTypes'
 
 abstract class AbstractListenerRegister extends DBListener
 {
@@ -43,7 +44,7 @@ abstract class AbstractListenerRegister extends DBListener
         return this
     }
 
-    public setChannel(channel?: Snowflake | Discord.Channel): this
+    public setChannel(channel?: Snowflake | Discord.TextBasedChannels | Discord.VoiceChannel | Discord.Channel): this
     {
         this.channelId = typeof channel === 'string' ? channel : channel?.id
         return this
@@ -58,6 +59,53 @@ abstract class AbstractListenerRegister extends DBListener
     public setTargetId(targetId?: Snowflake): this
     {
         this.targetId = targetId
+        return this
+    }
+
+    public setTarget(target: Discord.Guild | Discord.GuildChannel | Discord.Channel | Discord.GuildMember | Discord.User | Discord.Message): this
+    {
+        // Discord Guild
+        if (target instanceof Discord.Guild)
+        {
+            // Guild
+            this.setTargetType(ListenerTargetTypes.GUILD)
+        }
+
+        // Discord Channel
+        else if (target instanceof Discord.GuildChannel)
+        {
+            // Channel in a guild
+            this.setTargetType(ListenerTargetTypes.CHANNEL)
+            !this.guildId && this.setGuild(target.guild)
+        }
+        else if (target instanceof Discord.Channel)
+        {
+            // Channel not in a guild
+            this.setTargetType(ListenerTargetTypes.CHANNEL)
+        }
+
+        // Discord User
+        else if (target instanceof Discord.GuildMember)
+        {
+            // User in a guild
+            this.setTargetType(ListenerTargetTypes.USER)
+            !this.guildId && this.setGuild(target.guild)
+        }
+        else if (target instanceof Discord.User)
+        {
+            // User not in a guild
+            this.setTargetType(ListenerTargetTypes.USER)
+        }
+
+        // Discord Message
+        else if (target instanceof Discord.Message)
+        {
+            this.setTargetType(ListenerTargetTypes.MESSAGE)
+            !this.guildId && target.guild && this.setGuild(target.guild)
+            !this.channelId && this.setChannel(target.channel)
+        }
+
+        this.setTargetId(target.id)
         return this
     }
 

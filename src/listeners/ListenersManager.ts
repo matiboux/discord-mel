@@ -81,24 +81,18 @@ class ListenersManager
 	/**
 	 * Register a new listener for a target object
 	 *
-	 * @param object Target object
+	 * @param target Target object
 	 * @param dbListener Listener register object
 	 */
-	public async addFor(object: Discord.Message | Discord.Channel | Discord.Guild | Discord.User | Discord.GuildMember,
+	public async addFor(target: Discord.Guild | Discord.Channel | Discord.GuildMember | Discord.User | Discord.Message,
 	                    dbListener: AbstractListenerRegister,
 	                    )
 	{
-		if (!dbListener.guildId)
+		if (!dbListener.targetId)
 		{
-			dbListener.setGuild((object as { guild: Discord.Guild | undefined }).guild)
+			// Save target object information in the listener register
+			dbListener.setTarget(target)
 		}
-
-		if (!dbListener.channelId)
-		{
-			dbListener.setChannel((object as { channel: Discord.Channel | undefined }).channel)
-		}
-
-		// TODO: Save object information in the listener register
 
 		return this.add(dbListener)
 	}
