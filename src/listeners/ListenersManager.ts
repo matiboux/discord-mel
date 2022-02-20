@@ -204,12 +204,19 @@ class ListenersManager
 
 		if (handler instanceof MessageHandler)
 		{
+			if (!dbListener.targetId)
+			{
+				return Promise.reject(new Error('Cannot register MessageReactionListener: Target user or channel not specified'))
+			}
+
 			// Listen to messages from a user
-			const user = await this.bot.client.users.fetch(objectID).catch(() => undefined)
+			const user = await this.bot.client.users.fetch(dbListener.targetId).catch(() => undefined)
 			if (!user)
 			{
 				return Promise.reject(new Error('Cannot register MessageReactionListener: User not found'))
 			}
+
+			// TODO: Add support for listening a channel instead of a user
 
 			// Register the listener
 			const jsListener = new MessageListener(this.bot, handler, user)
@@ -224,6 +231,11 @@ class ListenersManager
 				return Promise.reject(new Error('Cannot register MessageReactionListener: Missing channel ID'))
 			}
 
+			if (!dbListener.targetId)
+			{
+				return Promise.reject(new Error('Cannot register MessageReactionListener: Missing target message ID'))
+			}
+
 			// Listen to reactions on a message
 			const channel =
 				(await this.bot.client.channels.fetch(dbListener.channelId)
@@ -235,7 +247,7 @@ class ListenersManager
 				return Promise.reject(new Error('Cannot register MessageReactionListener: Channel not found'))
 			}
 
-			const message = await channel.messages.fetch(objectID).catch(() => undefined)
+			const message = await channel.messages.fetch(dbListener.targetId).catch(() => undefined)
 			if (!message?.id)
 			{
 				return Promise.reject(new Error('Cannot register MessageReactionListener: Message not found'))
