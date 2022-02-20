@@ -69,6 +69,7 @@ abstract class AbstractListenerRegister extends DBListener
         {
             // Guild
             this.setTargetType(ListenerTargetTypes.GUILD)
+            !this.guildId && this.setGuild(target.id)
         }
 
         // Discord Channel
@@ -77,11 +78,13 @@ abstract class AbstractListenerRegister extends DBListener
             // Channel in a guild
             this.setTargetType(ListenerTargetTypes.CHANNEL)
             !this.guildId && this.setGuild(target.guild)
+            !this.channelId && this.setChannel(target.id)
         }
         else if (target instanceof Discord.Channel)
         {
             // Channel not in a guild
             this.setTargetType(ListenerTargetTypes.CHANNEL)
+            !this.channelId && this.setChannel(target.id)
         }
 
         // Discord User
