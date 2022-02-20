@@ -212,20 +212,12 @@ class ListenersManager
 
 			if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
 			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Target channel not supported'))
-
-				// // Listen to messages from a channel
-				// const channel = await this.bot.client.channels.fetch(dbListener.targetId).catch(() => undefined)
-				// if (!channel)
-				// {
-				// 	return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target channel'))
-				// }
-
-				// // Register the listener
-				// const jsListener = new MessageListener(this.bot, handler, channel)
-				// this.listeners.set(listenerId, jsListener)
-
-				// return Promise.resolve(jsListener)
+				// Listen to messages from a channel
+				const channel = await this.bot.client.channels.fetch(dbListener.targetId).catch(() => undefined)
+				if (!channel)
+				{
+					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target channel'))
+				}
 			}
 			else if (dbListener.targetType === ListenerTargetTypes.USER)
 			{
@@ -235,13 +227,13 @@ class ListenersManager
 				{
 					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target user'))
 				}
-
-				// Register the listener
-				const jsListener = new MessageListener(listenerId, this.bot, handler, user)
-				this.listeners.set(listenerId, jsListener)
-
-				return Promise.resolve(jsListener)
 			}
+
+			// Register the listener
+			const jsListener = new MessageListener(listenerId, this.bot, handler)
+			this.listeners.set(listenerId, jsListener)
+
+			return Promise.resolve(jsListener)
 		}
 		else if (handler instanceof MessageReactionHandler)
 		{

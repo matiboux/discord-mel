@@ -4,6 +4,7 @@ import Mel from '../Mel'
 import AbstractListener from './AbstractListener'
 import MessageHandler from './handler/MessageHandler'
 import ListenerTypes from './ListenerTypes'
+import ListenerTargetTypes from './register/ListenerTargetTypes'
 
 class MessageListener extends AbstractListener
 {
@@ -11,15 +12,15 @@ class MessageListener extends AbstractListener
 
     public readonly handler: MessageHandler
 
-    public readonly user: Discord.User
+    // public readonly user: Discord.Channel | Discord.User
 
-	public constructor(listenerId: string, bot: Mel, handler: MessageHandler, user: Discord.User)
+	public constructor(listenerId: string, bot: Mel, handler: MessageHandler) // , user: Discord.User)
 	{
 		super(listenerId, ListenerTypes.MESSAGE)
 
 		this.bot = bot
 		this.handler = handler
-		this.user = user
+		// this.user = user
 
 		this.bot.hooks.add('messageCreate', this.onMessageCreate.bind(this))
 	}
@@ -27,9 +28,28 @@ class MessageListener extends AbstractListener
 	protected async onMessageCreate(message: Discord.Message): Promise<void>
 	{
 		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
-		if (!dbListener || dbListener.targetId !== message.author.id)
+		if (!dbListener)
 		{
-			return // Not listening on this channel
+			return // Invalid listener
+		}
+
+		if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
+		{
+			if (dbListener.targetId !== message.channel.id)
+			{
+				return // Not listening to this channel
+			}
+		}
+		else if (dbListener.targetType === ListenerTargetTypes.USER)
+		{
+			if (dbListener.targetId !== message.author.id)
+			{
+				return // Not listening to this user
+			}
+		}
+		else
+		{
+			return // Unsupported target type
 		}
 
 		this.collect(message)
