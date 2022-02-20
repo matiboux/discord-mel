@@ -12,16 +12,13 @@ abstract class AbstractState<DB extends IBaseDB>
 
 	protected stateFile?: string
 
-	protected _db: DB
+	protected _db!: DB
 
 	protected accessed: boolean = false
 
 	public constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		this.stateFile = stateFile
-
-		// Default properties initialization
-		this._db = {} as DB
 
 		// Initialize properties
 		this.initProperties()
