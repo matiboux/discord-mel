@@ -9,6 +9,8 @@ import MessageReactionHandler from './handler/MessageReactionHandler'
 import MessageReactionListener from './MessageReactionListener'
 import AbstractListenerRegister from './register/AbstractListenerRegister'
 import AbstractHandler from './handler/AbstractHandler'
+import MessageHandler from './handler/MessageHandler'
+import MessageListener from './MessageListener'
 
 type ObjectType = Snowflake | Discord.Message
 
@@ -189,7 +191,22 @@ class ListenersManager
 			dbListener.collected = []
 		}
 
-		if (handler instanceof MessageReactionHandler)
+		if (handler instanceof MessageHandler)
+		{
+			// Listen to messages from a user
+			const user = await this.bot.client.users.fetch(objectID).catch(() => undefined)
+			if (!user)
+			{
+				return Promise.reject(new Error('Cannot register MessageReactionListener: User not found'))
+			}
+
+			const jsListener = new MessageListener(this.bot, handler, user)
+
+			this.listeners.set(objectID, jsListener)
+
+			return Promise.resolve(jsListener)
+		}
+		else if (handler instanceof MessageReactionHandler)
 		{
 			if (!dbListener.channelID)
 			{

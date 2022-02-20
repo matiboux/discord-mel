@@ -1,5 +1,6 @@
 enum ListenerTypes
 {
+    MESSAGE = 'message',
     MESSAGE_REACTION = 'messageReaction',
 }
 
