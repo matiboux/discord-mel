@@ -1,9 +1,7 @@
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders'
 import Discord, { PermissionResolvable } from 'discord.js'
-import { Translator } from '..'
 
 import Mel from '../Mel'
-import Logger from '../logger/Logger'
 import AbstractHandler from '../listeners/handler/AbstractHandler'
 
 type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
@@ -11,8 +9,6 @@ type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 class AbstractCommand
 {
 	protected bot: Mel
-	protected logger: Logger
-	protected translator: Translator
 
 	name: string
 	description?: string
@@ -39,18 +35,12 @@ class AbstractCommand
 	constructor(bot: Mel, name?: string)
 	{
 		if (name === undefined)
+		{
 			throw new Error('You have to specify a command name')
+		}
 
 		this.bot = bot
-		this.logger = this.bot?.logger || new Logger()
-		this.translator = this.bot?.translator || new Translator()
-
 		this.name = name
-	}
-
-	protected get state()
-	{
-		return this.bot.state
 	}
 
 	/**
@@ -63,7 +53,9 @@ class AbstractCommand
 		{
 			// Check that the message is from a guild member
 			if (!message.member)
+			{
 				return false
+			}
 		}
 
 		return true
@@ -78,17 +70,25 @@ class AbstractCommand
 		if (message.member)
 		{
 			// Check for required member permissions
-			if (!this.permissions.every(permission =>
+			const permissionsCheck = this.permissions.every(permission =>
+				{
+					let permissions = message.member?.permissions
+					if (!permissions)
 					{
-						let permissions = message.member?.permissions
-						if (!permissions) return false
+						return false
+					}
 
-						if (typeof permissions === 'string')
-							permissions = new Discord.Permissions(permissions as `${bigint}`)
+					if (typeof permissions === 'string')
+					{
+						permissions = new Discord.Permissions(permissions as `${bigint}`)
+					}
 
-						return permissions.has(permission)
-					}))
+					return permissions.has(permission)
+				})
+			if (!permissionsCheck)
+			{
 				return false
+			}
 		}
 
 		return true
@@ -123,7 +123,7 @@ class AbstractCommand
 	 */
 	async onNotEnabled(object: Discord.Message | Discord.Interaction)
 	{
-		this.logger.warn(this.translator?.translate('commands.run.not_enabled', {
+		this.bot.logger.warn(this.bot.translator?.translate('commands.run.not_enabled', {
 				'%name%': this.name
 			}), this.constructor.name)
 	}
@@ -137,12 +137,12 @@ class AbstractCommand
 		if (reply && (object instanceof Discord.Message
 		              || object instanceof Discord.BaseCommandInteraction))
 		{
-			const content = this.translator?.translate('commands.reply.not_allowed')
+			const content = this.bot.translator?.translate('commands.reply.not_allowed')
 			if (content)
 				object.reply({ content, ephemeral: true })
 		}
 
-		this.logger.warn(this.translator?.translate('commands.run.not_allowed', {
+		this.bot.logger.warn(this.bot.translator?.translate('commands.run.not_allowed', {
 				'%name%': this.name
 			}), this.constructor.name)
 	}
@@ -156,12 +156,12 @@ class AbstractCommand
 		if (reply && (object instanceof Discord.Message
 		              || object instanceof Discord.BaseCommandInteraction))
 		{
-			const content = this.translator?.translate('commands.reply.not_allowed')
+			const content = this.bot.translator?.translate('commands.reply.not_allowed')
 			if (content)
 				object.reply({ content, ephemeral: true })
 		}
 
-		this.logger.error(this.translator?.translate('commands.run.error', {
+		this.bot.logger.error(this.bot.translator?.translate('commands.run.error', {
 				'%name%': this.name
 			}), this.constructor.name)
 	}
