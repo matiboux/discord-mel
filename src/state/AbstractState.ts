@@ -5,14 +5,14 @@ import serialize from '../functions/serialize'
 import unserialize from '../functions/unserialize'
 import IBaseDB from './db/IBaseDB'
 
-abstract class AbstractState<DBType extends IBaseDB>
+abstract class AbstractState<DB extends IBaseDB>
 {
 	public static readonly serialize = serialize
 	public static readonly unserialize = unserialize
 
 	protected stateFile?: string
 
-	protected _db: DBType
+	protected _db: DB
 
 	protected accessed: boolean = false
 
@@ -21,14 +21,16 @@ abstract class AbstractState<DBType extends IBaseDB>
 		this.stateFile = stateFile
 
 		// Default properties initialization
-		this._db = {} as DBType
+		this._db = {} as DB
 
 		// Initialize properties
 		this.initProperties()
 
 		// Check for properties being initialized
 		if (!this._db)
-			throw new Error('State database object is not defined');
+		{
+			throw new Error('State database object is not defined')
+		}
 
 		// Create the storage file if it does not exist
 		if (stateFile)
@@ -53,13 +55,13 @@ abstract class AbstractState<DBType extends IBaseDB>
 		throw new Error(`Method 'initProperties' is not implemented`)
 	}
 
-	public get db(): DBType
+	public get db(): DB
 	{
 		this.accessed = true
 		return this._db
 	}
 
-	public async setState(callback: (state: DBType) => void): Promise<void>
+	public async setState(callback: (state: DB) => void): Promise<void>
 	{
 		callback(this._db)
 
@@ -84,7 +86,7 @@ abstract class AbstractState<DBType extends IBaseDB>
 		this.accessed = false
 	}
 
-	public async saveBackup(db: DBType = this._db): Promise<void>
+	public async saveBackup(db: DB = this._db): Promise<void>
 	{
 		if (!this.stateFile)
 			throw new Error('State file not found')
