@@ -18,6 +18,7 @@ class MessageReactionListener extends AbstractListener
 	public constructor(bot: Mel, handler: MessageReactionHandler, message: Discord.Message, collector: Discord.ReactionCollector)
 	{
 		super(ListenerTypes.MESSAGE_REACTION)
+
 		this.bot = bot
 		this.handler = handler
 		this.message = message
@@ -52,7 +53,7 @@ class MessageReactionListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id}`, 'MessageReactionHandler')
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id}`, 'MessageReactionListener')
 		this.handler.on.collect?.(this.message, reaction, user)
 	}
 
@@ -82,8 +83,8 @@ class MessageReactionListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id}`, 'MessageReactionHandler')
-		this.handler.on.remove?.(this.message, reaction, user);
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id}`, 'MessageReactionListener')
+		this.handler.on.remove?.(this.message, reaction, user)
 	}
 
 	protected async onDispose(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
@@ -93,17 +94,17 @@ class MessageReactionListener extends AbstractListener
 			return
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id}`, 'MessageReactionHandler')
-		this.handler.on.dispose?.(this.message, reaction, user);
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id}`, 'MessageReactionListener')
+		this.handler.on.dispose?.(this.message, reaction, user)
 	}
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
-		this.handler.on.end?.(this.message, collected, reason);
+		this.handler.on.end?.(this.message, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Reaction collection ended on message ${this.message.id}`, 'MessageReactionHandler')
-		this.bot.listeners.delete(this.message.id);
+		this.bot.logger.debug(`Reaction collection ended on message ${this.message.id}`, 'MessageReactionListener')
+		this.bot.listeners.delete(this.message.id)
 	}
 
 	public delete()
