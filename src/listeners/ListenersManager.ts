@@ -10,6 +10,7 @@ import AbstractListenerRegister from './register/AbstractListenerRegister'
 import AbstractHandler from './handler/AbstractHandler'
 import MessageHandler from './handler/MessageHandler'
 import MessageListener from './MessageListener'
+import ListenerTargetTypes from './register/ListenerTargetTypes'
 
 class ListenersManager
 {
@@ -209,17 +210,27 @@ class ListenersManager
 				return Promise.reject(new Error('Cannot register MessageReactionListener: Target user or channel not specified'))
 			}
 
-			// Listen to messages from a user
-			const user = await this.bot.client.users.fetch(dbListener.targetId).catch(() => undefined)
-			if (!user)
+			if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
 			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: User not found'))
+				// Listen to messages from a channel
+				const channel = await this.bot.client.channels.fetch(dbListener.targetId).catch(() => undefined)
+				if (!channel)
+				{
+					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target channel'))
+				}
+			}
+			else if (dbListener.targetType === ListenerTargetTypes.USER)
+			{
+				// Listen to messages from a user
+				const user = await this.bot.client.users.fetch(dbListener.targetId).catch(() => undefined)
+				if (!user)
+				{
+					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target user'))
+				}
 			}
 
-			// TODO: Add support for listening a channel instead of a user
-
 			// Register the listener
-			const jsListener = new MessageListener(this.bot, handler, user)
+			const jsListener = new MessageListener(listenerId, this.bot, handler)
 			this.listeners.set(listenerId, jsListener)
 
 			return Promise.resolve(jsListener)
@@ -269,7 +280,7 @@ class ListenersManager
 			const collector = message.createReactionCollector({ filter, ...options })
 
 			// Save the registered listener
-			const jsListener = new MessageReactionListener(this.bot, handler, message, collector)
+			const jsListener = new MessageReactionListener(listenerId, this.bot, handler, message, collector)
 			this.listeners.set(listenerId, jsListener)
 
 			return Promise.resolve(jsListener)

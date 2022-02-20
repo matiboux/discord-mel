@@ -4,6 +4,7 @@ import Mel from '../Mel'
 import AbstractListener from './AbstractListener'
 import MessageHandler from './handler/MessageHandler'
 import ListenerTypes from './ListenerTypes'
+import ListenerTargetTypes from './register/ListenerTargetTypes'
 
 class MessageListener extends AbstractListener
 {
@@ -11,33 +12,52 @@ class MessageListener extends AbstractListener
 
     public readonly handler: MessageHandler
 
-    public readonly user: Discord.User
+    // public readonly user: Discord.Channel | Discord.User
 
-	public constructor(bot: Mel, handler: MessageHandler, user: Discord.User)
+	public constructor(listenerId: string, bot: Mel, handler: MessageHandler) // , user: Discord.User)
 	{
-		super(ListenerTypes.MESSAGE)
+		super(listenerId, ListenerTypes.MESSAGE)
 
 		this.bot = bot
 		this.handler = handler
-		this.user = user
+		// this.user = user
 
 		this.bot.hooks.add('messageCreate', this.onMessageCreate.bind(this))
 	}
 
 	protected async onMessageCreate(message: Discord.Message): Promise<void>
 	{
-		const jsListener = this.bot.listeners.get(message.author.id) as MessageListener | undefined
-		if (!jsListener)
+		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
+		if (!dbListener)
 		{
-			return // Not listening on this channel
+			return // Invalid listener
 		}
 
-		jsListener.collect(message)
+		if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
+		{
+			if (dbListener.targetId !== message.channel.id)
+			{
+				return // Not listening to this channel
+			}
+		}
+		else if (dbListener.targetType === ListenerTargetTypes.USER)
+		{
+			if (dbListener.targetId !== message.author.id)
+			{
+				return // Not listening to this user
+			}
+		}
+		else
+		{
+			return // Unsupported target type
+		}
+
+		this.collect(message)
 	}
 
 	public async collect(message: Discord.Message)
 	{
-		const dbListener = this.bot.state.db.listeners.get(this.user.id)
+		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
 		if (!dbListener)
 		{
 			return
@@ -71,8 +91,8 @@ class MessageListener extends AbstractListener
 		this.handler.on.end?.(reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Message listener ended for user ${this.user.id}`, 'MessageListener')
-		this.bot.listeners.delete(this.user.id)
+		this.bot.logger.debug(`Message listener ended (id: ${this.listenerId})`, 'MessageListener')
+		this.bot.listeners.delete(this.listenerId)
 	}
 
 	public delete()

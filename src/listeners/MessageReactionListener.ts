@@ -15,9 +15,9 @@ class MessageReactionListener extends AbstractListener
 
     public readonly collector: Discord.ReactionCollector
 
-	public constructor(bot: Mel, handler: MessageReactionHandler, message: Discord.Message, collector: Discord.ReactionCollector)
+	public constructor(listenerId: string, bot: Mel, handler: MessageReactionHandler, message: Discord.Message, collector: Discord.ReactionCollector)
 	{
-		super(ListenerTypes.MESSAGE_REACTION)
+		super(listenerId, ListenerTypes.MESSAGE_REACTION)
 
 		this.bot = bot
 		this.handler = handler
@@ -41,7 +41,7 @@ class MessageReactionListener extends AbstractListener
 
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.message, reaction, user)))
 		{
-			const dbListener = this.bot.state.db.listeners.get(this.message.id)
+			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
 
 			if (!dbListener || dbListener.collected.includes(user.id))
 			{
@@ -66,7 +66,7 @@ class MessageReactionListener extends AbstractListener
 
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.message, reaction, user)))
 		{
-			const dbListener = this.bot.state.db.listeners.get(this.message.id)
+			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
 
 			if (!dbListener)
 			{
@@ -103,8 +103,8 @@ class MessageReactionListener extends AbstractListener
 		this.handler.on.end?.(this.message, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Reaction collection ended on message ${this.message.id}`, 'MessageReactionListener')
-		this.bot.listeners.delete(this.message.id)
+		this.bot.logger.debug(`Reaction collection ended (id: ${this.listenerId})`, 'MessageReactionListener')
+		this.bot.listeners.delete(this.listenerId)
 	}
 
 	public delete()
