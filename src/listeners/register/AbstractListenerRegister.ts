@@ -39,13 +39,25 @@ abstract class AbstractListenerRegister extends DBListener
 
     public setGuild(guild?: Snowflake | Discord.Guild): this
     {
-        this.guildID = typeof guild === 'string' ? guild : guild?.id
+        this.guildId = typeof guild === 'string' ? guild : guild?.id
         return this
     }
 
     public setChannel(channel?: Snowflake | Discord.Channel): this
     {
-        this.channelID = typeof channel === 'string' ? channel : channel?.id
+        this.channelId = typeof channel === 'string' ? channel : channel?.id
+        return this
+    }
+
+    public setTargetType(targetType?: string): this
+    {
+        this.targetType = targetType
+        return this
+    }
+
+    public setTargetId(targetId?: Snowflake): this
+    {
+        this.targetId = targetId
         return this
     }
 

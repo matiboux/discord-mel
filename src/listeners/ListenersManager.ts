@@ -88,14 +88,14 @@ class ListenersManager
 	                    dbListener: AbstractListenerRegister,
 	                    )
 	{
-		if (!dbListener.guildID)
+		if (!dbListener.guildId)
 		{
-			dbListener.guildID = (object as { guild: Discord.Guild | undefined }).guild?.id
+			dbListener.setGuild((object as { guild: Discord.Guild | undefined }).guild)
 		}
 
-		if (!dbListener.channelID)
+		if (!dbListener.channelId)
 		{
-			dbListener.channelID = (object as { channel: Discord.Channel | undefined }).channel?.id
+			dbListener.setChannel((object as { channel: Discord.Channel | undefined }).channel)
 		}
 
 		// TODO: Save object information in the listener register
@@ -225,14 +225,14 @@ class ListenersManager
 		}
 		else if (handler instanceof MessageReactionHandler)
 		{
-			if (!dbListener.channelID)
+			if (!dbListener.channelId)
 			{
 				return Promise.reject(new Error('Cannot register MessageReactionListener: Missing channel ID'))
 			}
 
 			// Listen to reactions on a message
 			const channel =
-				(await this.bot.client.channels.fetch(dbListener.channelID)
+				(await this.bot.client.channels.fetch(dbListener.channelId)
 					.catch(() => undefined)
 				) as (Discord.Channel & { messages: undefined }) | Discord.TextBasedChannels | undefined
 
