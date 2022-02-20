@@ -1,3 +1,4 @@
+import { Snowflake } from 'discord-api-types'
 import AbstractDBType from './AbstractDBType'
 
 class Listener extends AbstractDBType
@@ -12,9 +13,13 @@ class Listener extends AbstractDBType
 
     public idleTimeout?: number
 
-    public guildID?: string
+    public guildId?: Snowflake
 
-    public channelID?: string
+    public channelId?: Snowflake
+
+    public targetType?: string
+
+    public targetId?: Snowflake
 
     public data!: { [key: string]: any }
 
