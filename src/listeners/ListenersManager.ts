@@ -237,7 +237,7 @@ class ListenersManager
 				}
 
 				// Register the listener
-				const jsListener = new MessageListener(this.bot, handler, user)
+				const jsListener = new MessageListener(listenerId, this.bot, handler, user)
 				this.listeners.set(listenerId, jsListener)
 
 				return Promise.resolve(jsListener)
@@ -288,7 +288,7 @@ class ListenersManager
 			const collector = message.createReactionCollector({ filter, ...options })
 
 			// Save the registered listener
-			const jsListener = new MessageReactionListener(this.bot, handler, message, collector)
+			const jsListener = new MessageReactionListener(listenerId, this.bot, handler, message, collector)
 			this.listeners.set(listenerId, jsListener)
 
 			return Promise.resolve(jsListener)
