@@ -1,5 +1,4 @@
 import Discord from 'discord.js'
-import { Snowflake } from 'discord-api-types'
 
 import Translator from '../Translator'
 import Logger from '../logger/Logger'
@@ -12,11 +11,9 @@ import AbstractHandler from './handler/AbstractHandler'
 import MessageHandler from './handler/MessageHandler'
 import MessageListener from './MessageListener'
 
-type ObjectType = Snowflake | Discord.Message
-
 class ListenersManager
 {
-	protected readonly listeners: Map<Snowflake, AbstractListener> = new Map<Snowflake, AbstractListener>()
+	protected readonly listeners: Map<string, AbstractListener> = new Map<string, AbstractListener>()
 
 	protected bot: Mel
 	protected logger: Logger
@@ -32,97 +29,118 @@ class ListenersManager
 	}
 
 	/**
+	 * Generate a listener id that is currently not in use
+	 */
+	protected generateId(): string
+	{
+		for (let i = 0; i < 5; ++i)
+		{
+			const listenerId = Math.random().toString(36).substring(2)
+			if (!this.listeners.has(listenerId))
+			{
+				// Generated listener id is not used
+				return listenerId
+			}
+		}
+
+		throw new Error('Failed to generate a unique listener id')
+	}
+
+	/**
 	 * Register a new listener
 	 *
-	 * @param object Object or Object ID
+	 * @param dbListener Listener register object
 	 */
-	public async add(object: ObjectType, dbListener: AbstractListenerRegister)
+	public async add(dbListener: AbstractListenerRegister)
 	{
-		const objectId = typeof object === 'string' ? object : object.id;
+		// Generate a listener id
+		const listenerId = this.generateId()
 
-		if (!objectId)
-		{
-			this.logger.error('Cannot create listener: invalid object or object id', 'ListenersManager')
-			return
-		}
+		// Save the listener
+		this.bot.state.db.listeners.set(listenerId, dbListener)
 
-		if (this.listeners.has(objectId))
-		{
-			this.logger.warn(`Overwriting listener on the object ${objectId}`, 'ListenersManager')
-			this.delete(objectId)
-		}
-
-		if (typeof object !== 'string')
-		{
-			if (!dbListener.guildID)
-			{
-				dbListener.guildID = object.guild?.id
-			}
-
-			if (!dbListener.channelID)
-			{
-				dbListener.channelID = object.channel?.id
-			}
-		}
-
-		this.bot.state.db.listeners.set(objectId, dbListener)
-
-		return this.registerSingle(objectId)
+		// Register the listener
+		return this.registerSingle(listenerId)
 			.then(listener =>
 				{
-					this.logger.info(`Listener ${listener.constructor.name} registered on the object ${objectId}`, 'ListenersManager')
+					this.logger.info(`Listener ${listener.constructor.name} registered (id: ${listenerId})`, 'ListenersManager')
 					this.bot.state.save()
 
 					return Promise.resolve(listener)
 				})
 			.catch(error =>
 				{
-					this.logger.error(`Failed to register listener on the object ${objectId}`, 'ListenersManager')
-					this.bot.state.setState(db => db.listeners.delete(objectId))
-					this.listeners.delete(objectId)
+					this.logger.error(`Failed to register the listener (id: ${listenerId})`, 'ListenersManager')
+					this.bot.state.setState(db => db.listeners.delete(listenerId))
+					this.listeners.delete(listenerId)
 
 					return Promise.reject(error)
 				})
 	}
 
-	public get(objectId: Snowflake): AbstractListener | undefined
+	/**
+	 * Register a new listener for a target object
+	 *
+	 * @param object Target object
+	 * @param dbListener Listener register object
+	 */
+	public async addFor(object: Discord.Message | Discord.Channel | Discord.Guild | Discord.User | Discord.GuildMember,
+	                    dbListener: AbstractListenerRegister,
+	                    )
 	{
-		return this.listeners.get(objectId)
+		if (!dbListener.guildID)
+		{
+			dbListener.guildID = (object as { guild: Discord.Guild | undefined }).guild?.id
+		}
+
+		if (!dbListener.channelID)
+		{
+			dbListener.channelID = (object as { channel: Discord.Channel | undefined }).channel?.id
+		}
+
+		// TODO: Save object information in the listener register
+
+		return this.add(dbListener)
 	}
 
-	public has(objectId: Snowflake): boolean
+	public get(listenerId: string): AbstractListener | undefined
 	{
-		return this.listeners.has(objectId) // this.bot.state.db.listeners.has(objectID)
+		return this.listeners.get(listenerId)
 	}
 
-	public delete(objectId: Snowflake): void
+	public has(listenerId: string): boolean
 	{
-		const listener = this.listeners.get(objectId)
+		return this.listeners.has(listenerId)
+	}
+
+	public delete(listenerId: string): void
+	{
+		const listener = this.listeners.get(listenerId)
 		if (listener)
 		{
 			// if (typeof this.bot.state.js.delete === 'function') this.bot.state.js.delete()
 			listener.delete?.()
 
-			this.logger.info(`Listener ${listener.constructor.name} deleted from the object ${objectId}`, 'ListenersManager')
-			this.bot.state.setState(db => db.listeners.delete(objectId))
-			this.listeners.delete(objectId)
+			this.logger.info(`Listener ${listener.constructor.name} deleted (id: ${listenerId})`, 'ListenersManager')
+			this.bot.state.setState(db => db.listeners.delete(listenerId))
+			this.listeners.delete(listenerId)
 		}
 	}
 
 	protected async register(): Promise<void>
 	{
 		let registeredListeners = 0
-		const promises = Array.from(this.bot.state.db.listeners.keys()).map(async objectId =>
+		const promises = Array.from(this.bot.state.db.listeners.keys()).map(async listenerId =>
 			{
-				const registered = await this.registerSingle(objectId).then(() => true).catch(() => false)
+				const registered = await this.registerSingle(listenerId).then(() => true).catch(() => false)
 				if (registered)
 				{
 					++registeredListeners
 				}
 				else
 				{
-					console.error(`Failed to register the listener on ${objectId}`)
-					this.bot.state.db.listeners.delete(objectId)
+					this.logger.error(`Failed to register the listener (id: ${listenerId})`, 'ListenersManager')
+					this.bot.state.db.listeners.delete(listenerId)
 					this.bot.state.save()
 				}
 			})
@@ -136,25 +154,24 @@ class ListenersManager
 	}
 
 	// Returns true if the listener was registered
-	protected async registerSingle(objectID: Snowflake)
+	protected async registerSingle(listenerId: string)
 	{
-		if (!objectID)
-		{
-			return Promise.reject(new Error())
-		}
-
-		const existingJsListener = this.listeners.get(objectID)
+		const existingJsListener = this.listeners.get(listenerId)
 		if (existingJsListener)
 		{
 			// Already registered
 			return Promise.resolve(existingJsListener)
 		}
 
-		const dbListener = this.bot.state.db.listeners.get(objectID)
-
-		if (!dbListener || !dbListener.type || !dbListener.command)
+		const dbListener = this.bot.state.db.listeners.get(listenerId)
+		if (!dbListener)
 		{
-			return Promise.reject(new Error('Cannot register listener: missing type or handler'))
+			return Promise.reject(new Error(`Cannot register listener: unknown listener (id: ${listenerId})`))
+		}
+
+		if (!dbListener.type || !dbListener.command)
+		{
+			return Promise.reject(new Error(`Cannot register listener: missing type or handler (id: ${listenerId})`))
 		}
 
 		const command = this.bot.commands.get(dbListener.command)
@@ -183,7 +200,7 @@ class ListenersManager
 
 		if (!handler)
 		{
-			return Promise.reject(new Error('Cannot register listener: Invalid handler'))
+			return Promise.reject(new Error(`Cannot register listener: Invalid handler (id: ${listenerId})`))
 		}
 
 		if (!Array.isArray(dbListener.collected))
@@ -200,9 +217,9 @@ class ListenersManager
 				return Promise.reject(new Error('Cannot register MessageReactionListener: User not found'))
 			}
 
+			// Register the listener
 			const jsListener = new MessageListener(this.bot, handler, user)
-
-			this.listeners.set(objectID, jsListener)
+			this.listeners.set(listenerId, jsListener)
 
 			return Promise.resolve(jsListener)
 		}
@@ -244,9 +261,10 @@ class ListenersManager
 			}
 
 			const collector = message.createReactionCollector({ filter, ...options })
-			const jsListener = new MessageReactionListener(this.bot, handler, message, collector)
 
-			this.listeners.set(objectID, jsListener)
+			// Save the registered listener
+			const jsListener = new MessageReactionListener(this.bot, handler, message, collector)
+			this.listeners.set(listenerId, jsListener)
 
 			return Promise.resolve(jsListener)
 		}
