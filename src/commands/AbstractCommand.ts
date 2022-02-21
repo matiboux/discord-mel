@@ -17,13 +17,13 @@ class AbstractCommand
 	commandAliases: Set<string> = new Set<string>()
 
 	/** Application commands (interactions) */
-	applicationCommands: ApplicationCommand[] = []
+	applicationCommands: Set<ApplicationCommand> = new Set<ApplicationCommand>()
 
 	/** Components (interactions) */
 	componentIds: Set<string> = new Set<string>()
 
 	guildOnly: boolean = false
-	permissions: PermissionResolvable[] = []
+	permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
 
 	handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
 
@@ -70,7 +70,7 @@ class AbstractCommand
 		if (message.member)
 		{
 			// Check for required member permissions
-			const permissionsCheck = this.permissions.every(permission =>
+			const permissionsCheck = Array.from(this.permissions).every(permission =>
 				{
 					let permissions = message.member?.permissions
 					if (!permissions)
