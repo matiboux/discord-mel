@@ -3,6 +3,7 @@ import Discord from 'discord.js'
 import Translator from '../Translator'
 import Logger from '../logger/Logger'
 import Mel from '../Mel'
+import DBListener from '../state/db/types/Listener'
 import AbstractListener from './AbstractListener'
 import MessageReactionHandler from './handler/MessageReactionHandler'
 import MessageReactionListener from './MessageReactionListener'
@@ -58,7 +59,7 @@ class ListenersManager
 		const listenerId = this.generateId()
 
 		// Save the listener
-		this.bot.state.db.listeners.set(listenerId, dbListener)
+		this.bot.state.db.listeners.set(listenerId, new DBListener(dbListener))
 
 		// Register the listener
 		return this.registerSingle(listenerId)
