@@ -19,7 +19,27 @@ class MessageReactionListener extends AbstractListener
 
 		this.handler = handler
 		this.message = message
-		this.collector = collector
+
+		const dbListener = this.getDbListener()
+		if (!dbListener)
+		{
+			throw new Error('DB listener not found')
+		}
+
+		const filter = (reaction: Discord.MessageReaction, user: Discord.User) =>
+			handler.filter ? handler.filter(listenerId, message, reaction, user) : true
+
+		const options = handler.options
+		if (dbListener.timeout !== undefined && dbListener.timeout >= 0)
+		{
+			options.time = dbListener.timeout - Date.now()
+		}
+		if (dbListener.idleTimeout !== undefined && dbListener.idleTimeout >= 0)
+		{
+			options.idle = dbListener.idleTimeout
+		}
+
+		this.collector = message.createReactionCollector({ filter, ...options })
 
 		// Attach the handler to the collector
 		this.collector
@@ -64,22 +84,7 @@ class MessageReactionListener extends AbstractListener
 			throw new Error('Message not found')
 		}
 
-		const filter = (reaction: Discord.MessageReaction, user: Discord.User) =>
-			handler.filter ? handler.filter(listenerId, message, reaction, user) : true
-
-		const options = handler.options
-		if (dbListener.timeout !== undefined && dbListener.timeout >= 0)
-		{
-			options.time = dbListener.timeout - Date.now()
-		}
-		if (dbListener.idleTimeout !== undefined && dbListener.idleTimeout >= 0)
-		{
-			options.idle = dbListener.idleTimeout
-		}
-
-		const collector = message.createReactionCollector({ filter, ...options })
-
-		return new this(listenerId, bot, handler, message, collector)
+		return new this(listenerId, bot, handler, message)
 	}
 
 	protected async onCollect(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
