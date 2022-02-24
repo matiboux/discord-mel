@@ -2,23 +2,19 @@ import Discord from 'discord.js'
 
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listenerId: string, message: Discord.Message) => void
-
-type EndFunction = (listenerId: string, reason: string) => void
-
 class MessageHandlerEvents extends AbstractHandlerEvents
 {
-	public collect?: CollectFunction
+	public collect?: (message: Discord.Message) => void
 
-	public end?: EndFunction
+	public end?: (reason: string) => void
 
-	public setCollect(collectFunction?: CollectFunction): this
+	public setCollect(collectFunction?: (message: Discord.Message) => void): this
 	{
 		this.collect = collectFunction
 		return this
 	}
 
-	public setEnd(endFunction?: EndFunction): this
+	public setEnd(endFunction?: (reason: string) => void): this
 	{
 		this.end = endFunction
 		return this

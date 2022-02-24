@@ -34,12 +34,12 @@ class MessageReactionListener extends AbstractListener
 
 	protected async onCollect(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
 	{
-		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.listenerId, this.message, reaction, user))
+		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.message, reaction, user))
 		{
 			return
 		}
 
-		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.listenerId, this.message, reaction, user)))
+		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.message, reaction, user)))
 		{
 			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
 
@@ -54,17 +54,17 @@ class MessageReactionListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id}`, 'MessageReactionListener')
-		this.handler.on.collect?.(this.listenerId, this.message, reaction, user)
+		this.handler.on.collect?.(this.message, reaction, user)
 	}
 
 	protected async onRemove(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
 	{
-		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.listenerId, this.message, reaction, user))
+		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.message, reaction, user))
 		{
 			return
 		}
 
-		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.listenerId, this.message, reaction, user)))
+		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this.message, reaction, user)))
 		{
 			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
 
@@ -84,23 +84,23 @@ class MessageReactionListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id}`, 'MessageReactionListener')
-		this.handler.on.remove?.(this.listenerId, this.message, reaction, user)
+		this.handler.on.remove?.(this.message, reaction, user)
 	}
 
 	protected async onDispose(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
 	{
-		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.listenerId, this.message, reaction, user))
+		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.message, reaction, user))
 		{
 			return
 		}
 
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id}`, 'MessageReactionListener')
-		this.handler.on.dispose?.(this.listenerId, this.message, reaction, user)
+		this.handler.on.dispose?.(this.message, reaction, user)
 	}
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
-		this.handler.on.end?.(this.listenerId, this.message, collected, reason)
+		this.handler.on.end?.(this.message, collected, reason)
 
 		// Delete listener
 		this.bot.logger.debug(`Reaction collection ended (id: ${this.listenerId})`, 'MessageReactionListener')
@@ -109,7 +109,7 @@ class MessageReactionListener extends AbstractListener
 
 	public delete()
 	{
-		this.handler.on.delete?.(this.listenerId)
+		this.handler.on.delete?.()
 		this.collector.stop('delete')
 	}
 }

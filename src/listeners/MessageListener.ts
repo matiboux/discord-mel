@@ -74,8 +74,8 @@ class MessageListener extends AbstractListener
 			return
 		}
 
-		if ((this.handler.filter && !this.handler.filter(this.listenerId, message))
-			|| (this.handler.asyncfilter && !await this.handler.asyncfilter(this.listenerId, message)))
+		if ((this.handler.filter && !this.handler.filter(message))
+			|| (this.handler.asyncfilter && !await this.handler.asyncfilter(message)))
 		{
 			return
 		}
@@ -83,12 +83,12 @@ class MessageListener extends AbstractListener
 		dbListener.lastCallTime = Date.now()
 
 		this.bot.logger.debug(`Message ${message.id} by ${message.author.username} collected in channel ${message.channel.id}`, 'MessageListener')
-		this.handler.on.collect?.(this.listenerId, message)
+		this.handler.on.collect?.(message)
 	}
 
 	public end(reason: string)
 	{
-		this.handler.on.end?.(this.listenerId, reason)
+		this.handler.on.end?.(reason)
 
 		// Delete listener
 		this.bot.logger.debug(`Message listener ended (id: ${this.listenerId})`, 'MessageListener')
@@ -97,7 +97,7 @@ class MessageListener extends AbstractListener
 
 	public delete()
 	{
-		this.handler.on.delete?.(this.listenerId)
+		this.handler.on.delete?.()
 	}
 }
 

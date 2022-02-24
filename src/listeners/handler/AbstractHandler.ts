@@ -1,14 +1,12 @@
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type BaseFilterFunction = (listenerId: string, ...args: any[]) => boolean
-
 abstract class AbstractHandler
 {
-	public filter?: BaseFilterFunction
+	public filter?: Function
 
 	public readonly on!: AbstractHandlerEvents // Must be initialized in the child class
 
-	public setFilter(filterFunction?: BaseFilterFunction): this
+	public setFilter(filterFunction?: Function): this
 	{
 		this.filter = filterFunction
 		return this

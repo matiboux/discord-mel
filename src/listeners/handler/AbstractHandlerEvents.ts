@@ -1,10 +1,8 @@
-type DeleteFunction = (listenerId: string) => void
-
 abstract class AbstractHandlerEvents
 {
-	public delete?: DeleteFunction
+	public delete?: () => void
 
-	public setDelete(deleteFunction: DeleteFunction): this
+	public setDelete(deleteFunction: () => void): this
 	{
 		this.delete = deleteFunction
 		return this

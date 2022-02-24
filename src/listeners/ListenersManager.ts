@@ -266,7 +266,7 @@ class ListenersManager
 			}
 
 			const filter = (reaction: Discord.MessageReaction, user: Discord.User) =>
-				handler.filter ? handler.filter(listenerId, message, reaction, user) : true
+				handler.filter ? handler.filter(message, reaction, user) : true
 
 			const options = handler.options
 			if (dbListener.timeout !== undefined && dbListener.timeout >= 0)
