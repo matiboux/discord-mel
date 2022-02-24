@@ -53,7 +53,7 @@ class ListenersManager
 	 *
 	 * @param dbListener Listener register object
 	 */
-	public async add(dbListener: AbstractListenerRegister)
+	public async add(dbListener: AbstractListenerRegister): Promise<AbstractListener>
 	{
 		// Generate a listener id
 		const listenerId = this.generateId()
@@ -88,7 +88,7 @@ class ListenersManager
 	 */
 	public async addFor(target: Discord.Guild | Discord.Channel | Discord.GuildMember | Discord.User | Discord.Message,
 	                    dbListener: AbstractListenerRegister,
-	                    )
+	                    ): Promise<AbstractListener>
 	{
 		if (!dbListener.targetId)
 		{
@@ -150,7 +150,7 @@ class ListenersManager
 	}
 
 	// Returns true if the listener was registered
-	protected async registerSingle(listenerId: string)
+	protected async registerSingle(listenerId: string): Promise<AbstractListener>
 	{
 		const existingJsListener = this.listeners.get(listenerId)
 		if (existingJsListener)
