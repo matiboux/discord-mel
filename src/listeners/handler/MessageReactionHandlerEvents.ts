@@ -2,35 +2,43 @@ import Discord from 'discord.js'
 
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
+type CollectFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+
+type RemoveFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+
+type DisposeFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+
+type EndFunction = (listenerId: string, message: Discord.Message, collected: any[], reason: string) => void
+
 class MessageReactionHandlerEvents extends AbstractHandlerEvents
 {
-	public collect?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+	public collect?: CollectFunction
 
-	public remove?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+	public remove?: RemoveFunction
 
-	public dispose?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+	public dispose?: DisposeFunction
 
-	public end?: (message: Discord.Message, collected: any[], reason: string) => void
+	public end?: EndFunction
 
-	public setCollect(collectFunction?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void): this
+	public setCollect(collectFunction?: CollectFunction): this
 	{
 		this.collect = collectFunction
 		return this
 	}
 
-	public setRemove(removeFunction?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void): this
+	public setRemove(removeFunction?: RemoveFunction): this
 	{
 		this.remove = removeFunction
 		return this
 	}
 
-	public setDispose(disposeFunction?: (message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void): this
+	public setDispose(disposeFunction?: DisposeFunction): this
 	{
 		this.dispose = disposeFunction
 		return this
 	}
 
-	public setEnd(endFunction?: (message: Discord.Message, collected: any, reason: string) => void): this
+	public setEnd(endFunction?: EndFunction): this
 	{
 		this.end = endFunction
 		return this
