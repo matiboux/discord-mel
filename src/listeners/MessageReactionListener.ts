@@ -29,6 +29,59 @@ class MessageReactionListener extends AbstractListener
 			.on('end', this.onEnd.bind(this))
 	}
 
+	public static async create(listenerId: string, bot: Mel, handler: MessageReactionHandler): Promise<MessageReactionListener>
+	{
+		const dbListener = bot.state.db.listeners.get(listenerId)
+		if (!dbListener)
+		{
+			throw new Error('DB listener not found')
+		}
+
+		if (!dbListener.channelId)
+		{
+			throw new Error('Missing channel ID')
+		}
+
+		if (!dbListener.targetId)
+		{
+			throw new Error('Missing target message ID')
+		}
+
+		// Listen to reactions on a message
+		const channel =
+			(await bot.client.channels.fetch(dbListener.channelId)
+				.catch(() => undefined)
+			) as (Discord.Channel & { messages: undefined }) | Discord.TextBasedChannels | undefined
+
+		if (!channel || !channel.messages)
+		{
+			throw new Error('Channel not found')
+		}
+
+		const message = await channel.messages.fetch(dbListener.targetId).catch(() => undefined)
+		if (!message?.id)
+		{
+			throw new Error('Message not found')
+		}
+
+		const filter = (reaction: Discord.MessageReaction, user: Discord.User) =>
+			handler.filter ? handler.filter(listenerId, message, reaction, user) : true
+
+		const options = handler.options
+		if (dbListener.timeout !== undefined && dbListener.timeout >= 0)
+		{
+			options.time = dbListener.timeout - Date.now()
+		}
+		if (dbListener.idleTimeout !== undefined && dbListener.idleTimeout >= 0)
+		{
+			options.idle = dbListener.idleTimeout
+		}
+
+		const collector = message.createReactionCollector({ filter, ...options })
+
+		return new this(listenerId, bot, handler, message, collector)
+	}
+
 	protected async onCollect(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
 	{
 		if (this.handler.asyncfilter && !await this.handler.asyncfilter(this.listenerId, this.message, reaction, user))

@@ -206,88 +206,39 @@ class ListenersManager
 
 		if (handler instanceof MessageHandler)
 		{
-			if (!dbListener.targetId)
+			try
 			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Target user or channel not specified'))
-			}
+				// Register the listener
+				const jsListener = await MessageListener.create(listenerId, this.bot, handler)
+				this.listeners.set(listenerId, jsListener)
 
-			if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
+				return Promise.resolve(jsListener)
+			}
+			catch (error)
 			{
-				// Listen to messages from a channel
-				const channel = await this.bot.client.channels.fetch(dbListener.targetId).catch(() => undefined)
-				if (!channel)
-				{
-					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target channel'))
-				}
+				this.logger.error('Failed to register listener', 'MessageListener')
+				return Promise.reject(error)
 			}
-			else if (dbListener.targetType === ListenerTargetTypes.USER)
-			{
-				// Listen to messages from a user
-				const user = await this.bot.client.users.fetch(dbListener.targetId).catch(() => undefined)
-				if (!user)
-				{
-					return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target user'))
-				}
-			}
-
-			// Register the listener
-			const jsListener = new MessageListener(listenerId, this.bot, handler)
-			this.listeners.set(listenerId, jsListener)
-
-			return Promise.resolve(jsListener)
 		}
 		else if (handler instanceof MessageReactionHandler)
 		{
-			if (!dbListener.channelId)
+			try
 			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Missing channel ID'))
-			}
+				// Save the registered listener
+				const jsListener = await MessageReactionListener.create(listenerId, this.bot, handler)
+				this.listeners.set(listenerId, jsListener)
 
-			if (!dbListener.targetId)
+				return Promise.resolve(jsListener)
+			}
+			catch (error)
 			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Missing target message ID'))
+				this.logger.error('Failed to register listener', 'MessageReactionListener')
+				return Promise.reject(error)
 			}
-
-			// Listen to reactions on a message
-			const channel =
-				(await this.bot.client.channels.fetch(dbListener.channelId)
-					.catch(() => undefined)
-				) as (Discord.Channel & { messages: undefined }) | Discord.TextBasedChannels | undefined
-
-			if (!channel || !channel.messages)
-			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Channel not found'))
-			}
-
-			const message = await channel.messages.fetch(dbListener.targetId).catch(() => undefined)
-			if (!message?.id)
-			{
-				return Promise.reject(new Error('Cannot register MessageReactionListener: Message not found'))
-			}
-
-			const filter = (reaction: Discord.MessageReaction, user: Discord.User) =>
-				handler.filter ? handler.filter(listenerId, message, reaction, user) : true
-
-			const options = handler.options
-			if (dbListener.timeout !== undefined && dbListener.timeout >= 0)
-			{
-				options.time = dbListener.timeout - Date.now()
-			}
-			if (dbListener.idleTimeout !== undefined && dbListener.idleTimeout >= 0)
-			{
-				options.idle = dbListener.idleTimeout
-			}
-
-			const collector = message.createReactionCollector({ filter, ...options })
-
-			// Save the registered listener
-			const jsListener = new MessageReactionListener(listenerId, this.bot, handler, message, collector)
-			this.listeners.set(listenerId, jsListener)
-
-			return Promise.resolve(jsListener)
 		}
 
-		return Promise.reject(new Error());
+		this.logger.error(`Unsupported handler: ${typeof handler}`, 'ListenersManager')
+		return Promise.reject(new Error('Cannot register listener: Unsupported handler'))
 	}
 }
 

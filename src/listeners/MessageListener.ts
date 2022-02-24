@@ -22,6 +22,41 @@ class MessageListener extends AbstractListener
 		this.bot.hooks.add('messageCreate', this.onMessageCreate.bind(this))
 	}
 
+	public static async create(listenerId: string, bot: Mel, handler: MessageHandler): Promise<MessageListener>
+	{
+		const dbListener = bot.state.db.listeners.get(listenerId)
+		if (!dbListener)
+		{
+			throw new Error('DB listener not found')
+		}
+
+		if (!dbListener.targetId)
+		{
+			return Promise.reject(new Error('Cannot register MessageReactionListener: Target user or channel not specified'))
+		}
+
+		if (dbListener.targetType === ListenerTargetTypes.CHANNEL)
+		{
+			// Listen to messages from a channel
+			const channel = await bot.client.channels.fetch(dbListener.targetId).catch(() => undefined)
+			if (!channel)
+			{
+				return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target channel'))
+			}
+		}
+		else if (dbListener.targetType === ListenerTargetTypes.USER)
+		{
+			// Listen to messages from a user
+			const user = await bot.client.users.fetch(dbListener.targetId).catch(() => undefined)
+			if (!user)
+			{
+				return Promise.reject(new Error('Cannot register MessageReactionListener: Unknown target user'))
+			}
+		}
+
+		return new MessageListener(listenerId, bot, handler) // , user)
+	}
+
 	protected async onMessageCreate(message: Discord.Message): Promise<void>
 	{
 		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
