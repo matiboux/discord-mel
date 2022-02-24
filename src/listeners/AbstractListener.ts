@@ -1,4 +1,5 @@
 import Mel from '../Mel'
+import DBListener from '../state/db/types/Listener'
 import AbstractHandler from './handler/AbstractHandler'
 import ListenerTypes from './ListenerTypes'
 
@@ -17,6 +18,11 @@ abstract class AbstractListener
 		this.listenerId = listenerId
 		this.bot = bot
 		this.type = type
+	}
+
+	public get dbListener(): DBListener | undefined
+	{
+		return this.bot.state.db.listeners.get(this.listenerId)
 	}
 
 	public abstract delete(): void
