@@ -3,21 +3,25 @@ import Discord from 'discord.js'
 import AbstractHandler from './AbstractHandler'
 import MessageHandlerEvents from './MessageHandlerEvents'
 
+type FilterFunction = (listenerId: string, message: Discord.Message) => boolean
+
+type AsyncFilterFunction = (listenerId: string, message: Discord.Message) => Promise<boolean>
+
 class MessageHandler extends AbstractHandler
 {
-	public filter?: (message: Discord.Message) => boolean
+	public filter?: FilterFunction
 
-	public asyncfilter?: (message: Discord.Message) => Promise<boolean>
+	public asyncfilter?: AsyncFilterFunction
 
 	public readonly on: MessageHandlerEvents = new MessageHandlerEvents()
 
-	public setFilter(filterFunction?: (message: Discord.Message) => boolean): this
+	public setFilter(filterFunction?: FilterFunction): this
 	{
 		this.filter = filterFunction
 		return this
 	}
 
-	public setAsyncFilter(asyncfilterFunction?: (message: Discord.Message) => Promise<boolean>): this
+	public setAsyncFilter(asyncfilterFunction?: AsyncFilterFunction): this
 	{
 		this.asyncfilter = asyncfilterFunction
 		return this
