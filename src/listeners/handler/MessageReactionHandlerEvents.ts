@@ -1,15 +1,17 @@
 import Discord from 'discord.js'
 
-import AbstractListener from '../AbstractListener'
+import MessageReactionListener from '../MessageReactionListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type CollectFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type RemoveFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type RemoveFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type DisposeFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type DisposeFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type EndFunction = (listener: AbstractListener, message: Discord.Message, collected: any[], reason: string) => void
+type EndFunction = (listener: MessageReactionListener, message: Discord.Message, collected: any[], reason: string) => void
+
+type DeleteFunction = (listener: MessageReactionListener) => void
 
 class MessageReactionHandlerEvents extends AbstractHandlerEvents
 {
@@ -20,6 +22,8 @@ class MessageReactionHandlerEvents extends AbstractHandlerEvents
 	public dispose?: DisposeFunction
 
 	public end?: EndFunction
+
+	public delete?: DeleteFunction
 
 	public setCollect(collectFunction?: CollectFunction): this
 	{
@@ -42,6 +46,12 @@ class MessageReactionHandlerEvents extends AbstractHandlerEvents
 	public setEnd(endFunction?: EndFunction): this
 	{
 		this.end = endFunction
+		return this
+	}
+
+	public setDelete(deleteFunction: DeleteFunction): this
+	{
+		this.delete = deleteFunction
 		return this
 	}
 }

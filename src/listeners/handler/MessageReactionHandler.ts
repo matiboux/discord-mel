@@ -1,15 +1,15 @@
 import Discord from 'discord.js'
 
-import AbstractListener from '../AbstractListener'
+import MessageReactionListener from '../MessageReactionListener'
 import AbstractHandler from './AbstractHandler'
 import MessageReactionHandlerEvents from './MessageReactionHandlerEvents'
 import MessageReactionHandlerOptions from './MessageReactionHandlerOptions'
 
-type FilterFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
+type FilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
 
-type AsyncFilterFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => Promise<boolean>
+type AsyncFilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => Promise<boolean>
 
-type StoreFilterFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
+type StoreFilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
 
 class MessageReactionHandler extends AbstractHandler
 {

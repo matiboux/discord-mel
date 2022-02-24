@@ -1,17 +1,21 @@
 import Discord from 'discord.js'
 
-import AbstractListener from '../AbstractListener'
+import MessageListener from '../MessageListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listener: AbstractListener, message: Discord.Message) => void
+type CollectFunction = (listener: MessageListener, message: Discord.Message) => void
 
-type EndFunction = (listener: AbstractListener, reason: string) => void
+type EndFunction = (listener: MessageListener, reason: string) => void
+
+type DeleteFunction = (listener: MessageListener) => void
 
 class MessageHandlerEvents extends AbstractHandlerEvents
 {
 	public collect?: CollectFunction
 
 	public end?: EndFunction
+
+	public delete?: DeleteFunction
 
 	public setCollect(collectFunction?: CollectFunction): this
 	{
@@ -22,6 +26,12 @@ class MessageHandlerEvents extends AbstractHandlerEvents
 	public setEnd(endFunction?: EndFunction): this
 	{
 		this.end = endFunction
+		return this
+	}
+
+	public setDelete(deleteFunction: DeleteFunction): this
+	{
+		this.delete = deleteFunction
 		return this
 	}
 }

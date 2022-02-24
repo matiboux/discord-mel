@@ -1,12 +1,8 @@
-import AbstractListener from '../AbstractListener'
-
-type DeleteFunction = (listener: AbstractListener) => void
-
 abstract class AbstractHandlerEvents
 {
-	public delete?: DeleteFunction
+	public delete?: Function
 
-	public setDelete(deleteFunction: DeleteFunction): this
+	public setDelete(deleteFunction: Function): this
 	{
 		this.delete = deleteFunction
 		return this
