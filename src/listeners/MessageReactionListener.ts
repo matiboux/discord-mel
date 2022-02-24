@@ -7,8 +7,6 @@ import ListenerTypes from './ListenerTypes'
 
 class MessageReactionListener extends AbstractListener
 {
-    public readonly bot: Mel
-
     public readonly handler: MessageReactionHandler
 
     public readonly message: Discord.Message
@@ -17,9 +15,8 @@ class MessageReactionListener extends AbstractListener
 
 	public constructor(listenerId: string, bot: Mel, handler: MessageReactionHandler, message: Discord.Message, collector: Discord.ReactionCollector)
 	{
-		super(listenerId, ListenerTypes.MESSAGE_REACTION)
+		super(listenerId, bot, ListenerTypes.MESSAGE)
 
-		this.bot = bot
 		this.handler = handler
 		this.message = message
 		this.collector = collector

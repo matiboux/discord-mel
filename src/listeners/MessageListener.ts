@@ -8,17 +8,14 @@ import ListenerTargetTypes from './register/ListenerTargetTypes'
 
 class MessageListener extends AbstractListener
 {
-    public readonly bot: Mel
-
     public readonly handler: MessageHandler
 
     // public readonly user: Discord.Channel | Discord.User
 
 	public constructor(listenerId: string, bot: Mel, handler: MessageHandler) // , user: Discord.User)
 	{
-		super(listenerId, ListenerTypes.MESSAGE)
+		super(listenerId, bot, ListenerTypes.MESSAGE)
 
-		this.bot = bot
 		this.handler = handler
 		// this.user = user
 
