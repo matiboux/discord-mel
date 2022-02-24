@@ -20,7 +20,7 @@ abstract class AbstractListener
 		this.type = type
 	}
 
-	public get dbListener(): DBListener | undefined
+	public getDbListener(): DBListener | undefined
 	{
 		return this.bot.state.db.listeners.get(this.listenerId)
 	}
