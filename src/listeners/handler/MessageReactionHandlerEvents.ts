@@ -1,14 +1,15 @@
 import Discord from 'discord.js'
 
+import AbstractListener from '../AbstractListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type CollectFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type RemoveFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type RemoveFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type DisposeFunction = (listenerId: string, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type DisposeFunction = (listener: AbstractListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type EndFunction = (listenerId: string, message: Discord.Message, collected: any[], reason: string) => void
+type EndFunction = (listener: AbstractListener, message: Discord.Message, collected: any[], reason: string) => void
 
 class MessageReactionHandlerEvents extends AbstractHandlerEvents
 {

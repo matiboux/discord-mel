@@ -1,10 +1,11 @@
 import Discord from 'discord.js'
 
+import AbstractListener from '../AbstractListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listenerId: string, message: Discord.Message) => void
+type CollectFunction = (listener: AbstractListener, message: Discord.Message) => void
 
-type EndFunction = (listenerId: string, reason: string) => void
+type EndFunction = (listener: AbstractListener, reason: string) => void
 
 class MessageHandlerEvents extends AbstractHandlerEvents
 {

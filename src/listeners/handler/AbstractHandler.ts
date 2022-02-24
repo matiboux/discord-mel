@@ -1,6 +1,7 @@
+import AbstractListener from '../AbstractListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type BaseFilterFunction = (listenerId: string, ...args: any[]) => boolean
+type BaseFilterFunction = (listener: AbstractListener, ...args: any[]) => boolean
 
 abstract class AbstractHandler
 {

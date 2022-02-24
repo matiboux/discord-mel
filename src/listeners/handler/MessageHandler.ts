@@ -1,11 +1,12 @@
 import Discord from 'discord.js'
 
+import AbstractListener from '../AbstractListener'
 import AbstractHandler from './AbstractHandler'
 import MessageHandlerEvents from './MessageHandlerEvents'
 
-type FilterFunction = (listenerId: string, message: Discord.Message) => boolean
+type FilterFunction = (listener: AbstractListener, message: Discord.Message) => boolean
 
-type AsyncFilterFunction = (listenerId: string, message: Discord.Message) => Promise<boolean>
+type AsyncFilterFunction = (listener: AbstractListener, message: Discord.Message) => Promise<boolean>
 
 class MessageHandler extends AbstractHandler
 {

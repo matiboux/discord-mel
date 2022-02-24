@@ -1,4 +1,6 @@
-type DeleteFunction = (listenerId: string) => void
+import AbstractListener from '../AbstractListener'
+
+type DeleteFunction = (listener: AbstractListener) => void
 
 abstract class AbstractHandlerEvents
 {
