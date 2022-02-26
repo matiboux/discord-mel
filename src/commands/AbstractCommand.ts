@@ -8,6 +8,8 @@ type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 
 class AbstractCommand
 {
+	public static readonly enabled: boolean = false
+
 	protected bot: Mel
 
 	name: string

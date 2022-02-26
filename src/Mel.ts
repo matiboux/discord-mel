@@ -281,9 +281,24 @@ class Mel
 					.filter(file => file.endsWith('.js'))
 					.forEach(file =>
 						{
-							const { default: commandObject }: { default: typeof AbstractCommand } = require(`${dirpath}/${file}`)
-							const command = commandObject.create(this)
-							this.commands.add(command)
+							const { default: commandObject }: { default: typeof AbstractCommand | undefined } = require(`${dirpath}/${file}`)
+
+							if (commandObject && commandObject.enabled)
+							{
+								this.logger.debug(this.translator.translate('commands.load', {
+										'%file%': file,
+										'%name%': commandObject.name,
+									}), 'Mel')
+
+								const command = commandObject.create(this)
+								this.commands.add(command)
+							}
+							else
+							{
+								this.logger.debug(this.translator.translate('commands.loadignore', {
+										'%name%': file,
+									}), 'Mel')
+							}
 						})
 
 				this.logger.info(this.translator.translate('commands.loaded', {
