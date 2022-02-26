@@ -20,6 +20,10 @@ import Mel from './Mel'
 import AbstractState from './state/AbstractState'
 import AbstractDB from './state/db/AbstractDB'
 import IBaseDB from './state/db/IBaseDB'
+import AbstractDBMapType from './state/db/types/AbstractDBMapType'
+import AbstractDBType from './state/db/types/AbstractDBType'
+import DBListener from './state/db/types/DBListener'
+import DBListeners from './state/db/types/DBListeners'
 import Translator from './Translator'
 
 const config = {
@@ -48,6 +52,12 @@ export
     AbstractState,
     IBaseDB,
     AbstractDB,
+
+    // State types
+    AbstractDBMapType,
+    AbstractDBType,
+    DBListener,
+    DBListeners,
 
     // Hooks
     Hook,
