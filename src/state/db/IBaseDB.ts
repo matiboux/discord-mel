@@ -1,10 +1,10 @@
-import Listeners from './types/Listeners'
+import DBListeners from './types/DBListeners'
 
 interface IBaseDB
 {
 	[x: string]: any
 
-	listeners: Listeners
+	listeners: DBListeners
 }
 
 export default IBaseDB

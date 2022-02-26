@@ -1,5 +1,5 @@
 import Mel from '../Mel'
-import DBListener from '../state/db/types/Listener'
+import DBListener from '../state/db/types/DBListener'
 import AbstractHandler from './handler/AbstractHandler'
 import ListenerTypes from './ListenerTypes'
 

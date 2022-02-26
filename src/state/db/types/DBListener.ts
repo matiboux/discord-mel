@@ -1,7 +1,7 @@
 import { Snowflake } from 'discord-api-types'
 import AbstractDBType from './AbstractDBType'
 
-class Listener extends AbstractDBType
+class DBListener extends AbstractDBType
 {
     public type!: string
 
@@ -58,4 +58,4 @@ class Listener extends AbstractDBType
 	}
 }
 
-export default Listener
+export default DBListener

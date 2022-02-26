@@ -1,8 +1,8 @@
 import unserialize from '../../../functions/unserialize'
 
-abstract class AbstractStateType
+abstract class AbstractDBType
 {
-	public constructor(type?: AbstractStateType)
+	public constructor(type?: AbstractDBType)
 	{
 		if (type)
 		{
@@ -11,4 +11,4 @@ abstract class AbstractStateType
 	}
 }
 
-export default AbstractStateType
+export default AbstractDBType

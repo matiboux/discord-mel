@@ -1,9 +1,9 @@
 import IBaseDB from './IBaseDB'
-import Listeners from './types/Listeners'
+import DBListeners from './types/DBListeners'
 
 class AbstractDB implements IBaseDB
 {
-	listeners: Listeners = new Listeners()
+	listeners: DBListeners = new DBListeners()
 }
 
 export default AbstractDB

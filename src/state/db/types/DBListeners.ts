@@ -1,15 +1,15 @@
 import { Snowflake } from 'discord-api-types'
 
 import AbstractDBMapType from './AbstractDBMapType'
-import Listener from './Listener'
+import DBListener from './DBListener'
 
-class Listeners extends AbstractDBMapType<Snowflake, Listener>
+class DBListeners extends AbstractDBMapType<Snowflake, DBListener>
 {
 	public unserialize(other: any): this
 	{
 		for (const key in other)
 		{
-			const guild = new Listener(other[key])
+			const guild = new DBListener(other[key])
 			this.set(key, guild)
 		}
 
@@ -17,4 +17,4 @@ class Listeners extends AbstractDBMapType<Snowflake, Listener>
 	}
 }
 
-export default Listeners
+export default DBListeners
