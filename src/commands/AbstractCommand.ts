@@ -10,8 +10,8 @@ class AbstractCommand
 {
 	public static readonly enabled: boolean = false
 
-	protected readonly id: string
-	protected readonly bot: Mel
+	public readonly id: string
+	public readonly bot: Mel
 
 	name?: string
 	description?: string
