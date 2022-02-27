@@ -39,10 +39,10 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 * @param {AbstractCommand} command
 	 * @returns {this}
 	 */
-	public add(command: AbstractCommand): this
+	public add(commandClass: typeof AbstractCommand): this
 	{
 		const commandId = this.generateId()
-		return this.set(commandId, command)
+		return this.set(commandId, new commandClass(commandId, this.bot))
 	}
 
 	/**

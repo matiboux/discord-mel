@@ -281,17 +281,16 @@ class Mel
 					.filter(file => file.endsWith('.js'))
 					.forEach(file =>
 						{
-							const { default: commandObject }: { default: typeof AbstractCommand | undefined } = require(`${dirpath}/${file}`)
+							const { default: commandClass }: { default: typeof AbstractCommand | undefined } = require(`${dirpath}/${file}`)
 
-							if (commandObject && commandObject.enabled)
+							if (commandClass && commandClass.enabled)
 							{
 								this.logger.debug(this.translator.translate('commands.load', {
 										'%file%': file,
-										'%name%': commandObject.name,
+										'%name%': commandClass.name,
 									}), 'Mel')
 
-								const command = commandObject.create(this)
-								this.commands.add(command)
+								this.commands.add(commandClass)
 							}
 							else
 							{

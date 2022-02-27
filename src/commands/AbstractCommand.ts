@@ -10,9 +10,10 @@ class AbstractCommand
 {
 	public static readonly enabled: boolean = false
 
-	protected bot: Mel
+	protected readonly id: string
+	protected readonly bot: Mel
 
-	name: string
+	name?: string
 	description?: string
 
 	/** Command aliases for legacy commands */
@@ -29,20 +30,10 @@ class AbstractCommand
 
 	handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
 
-	static create(bot: Mel)
+	constructor(id: string, bot: Mel)
 	{
-		return new this(bot)
-	}
-
-	constructor(bot: Mel, name?: string)
-	{
-		if (name === undefined)
-		{
-			throw new Error('You have to specify a command name')
-		}
-
+		this.id = id
 		this.bot = bot
-		this.name = name
 	}
 
 	/**
