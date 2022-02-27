@@ -165,12 +165,12 @@ class ListenersManager
 			return Promise.reject(new Error(`Cannot register listener: unknown listener (id: ${listenerId})`))
 		}
 
-		if (!dbListener.type || !dbListener.command)
+		if (!dbListener.type || !dbListener.commandId)
 		{
 			return Promise.reject(new Error(`Cannot register listener: missing type or handler (id: ${listenerId})`))
 		}
 
-		const command = this.bot.commands.get(dbListener.command)
+		const command = this.bot.commands.get(dbListener.commandId)
 
 		const handler = (() =>
 			{

@@ -5,7 +5,7 @@ class DBListener extends AbstractDBType
 {
     public type!: string
 
-    public command!: string // Command name
+    public commandId!: string // Command name
 
     public variant?: string
 
@@ -36,9 +36,9 @@ class DBListener extends AbstractDBType
 			this.type = ''
 		}
 
-        if (this.command as any === undefined)
+        if (this.commandId as any === undefined)
         {
-            this.command = ''
+            this.commandId = ''
         }
 
         if (this.collected as any === undefined)

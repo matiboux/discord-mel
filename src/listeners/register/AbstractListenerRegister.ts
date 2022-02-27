@@ -14,9 +14,9 @@ abstract class AbstractListenerRegister extends DBListener
         this.type = type
 	}
 
-    public setCommand(command: string): this
+    public setCommandId(commandId: string): this
     {
-        this.command = command
+        this.commandId = commandId
         return this
     }
 
