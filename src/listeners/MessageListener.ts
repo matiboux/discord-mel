@@ -59,7 +59,7 @@ class MessageListener extends AbstractListener
 
 	protected async onMessageCreate(message: Discord.Message): Promise<void>
 	{
-		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
+		const dbListener = this.bot.state.db.listeners.get(this.id)
 		if (!dbListener)
 		{
 			return // Invalid listener
@@ -89,7 +89,7 @@ class MessageListener extends AbstractListener
 
 	public async collect(message: Discord.Message)
 	{
-		const dbListener = this.bot.state.db.listeners.get(this.listenerId)
+		const dbListener = this.bot.state.db.listeners.get(this.id)
 		if (!dbListener)
 		{
 			return
@@ -123,8 +123,8 @@ class MessageListener extends AbstractListener
 		this.handler.on.end?.(this, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Message listener ended (reason: ${reason}) (id: ${this.listenerId})`, 'MessageListener')
-		this.bot.listeners.delete(this.listenerId)
+		this.bot.logger.debug(`Message listener ended (reason: ${reason}) (id: ${this.id})`, 'MessageListener')
+		this.bot.listeners.delete(this.id)
 	}
 
 	public delete()

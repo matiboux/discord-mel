@@ -96,7 +96,7 @@ class MessageReactionListener extends AbstractListener
 
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this, this.message, reaction, user)))
 		{
-			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
+			const dbListener = this.bot.state.db.listeners.get(this.id)
 
 			if (!dbListener || dbListener.collected.includes(user.id))
 			{
@@ -121,7 +121,7 @@ class MessageReactionListener extends AbstractListener
 
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this, this.message, reaction, user)))
 		{
-			const dbListener = this.bot.state.db.listeners.get(this.listenerId)
+			const dbListener = this.bot.state.db.listeners.get(this.id)
 
 			if (!dbListener)
 			{
@@ -158,8 +158,8 @@ class MessageReactionListener extends AbstractListener
 		this.handler.on.end?.(this, this.message, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.listenerId})`, 'MessageReactionListener')
-		this.bot.listeners.delete(this.listenerId)
+		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageReactionListener')
+		this.bot.listeners.delete(this.id)
 	}
 
 	public delete()
