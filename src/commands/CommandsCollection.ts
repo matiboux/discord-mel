@@ -3,22 +3,16 @@ import Collection = Discord.Collection
 
 import Mel from '../Mel'
 import AbstractCommand from './AbstractCommand'
-import Translator from '../Translator'
-import Logger from '../logger/Logger'
 
 class CommandsCollection extends Collection<string, AbstractCommand>
 {
-	private bot?: Mel
-	private logger: Logger
-	private translator: Translator
+	public readonly bot: Mel
 
-	constructor(bot?: Mel)
+	constructor(bot: Mel)
 	{
 		super()
 
 		this.bot = bot
-		this.logger = this.bot?.logger || new Logger()
-		this.translator = this.bot?.translator || new Translator()
 	}
 
 	/**
@@ -27,7 +21,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 * @param {AbstractCommand} command
 	 * @returns {this}
 	 */
-	add(command: AbstractCommand): this
+	public add(command: AbstractCommand): this
 	{
 		if (command.name === undefined)
 			throw new Error('Invalid command object')
@@ -40,7 +34,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async onMessage(commandName: string, message: Discord.Message, args: string): Promise<void>
+	public async onMessage(commandName: string, message: Discord.Message, args: string): Promise<void>
 	{
 		const command = this.find(cmd => cmd.commandAliases.has(commandName))
 		let commandExecuted = false
@@ -65,22 +59,24 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				catch (error)
 				{
 					command.onError(message)
-					this.logger.error(error, this.constructor.name)
+					this.bot.logger.error(error, this.constructor.name)
 				}
 			}
 		}
 		else
 		{
-			this.logger.warn(this.translator.translate('commands.run.not_found', {
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.not_found', {
 					'%name%': commandName
 				}), this.constructor.name)
 		}
 
 		if (!commandExecuted)
-			throw undefined
+		{
+			throw new Error('Failed to execute command')
+		}
 	}
 
-	async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
+	public async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
 	{
 		const command = this.get(interaction.commandName)
 		let commandExecuted = false
@@ -105,22 +101,24 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				catch (error)
 				{
 					command.onError(interaction)
-					this.logger.error(error, this.constructor.name)
+					this.bot.logger.error(error, this.constructor.name)
 				}
 			}
 		}
 		else
 		{
-			this.logger.warn(this.translator.translate('commands.run.not_found', {
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.not_found', {
 					'%name%': interaction.commandName
 				}), this.constructor.name)
 		}
 
 		if (!commandExecuted)
-			throw undefined
+		{
+			throw new Error('Failed to execute command')
+		}
 	}
 
-	async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
+	public async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		const command = this.find(cmd => cmd.componentIds.has(interaction.customId))
 		let commandExecuted = false
@@ -145,28 +143,30 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 				catch (error)
 				{
 					command.onError(interaction)
-					this.logger.error(error, this.constructor.name)
+					this.bot.logger.error(error, this.constructor.name)
 				}
 			}
 		}
 		else
 		{
-			this.logger.warn(this.translator.translate('commands.run.not_found', {
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.not_found', {
 					'%name%': interaction.customId
 				}), this.constructor.name)
 		}
 
 		if (!commandExecuted)
-			throw undefined
+		{
+			throw new Error('Failed to execute command')
+		}
 	}
 
-	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
+	public async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
 	{
-		this.logger.error(this.translator.translate('interaction.not_supported', {
+		this.bot.logger.error(this.bot.translator.translate('interaction.not_supported', {
 				'%type%': interaction.type
 			}))
 
-		throw undefined
+		throw new Error('Not supported')
 	}
 }
 
