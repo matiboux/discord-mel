@@ -123,7 +123,7 @@ class MessageListener extends AbstractListener
 		this.handler.on.end?.(this, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Message listener ended (id: ${this.listenerId})`, 'MessageListener')
+		this.bot.logger.debug(`Message listener ended (reason: ${reason}) (id: ${this.listenerId})`, 'MessageListener')
 		this.bot.listeners.delete(this.listenerId)
 	}
 

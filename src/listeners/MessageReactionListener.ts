@@ -158,7 +158,7 @@ class MessageReactionListener extends AbstractListener
 		this.handler.on.end?.(this, this.message, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Reaction collection ended (id: ${this.listenerId})`, 'MessageReactionListener')
+		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.listenerId})`, 'MessageReactionListener')
 		this.bot.listeners.delete(this.listenerId)
 	}
 
