@@ -8,12 +8,15 @@ import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractListener from './listeners/AbstractListener'
 import AbstractHandler from './listeners/handler/AbstractHandler'
+import MessageComponentHandler from './listeners/handler/MessageComponentHandler'
 import MessageHandler from './listeners/handler/MessageHandler'
 import MessageReactionHandler from './listeners/handler/MessageReactionHandler'
 import ListenerTypes from './listeners/ListenerTypes'
+import MessageComponentListener from './listeners/MessageComponentListener'
 import MessageListener from './listeners/MessageListener'
 import MessageReactionListener from './listeners/MessageReactionListener'
 import AbstractListenerRegister from './listeners/register/AbstractListenerRegister'
+import MessageComponentListenerRegister from './listeners/register/MessageComponentListenerRegister'
 import MessageListenerRegister from './listeners/register/MessageListenerRegister'
 import MessageReactionListenerRegister from './listeners/register/MessageReactionListenerRegister'
 import Mel from './Mel'
@@ -66,16 +69,19 @@ export
     // Listeners
     AbstractListener,
     ListenerTypes,
+    MessageComponentListener,
     MessageListener,
     MessageReactionListener,
 
     // Listener Handlers
     AbstractHandler,
+    MessageComponentHandler,
     MessageHandler,
     MessageReactionHandler,
 
     // Listener Registers
     AbstractListenerRegister,
+    MessageComponentListenerRegister,
     MessageListenerRegister,
     MessageReactionListenerRegister,
 
