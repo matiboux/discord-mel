@@ -25,7 +25,7 @@ abstract class AbstractListener
 		return this.bot.state.db.listeners.get(this.id)
 	}
 
-	public end(reason?: string): void
+	public end(reason: string = 'user'): void
 	{
 		// Delete listener
 		this.bot.logger.debug(`Message listener ended (reason: ${reason}) (id: ${this.id})`, 'MessageListener')

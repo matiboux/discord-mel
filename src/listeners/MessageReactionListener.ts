@@ -162,13 +162,13 @@ class MessageReactionListener extends AbstractListener
 		this.bot.listeners.delete(this.id)
 	}
 
-	public end(reason?: string)
+	public end(reason: string = 'user'): void
 	{
 		this.collector.stop(reason)
 		super.end(reason)
 	}
 
-	public delete()
+	public delete(): void
 	{
 		this.handler.on.delete?.(this)
 		this.collector.stop('delete')

@@ -118,13 +118,13 @@ class MessageListener extends AbstractListener
 		this.handler.on.collect?.(this, message)
 	}
 
-	public end(reason?: string)
+	public end(reason: string = 'user'): void
 	{
 		this.handler.on.end?.(this, reason)
 		super.end(reason)
 	}
 
-	public delete()
+	public delete(): void
 	{
 		this.handler.on.delete?.(this)
 	}
