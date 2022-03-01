@@ -88,7 +88,9 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 
 		if (!commandExecuted)
 		{
-			throw new Error('Failed to execute command')
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.failed'),
+				this.constructor.name,
+				new Error('Failed to execute command'))
 		}
 	}
 
@@ -130,7 +132,9 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 
 		if (!commandExecuted)
 		{
-			throw new Error('Failed to execute command')
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.failed'),
+				this.constructor.name,
+				new Error('Failed to execute command'))
 		}
 	}
 
@@ -172,7 +176,9 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 
 		if (!commandExecuted)
 		{
-			throw new Error('Failed to execute command')
+			this.bot.logger.warn(this.bot.translator.translate('commands.run.failed'),
+				this.constructor.name,
+				new Error('Failed to execute command'))
 		}
 	}
 
@@ -180,9 +186,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	{
 		this.bot.logger.error(this.bot.translator.translate('interaction.not_supported', {
 				'%type%': interaction.type
-			}))
-
-		throw new Error('Not supported')
+			}), this.constructor.name, new Error('Autocomplete interaction not supported'))
 	}
 }
 
