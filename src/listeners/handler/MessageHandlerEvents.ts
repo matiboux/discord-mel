@@ -5,7 +5,7 @@ import AbstractHandlerEvents from './AbstractHandlerEvents'
 
 type CollectFunction = (listener: MessageListener, message: Discord.Message) => void
 
-type EndFunction = (listener: MessageListener, reason: string) => void
+type EndFunction = (listener: MessageListener, reason?: string) => void
 
 type DeleteFunction = (listener: MessageListener) => void
 
