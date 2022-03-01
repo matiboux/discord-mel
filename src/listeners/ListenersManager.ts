@@ -12,6 +12,8 @@ import AbstractHandler from './handler/AbstractHandler'
 import MessageHandler from './handler/MessageHandler'
 import MessageListener from './MessageListener'
 import ListenerTargetTypes from './register/ListenerTargetTypes'
+import MessageComponentHandler from './handler/MessageComponentHandler'
+import MessageComponentListener from './MessageComponentListener'
 
 class ListenersManager
 {
@@ -230,6 +232,22 @@ class ListenersManager
 			catch (error)
 			{
 				this.logger.error('Failed to register listener', 'MessageReactionListener')
+				return Promise.reject(error)
+			}
+		}
+		else if (handler instanceof MessageComponentHandler)
+		{
+			try
+			{
+				// Save the registered listener
+				const jsListener = await MessageComponentListener.create(listenerId, this.bot, handler)
+				this.listeners.set(listenerId, jsListener)
+
+				return Promise.resolve(jsListener)
+			}
+			catch (error)
+			{
+				this.logger.error('Failed to register listener', 'ComponentListener')
 				return Promise.reject(error)
 			}
 		}
