@@ -125,26 +125,23 @@ class ListenersManager
 
 	protected async register(): Promise<void>
 	{
-		let registeredListeners = 0
-		const promises = Array.from(this.bot.state.db.listeners.keys()).map(async listenerId =>
-			{
-				const registered = await this.registerSingle(listenerId).then(() => true).catch(() => false)
-				if (registered)
-				{
-					++registeredListeners
-				}
-				else
-				{
-					this.logger.error(`Failed to register the listener (id: ${listenerId})`, 'ListenersManager')
-					this.bot.state.db.listeners.delete(listenerId)
-					this.bot.state.save()
-				}
-			})
+		const promises = Array.from(this.bot.state.db.listeners.keys())
+			.map(async listenerId =>
+				this.registerSingle(listenerId)
+					.catch(error =>
+						{
+							this.logger.error(`Failed to register the listener (id: ${listenerId})`, 'ListenersManager', error)
+							this.bot.state.db.listeners.delete(listenerId)
+							this.bot.state.save()
+						}))
 
-		return Promise.all(promises).then(() =>
+		return Promise.allSettled(promises).then((results) =>
 			{
+				// Count the number of successful registered listeners
+				const registered = results.reduce((sum, result) => result.status === 'fulfilled' ? sum + 1 : sum, 0)
+
 				this.logger.info(this.translator.translate('listeners.registeredAll', {
-						'%count%': registeredListeners,
+						'%count%': registered,
 					}))
 			})
 	}
