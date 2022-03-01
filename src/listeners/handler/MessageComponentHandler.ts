@@ -5,9 +5,9 @@ import AbstractHandler from './AbstractHandler'
 import MessageComponentHandlerEvents from './MessageComponentHandlerEvents'
 import MessageComponentHandlerOptions from './MessageComponentHandlerOptions'
 
-type FilterFunction = (listener: MessageComponentListener, interaction: Discord.Interaction) => boolean | Promise<boolean>
+type FilterFunction = (listener: MessageComponentListener, interaction: Discord.MessageComponentInteraction) => boolean | Promise<boolean>
 
-type StoreFilterFunction = (listener: MessageComponentListener, interaction: Discord.Interaction) => boolean
+type StoreFilterFunction = (listener: MessageComponentListener, interaction: Discord.MessageComponentInteraction) => boolean
 
 class MessageComponentHandler extends AbstractHandler
 {

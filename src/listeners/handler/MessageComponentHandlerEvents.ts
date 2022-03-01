@@ -3,9 +3,9 @@ import Discord from 'discord.js'
 import MessageComponentListener from '../MessageComponentListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listener: MessageComponentListener, interaction: Discord.Interaction) => void
+type CollectFunction = (listener: MessageComponentListener, interaction: Discord.MessageComponentInteraction) => void
 
-type DisposeFunction = (listener: MessageComponentListener, interaction: Discord.Interaction) => void
+type DisposeFunction = (listener: MessageComponentListener, interaction: Discord.MessageComponentInteraction) => void
 
 type EndFunction = (listener: MessageComponentListener, collected: any[], reason: string) => void
 

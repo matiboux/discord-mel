@@ -26,7 +26,7 @@ class MessageComponentListener extends AbstractListener
 			throw new Error('DB listener not found')
 		}
 
-		const filter = (interaction: Discord.Interaction) =>
+		const filter = (interaction: Discord.MessageComponentInteraction) =>
 			handler.filter ? handler.filter(this, interaction) : true
 
 		const options = handler.options
@@ -86,7 +86,7 @@ class MessageComponentListener extends AbstractListener
 		return new this(listenerId, bot, handler, message)
 	}
 
-	protected async onCollect(interaction: Discord.Interaction): Promise<void>
+	protected async onCollect(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this, interaction)))
 		{
@@ -106,7 +106,7 @@ class MessageComponentListener extends AbstractListener
 		this.handler.on.collect?.(this, interaction)
 	}
 
-	protected async onDispose(interaction: Discord.Interaction): Promise<void>
+	protected async onDispose(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		if (this.handler.options.store && (!this.handler.storefilter || this.handler.storefilter(this, interaction)))
 		{
