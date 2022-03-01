@@ -215,7 +215,7 @@ class ListenersManager
 			}
 			catch (error)
 			{
-				this.logger.error('Failed to register listener', 'MessageListener')
+				this.logger.error(`Failed to register listener (id: ${listenerId})`, 'MessageListener')
 				return Promise.reject(error)
 			}
 		}
@@ -231,7 +231,7 @@ class ListenersManager
 			}
 			catch (error)
 			{
-				this.logger.error('Failed to register listener', 'MessageReactionListener')
+				this.logger.error(`Failed to register listener (id: ${listenerId})`, 'MessageReactionListener')
 				return Promise.reject(error)
 			}
 		}
@@ -247,12 +247,12 @@ class ListenersManager
 			}
 			catch (error)
 			{
-				this.logger.error('Failed to register listener', 'ComponentListener')
+				this.logger.error(`Failed to register listener (id: ${listenerId})`, 'ComponentListener')
 				return Promise.reject(error)
 			}
 		}
 
-		this.logger.error(`Unsupported handler: ${typeof handler}`, 'ListenersManager')
+		this.logger.error(`Unsupported handler: ${typeof handler} (id: ${listenerId})`, 'ListenersManager')
 		return Promise.reject(new Error('Cannot register listener: Unsupported handler'))
 	}
 }

@@ -102,7 +102,7 @@ class MessageComponentListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} collected on message ${this.message.id}`, 'MessageComponentListener')
+		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} collected on message ${this.message.id} (id: ${this.id})`, 'MessageComponentListener')
 		this.handler.on.collect?.(this, interaction)
 	}
 
@@ -127,7 +127,7 @@ class MessageComponentListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} disposed on message ${this.message.id}`, 'MessageComponentListener')
+		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} disposed on message ${this.message.id} (id: ${this.id})`, 'MessageComponentListener')
 		this.handler.on.dispose?.(this, interaction)
 	}
 

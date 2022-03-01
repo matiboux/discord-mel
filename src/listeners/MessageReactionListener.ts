@@ -108,7 +108,7 @@ class MessageReactionListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id}`, 'MessageReactionListener')
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
 		this.handler.on.collect?.(this, this.message, reaction, user)
 	}
 
@@ -138,7 +138,7 @@ class MessageReactionListener extends AbstractListener
 			this.bot.state.save()
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id}`, 'MessageReactionListener')
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
 		this.handler.on.remove?.(this, this.message, reaction, user)
 	}
 
@@ -149,7 +149,7 @@ class MessageReactionListener extends AbstractListener
 			return
 		}
 
-		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id}`, 'MessageReactionListener')
+		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
 		this.handler.on.dispose?.(this, this.message, reaction, user)
 	}
 

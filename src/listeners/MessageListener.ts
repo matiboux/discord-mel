@@ -114,7 +114,7 @@ class MessageListener extends AbstractListener
 
 		dbListener.lastCallTime = Date.now()
 
-		this.bot.logger.debug(`Message ${message.id} by ${message.author.username} collected in channel ${message.channel.id}`, 'MessageListener')
+		this.bot.logger.debug(`Message ${message.id} by ${message.author.username} collected in channel ${message.channel.id} (id: ${this.id})`, 'MessageListener')
 		this.handler.on.collect?.(this, message)
 	}
 
