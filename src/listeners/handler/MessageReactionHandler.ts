@@ -5,17 +5,13 @@ import AbstractHandler from './AbstractHandler'
 import MessageReactionHandlerEvents from './MessageReactionHandlerEvents'
 import MessageReactionHandlerOptions from './MessageReactionHandlerOptions'
 
-type FilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean
-
-type AsyncFilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => Promise<boolean>
+type FilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean | Promise<boolean>
 
 type StoreFilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean
 
 class MessageReactionHandler extends AbstractHandler
 {
 	public filter?: FilterFunction
-
-	public asyncfilter?: AsyncFilterFunction
 
 	public storefilter?: StoreFilterFunction
 
@@ -26,12 +22,6 @@ class MessageReactionHandler extends AbstractHandler
 	public setFilter(filterFunction?: FilterFunction): this
 	{
 		this.filter = filterFunction
-		return this
-	}
-
-	public setAsyncFilter(asyncfilterFunction?: AsyncFilterFunction): this
-	{
-		this.asyncfilter = asyncfilterFunction
 		return this
 	}
 
