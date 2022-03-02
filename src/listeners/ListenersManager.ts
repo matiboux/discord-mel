@@ -130,11 +130,18 @@ class ListenersManager
 		const promises = Array.from(this.bot.state.db.listeners.keys())
 			.map(async listenerId =>
 				this.registerSingle(listenerId)
+					.then(listener =>
+						{
+							this.logger.debug(`Listener id ${listenerId} registered`, 'ListenersManager')
+							return listener
+						})
 					.catch(error =>
 						{
 							this.logger.error(`Failed to register the listener (id: ${listenerId})`, 'ListenersManager', error)
+							this.logger.debug(`Deleting the invalid listener id ${listenerId}`, 'ListenersManager')
 							this.bot.state.db.listeners.delete(listenerId)
 							this.bot.state.save()
+							return Promise.reject()
 						}))
 
 		return Promise.allSettled(promises).then((results) =>
