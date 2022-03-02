@@ -16,24 +16,6 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	}
 
 	/**
-	 * Generate a listener id that is currently not in use
-	 */
-	protected generateId(): string
-	{
-		for (let i = 0; i < 5; ++i)
-		{
-			const listenerId = Math.random().toString(36).substring(2)
-			if (!this.has(listenerId))
-			{
-				// Generated listener id is not used
-				return listenerId
-			}
-		}
-
-		throw new Error('Failed to generate a unique listener id')
-	}
-
-	/**
 	 * Add command
 	 *
 	 * @param {AbstractCommand} command
@@ -41,7 +23,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 	 */
 	public add(commandClass: typeof AbstractCommand): this
 	{
-		const commandId = this.generateId()
+		const commandId = commandClass.name
 		return this.set(commandId, new commandClass(commandId, this.bot))
 	}
 
