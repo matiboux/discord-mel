@@ -5,11 +5,11 @@ import AbstractHandler from './AbstractHandler'
 import MessageReactionHandlerEvents from './MessageReactionHandlerEvents'
 import MessageReactionHandlerOptions from './MessageReactionHandlerOptions'
 
-type FilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
+type FilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean
 
-type AsyncFilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => Promise<boolean>
+type AsyncFilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => Promise<boolean>
 
-type StoreFilterFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => boolean
+type StoreFilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean
 
 class MessageReactionHandler extends AbstractHandler
 {

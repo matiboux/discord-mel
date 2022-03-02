@@ -3,13 +3,13 @@ import Discord from 'discord.js'
 import MessageReactionListener from '../MessageReactionListener'
 import AbstractHandlerEvents from './AbstractHandlerEvents'
 
-type CollectFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type CollectFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type RemoveFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type RemoveFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type DisposeFunction = (listener: MessageReactionListener, message: Discord.Message, reaction: Discord.MessageReaction, user: Discord.User) => void
+type DisposeFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => void
 
-type EndFunction = (listener: MessageReactionListener, message: Discord.Message, collected: any[], reason: string) => void
+type EndFunction = (listener: MessageReactionListener, collected: any[], reason: string) => void
 
 type DeleteFunction = (listener: MessageReactionListener) => void
 
