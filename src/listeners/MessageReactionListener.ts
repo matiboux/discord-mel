@@ -155,10 +155,10 @@ class MessageReactionListener extends AbstractListener
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
+		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageReactionListener')
 		this.handler.on.end?.(this, this.message, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageReactionListener')
 		this.bot.listeners.delete(this.id)
 	}
 

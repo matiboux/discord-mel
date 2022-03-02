@@ -133,10 +133,10 @@ class MessageComponentListener extends AbstractListener
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
+		this.bot.logger.debug(`Interaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageComponentListener')
 		this.handler.on.end?.(this, collected, reason)
 
 		// Delete listener
-		this.bot.logger.debug(`Interaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageComponentListener')
 		this.bot.listeners.delete(this.id)
 	}
 
