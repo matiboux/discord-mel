@@ -8,7 +8,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 {
 	public readonly bot: Mel
 
-	constructor(bot: Mel)
+	public constructor(bot: Mel)
 	{
 		super()
 

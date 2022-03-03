@@ -13,22 +13,23 @@ class AbstractCommand
 	public readonly id: string
 	public readonly bot: Mel
 
-	name?: string
-	description?: string
+	public readonly name?: string
+	public readonly description?: string
 
 	/** Command aliases for legacy commands */
-	commandAliases: Set<string> = new Set<string>()
+	public readonly commandAliases: Set<string> = new Set<string>()
 
 	/** Application commands (interactions) */
-	applicationCommands: Set<ApplicationCommand> = new Set<ApplicationCommand>()
+	public readonly applicationCommands: Set<ApplicationCommand> = new Set<ApplicationCommand>()
 
 	/** Components (interactions) */
-	componentIds: Set<string> = new Set<string>()
+	public readonly componentIds: Set<string> = new Set<string>()
 
-	guildOnly: boolean = false
-	permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
+	public readonly guildOnly: boolean = false
+	public readonly permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
 
-	handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
+	/** Listerners handlers */
+	public readonly handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
 
 	constructor(id: string, bot: Mel)
 	{
@@ -40,7 +41,7 @@ class AbstractCommand
 	 * Check that the command in enabled in this context
 	 * @param {Discord.Message | Discord.Interaction} message
 	 */
-	isEnabled(message: Discord.Message | Discord.Interaction)
+	public isEnabled(message: Discord.Message | Discord.Interaction)
 	{
 		if (this.guildOnly)
 		{
@@ -58,7 +59,7 @@ class AbstractCommand
 	 * Check that the message author has required permissions
 	 * @param {Discord.Message | Discord.Interaction} message
 	 */
-	isAllowed(message: Discord.Message | Discord.Interaction)
+	public isAllowed(message: Discord.Message | Discord.Interaction)
 	{
 		if (message.member)
 		{
@@ -91,22 +92,22 @@ class AbstractCommand
 	 * @param {Discord.Message} message
 	 * @param {string} args
 	 */
-	async onMessage(message: Discord.Message, args: string): Promise<void>
+	public async onMessage(message: Discord.Message, args: string): Promise<void>
 	{
 		throw new Error('You have to implement the method onMessage!')
 	}
 
-	async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
+	public async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onCommandInteraction!')
 	}
 
-	async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
+	public async onComponentInteraction(interaction: Discord.MessageComponentInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onComponentInteraction!')
 	}
 
-	async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
+	public async onAutocompleteInteraction(interaction: Discord.AutocompleteInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onAutocompleteInteraction!')
 	}
@@ -114,7 +115,7 @@ class AbstractCommand
 	/**
 	 * @param {Discord.Message | Discord.Interaction} object
 	 */
-	async onNotEnabled(object: Discord.Message | Discord.Interaction)
+	public async onNotEnabled(object: Discord.Message | Discord.Interaction)
 	{
 		this.bot.logger.warn(this.bot.translator?.translate('commands.run.not_enabled', {
 				'%name%': this.name
@@ -125,7 +126,7 @@ class AbstractCommand
 	 * @param {Discord.Message | Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
-	async onNotAllowed(object: Discord.Message | Discord.Interaction, reply: boolean = true)
+	public async onNotAllowed(object: Discord.Message | Discord.Interaction, reply: boolean = true)
 	{
 		if (reply && (object instanceof Discord.Message
 		              || object instanceof Discord.BaseCommandInteraction))
@@ -144,7 +145,7 @@ class AbstractCommand
 	 * @param {Discord.Message | Discord.Interaction} object
 	 * @param {boolean} reply
 	 */
-	async onError(object: Discord.Message | Discord.Interaction, reply: boolean = true)
+	public async onError(object: Discord.Message | Discord.Interaction, reply: boolean = true)
 	{
 		if (reply && (object instanceof Discord.Message
 		              || object instanceof Discord.BaseCommandInteraction))
