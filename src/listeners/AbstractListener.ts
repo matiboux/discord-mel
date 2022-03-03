@@ -32,7 +32,7 @@ abstract class AbstractListener
 		this.bot.listeners.delete(this.id)
 	}
 
-	public abstract delete(): void
+	public abstract onDelete(): void
 }
 
 export default AbstractListener

@@ -117,7 +117,7 @@ class ListenersManager
 		if (listener)
 		{
 			// if (typeof this.bot.state.js.delete === 'function') this.bot.state.js.delete()
-			listener.delete?.()
+			listener.onDelete?.()
 
 			this.logger.info(`Listener ${listener.constructor.name} deleted (id: ${listenerId})`, 'ListenersManager')
 			this.bot.state.setState(db => db.listeners.delete(listenerId))

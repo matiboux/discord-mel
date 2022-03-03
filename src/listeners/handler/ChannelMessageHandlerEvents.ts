@@ -11,7 +11,7 @@ type EndFunction = (listener: ChannelMessageListener, collected: Discord.Collect
 
 type DeleteFunction = (listener: ChannelMessageListener) => void
 
-class MessageHandlerEvents extends AbstractHandlerEvents
+class ChannelMessageHandlerEvents extends AbstractHandlerEvents
 {
 	public collect?: CollectFunction
 
@@ -46,4 +46,4 @@ class MessageHandlerEvents extends AbstractHandlerEvents
 	}
 }
 
-export default MessageHandlerEvents
+export default ChannelMessageHandlerEvents

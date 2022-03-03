@@ -1,7 +1,7 @@
 import ListenerTypes from '../ListenerTypes'
 import AbstractListenerRegister from './AbstractListenerRegister'
 
-class MessageComponentListenerRegister extends AbstractListenerRegister
+class ChannelMessageListenerRegister extends AbstractListenerRegister
 {
     public constructor()
     {
@@ -9,4 +9,4 @@ class MessageComponentListenerRegister extends AbstractListenerRegister
     }
 }
 
-export default MessageComponentListenerRegister
+export default ChannelMessageListenerRegister

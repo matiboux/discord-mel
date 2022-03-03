@@ -158,9 +158,17 @@ class ChannelMessageListener extends AbstractListener
 		super.end(reason)
 	}
 
-	public delete(): void
+	public onDelete(): void
 	{
-		this.handler.on.delete?.(this)
+		try
+		{
+			this.handler.on.delete?.(this)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.delete', 'ChannelMessageListener', error)
+		}
+
 		this.collector.stop('delete')
 	}
 }

@@ -140,9 +140,16 @@ class MessageListener extends AbstractListener
 		super.end(reason)
 	}
 
-	public delete(): void
+	public onDelete(): void
 	{
-		this.handler.on.delete?.(this)
+		try
+		{
+			this.handler.on.delete?.(this)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.delete', 'MessageListener', error)
+		}
 	}
 }
 

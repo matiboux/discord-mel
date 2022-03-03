@@ -111,7 +111,7 @@ class MessageReactionListener extends AbstractListener
 		}
 		catch (error: any)
 		{
-			this.bot.logger.warn('An error occured in handler.on.collect', 'MessageListener', error)
+			this.bot.logger.warn('An error occured in handler.on.collect', 'MessageReactionListener', error)
 		}
 	}
 
@@ -144,7 +144,7 @@ class MessageReactionListener extends AbstractListener
 		}
 		catch (error: any)
 		{
-			this.bot.logger.warn('An error occured in handler.on.remove', 'MessageListener', error)
+			this.bot.logger.warn('An error occured in handler.on.remove', 'MessageReactionListener', error)
 		}
 	}
 
@@ -158,7 +158,7 @@ class MessageReactionListener extends AbstractListener
 		}
 		catch (error: any)
 		{
-			this.bot.logger.warn('An error occured in handler.on.dispose', 'MessageListener', error)
+			this.bot.logger.warn('An error occured in handler.on.dispose', 'MessageReactionListener', error)
 		}
 	}
 
@@ -172,7 +172,7 @@ class MessageReactionListener extends AbstractListener
 		}
 		catch (error: any)
 		{
-			this.bot.logger.warn('An error occured in handler.on.end', 'MessageListener', error)
+			this.bot.logger.warn('An error occured in handler.on.end', 'MessageReactionListener', error)
 		}
 
 		// Delete listener
@@ -185,9 +185,17 @@ class MessageReactionListener extends AbstractListener
 		super.end(reason)
 	}
 
-	public delete(): void
+	public onDelete(): void
 	{
-		this.handler.on.delete?.(this)
+		try
+		{
+			this.handler.on.delete?.(this)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.delete', 'MessageReactionListener', error)
+		}
+
 		this.collector.stop('delete')
 	}
 }
