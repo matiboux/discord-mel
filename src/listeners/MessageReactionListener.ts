@@ -104,7 +104,15 @@ class MessageReactionListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} collected on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
-		this.handler.on.collect?.(this, reaction, user)
+
+		try
+		{
+			this.handler.on.collect?.(this, reaction, user)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.collect', 'MessageListener', error)
+		}
 	}
 
 	protected async onRemove(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
@@ -129,19 +137,43 @@ class MessageReactionListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} removed on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
-		this.handler.on.remove?.(this, reaction, user)
+
+		try
+		{
+			this.handler.on.remove?.(this, reaction, user)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.remove', 'MessageListener', error)
+		}
 	}
 
 	protected async onDispose(reaction: Discord.MessageReaction, user: Discord.User): Promise<void>
 	{
 		this.bot.logger.debug(`Reaction ${reaction.emoji.name} by ${user.username} disposed on message ${this.message.id} (id: ${this.id})`, 'MessageReactionListener')
-		this.handler.on.dispose?.(this, reaction, user)
+
+		try
+		{
+			this.handler.on.dispose?.(this, reaction, user)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.dispose', 'MessageListener', error)
+		}
 	}
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
 		this.bot.logger.debug(`Reaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageReactionListener')
-		this.handler.on.end?.(this, collected, reason)
+
+		try
+		{
+			this.handler.on.end?.(this, collected, reason)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.end', 'MessageListener', error)
+		}
 
 		// Delete listener
 		this.bot.listeners.delete(this.id)

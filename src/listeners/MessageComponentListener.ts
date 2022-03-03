@@ -103,7 +103,15 @@ class MessageComponentListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} collected on message ${this.message.id} (id: ${this.id})`, 'MessageComponentListener')
-		this.handler.on.collect?.(this, interaction)
+
+		try
+		{
+			this.handler.on.collect?.(this, interaction)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.collect', 'MessageComponentListener', error)
+		}
 	}
 
 	protected async onDispose(interaction: Discord.MessageComponentInteraction): Promise<void>
@@ -128,13 +136,29 @@ class MessageComponentListener extends AbstractListener
 		}
 
 		this.bot.logger.debug(`Interaction ${interaction.id} by ${interaction.user.username} disposed on message ${this.message.id} (id: ${this.id})`, 'MessageComponentListener')
-		this.handler.on.dispose?.(this, interaction)
+
+		try
+		{
+			this.handler.on.dispose?.(this, interaction)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.dispose', 'MessageComponentListener', error)
+		}
 	}
 
 	protected async onEnd(collected: any[], reason: string): Promise<void>
 	{
 		this.bot.logger.debug(`Interaction collection ended (reason: ${reason}) (id: ${this.id})`, 'MessageComponentListener')
-		this.handler.on.end?.(this, collected, reason)
+
+		try
+		{
+			this.handler.on.end?.(this, collected, reason)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.end', 'MessageComponentListener', error)
+		}
 
 		// Delete listener
 		this.bot.listeners.delete(this.id)

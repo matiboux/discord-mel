@@ -115,12 +115,28 @@ class MessageListener extends AbstractListener
 		dbListener.lastCallTime = Date.now()
 
 		this.bot.logger.debug(`Message ${message.id} by ${message.author.username} collected in channel ${message.channel.id} (id: ${this.id})`, 'MessageListener')
-		this.handler.on.collect?.(this, message)
+
+		try
+		{
+			this.handler.on.collect?.(this, message)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.collect', 'MessageListener', error)
+		}
 	}
 
 	public end(reason: string = 'user'): void
 	{
-		this.handler.on.end?.(this, reason)
+		try
+		{
+			this.handler.on.end?.(this, reason)
+		}
+		catch (error: any)
+		{
+			this.bot.logger.warn('An error occured in handler.on.end', 'MessageListener', error)
+		}
+
 		super.end(reason)
 	}
 
