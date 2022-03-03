@@ -1,8 +1,9 @@
 enum ListenerTypes
 {
-    MESSAGE = 'message',
-    MESSAGE_COMPONENT = 'messageComponent',
-    MESSAGE_REACTION = 'messageReaction',
+    CHANNEL_MESSAGE = 'CHANNEL_MESSAGE',
+    MESSAGE = 'MESSAGE',
+    MESSAGE_COMPONENT = 'MESSAGE_COMPONENT',
+    MESSAGE_REACTION = 'MESSAGE_REACTION',
 }
 
 export default ListenerTypes
