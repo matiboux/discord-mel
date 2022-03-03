@@ -7,7 +7,9 @@ import AbstractConfigType from './config/types/AbstractConfigType'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractListener from './listeners/AbstractListener'
+import ChannelMessageListener from './listeners/ChannelMessageListener'
 import AbstractHandler from './listeners/handler/AbstractHandler'
+import ChannelMessageHandler from './listeners/handler/ChannelMessageHandler'
 import MessageComponentHandler from './listeners/handler/MessageComponentHandler'
 import MessageHandler from './listeners/handler/MessageHandler'
 import MessageReactionHandler from './listeners/handler/MessageReactionHandler'
@@ -16,6 +18,7 @@ import MessageComponentListener from './listeners/MessageComponentListener'
 import MessageListener from './listeners/MessageListener'
 import MessageReactionListener from './listeners/MessageReactionListener'
 import AbstractListenerRegister from './listeners/register/AbstractListenerRegister'
+import ChannelMessageListenerRegister from './listeners/register/ChannelMessageListenerRegister'
 import MessageComponentListenerRegister from './listeners/register/MessageComponentListenerRegister'
 import MessageListenerRegister from './listeners/register/MessageListenerRegister'
 import MessageReactionListenerRegister from './listeners/register/MessageReactionListenerRegister'
@@ -69,18 +72,21 @@ export
     // Listeners
     AbstractListener,
     ListenerTypes,
+    ChannelMessageListener,
     MessageComponentListener,
     MessageListener,
     MessageReactionListener,
 
     // Listener Handlers
     AbstractHandler,
+    ChannelMessageHandler,
     MessageComponentHandler,
     MessageHandler,
     MessageReactionHandler,
 
     // Listener Registers
     AbstractListenerRegister,
+    ChannelMessageListenerRegister,
     MessageComponentListenerRegister,
     MessageListenerRegister,
     MessageReactionListenerRegister,

@@ -1,6 +1,6 @@
 import Discord from 'discord.js'
 
-class MessageReactionHandlerOptions implements Discord.ReactionCollectorOptions
+class ChannelMessageHandlerOptions implements Discord.ReactionCollectorOptions
 {
 	public time?: number
 
@@ -59,4 +59,4 @@ class MessageReactionHandlerOptions implements Discord.ReactionCollectorOptions
 	}
 }
 
-export default MessageReactionHandlerOptions
+export default ChannelMessageHandlerOptions

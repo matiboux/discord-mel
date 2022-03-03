@@ -9,7 +9,7 @@ type FilterFunction = (listener: ChannelMessageListener, message: Discord.Messag
 
 type StoreFilterFunction = (listener: ChannelMessageListener, message: Discord.Message) => boolean
 
-class MessageHandler extends AbstractHandler
+class ChannelMessageHandler extends AbstractHandler
 {
 	public filter?: FilterFunction
 
@@ -44,4 +44,4 @@ class MessageHandler extends AbstractHandler
 	}
 }
 
-export default MessageHandler
+export default ChannelMessageHandler
