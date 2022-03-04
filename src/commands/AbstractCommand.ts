@@ -13,8 +13,8 @@ class AbstractCommand
 	public readonly id: string
 	public readonly bot: Mel
 
-	public readonly name?: string
-	public readonly description?: string
+	public name?: string
+	public description?: string
 
 	/** Command aliases for legacy commands */
 	public readonly commandAliases: Set<string> = new Set<string>()
@@ -25,8 +25,8 @@ class AbstractCommand
 	/** Components (interactions) */
 	public readonly componentIds: Set<string> = new Set<string>()
 
-	public readonly guildOnly: boolean = false
-	public readonly permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
+	public guildOnly: boolean = false
+	public permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
 
 	/** Listerners handlers */
 	public readonly handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
