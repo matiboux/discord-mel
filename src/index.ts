@@ -7,8 +7,10 @@ import AbstractConfigType from './config/types/AbstractConfigType'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractListener from './listeners/AbstractListener'
+import ChannelComponentListener from './listeners/ChannelComponentListener'
 import ChannelMessageListener from './listeners/ChannelMessageListener'
 import AbstractHandler from './listeners/handler/AbstractHandler'
+import ChannelComponentHandler from './listeners/handler/ChannelComponentHandler'
 import ChannelMessageHandler from './listeners/handler/ChannelMessageHandler'
 import MessageComponentHandler from './listeners/handler/MessageComponentHandler'
 import MessageHandler from './listeners/handler/MessageHandler'
@@ -18,6 +20,7 @@ import MessageComponentListener from './listeners/MessageComponentListener'
 import MessageListener from './listeners/MessageListener'
 import MessageReactionListener from './listeners/MessageReactionListener'
 import AbstractListenerRegister from './listeners/register/AbstractListenerRegister'
+import ChannelComponentListenerRegister from './listeners/register/ChannelComponentListenerRegister'
 import ChannelMessageListenerRegister from './listeners/register/ChannelMessageListenerRegister'
 import MessageComponentListenerRegister from './listeners/register/MessageComponentListenerRegister'
 import MessageListenerRegister from './listeners/register/MessageListenerRegister'
@@ -72,6 +75,7 @@ export
     // Listeners
     AbstractListener,
     ListenerTypes,
+    ChannelComponentListener,
     ChannelMessageListener,
     MessageComponentListener,
     MessageListener,
@@ -79,6 +83,7 @@ export
 
     // Listener Handlers
     AbstractHandler,
+    ChannelComponentHandler,
     ChannelMessageHandler,
     MessageComponentHandler,
     MessageHandler,
@@ -86,6 +91,7 @@ export
 
     // Listener Registers
     AbstractListenerRegister,
+    ChannelComponentListenerRegister,
     ChannelMessageListenerRegister,
     MessageComponentListenerRegister,
     MessageListenerRegister,
