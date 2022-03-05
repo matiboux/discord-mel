@@ -9,11 +9,11 @@ class ChannelComponentListener extends AbstractListener
 {
     public readonly handler: ChannelComponentHandler
 
-    public readonly channel: Discord.TextBasedChannels
+    public readonly channel: Discord.TextBasedChannel
 
     public readonly collector: Discord.InteractionCollector<Discord.MessageComponentInteraction>
 
-	public constructor(listenerId: string, bot: Mel, handler: ChannelComponentHandler, channel: Discord.TextBasedChannels)
+	public constructor(listenerId: string, bot: Mel, handler: ChannelComponentHandler, channel: Discord.TextBasedChannel)
 	{
 		super(listenerId, bot, ListenerTypes.CHANNEL_COMPONENT)
 

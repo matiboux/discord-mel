@@ -44,7 +44,7 @@ abstract class AbstractListenerRegister extends DBListener
         return this
     }
 
-    public setChannel(channel?: Snowflake | Discord.TextBasedChannels | Discord.VoiceChannel | Discord.Channel): this
+    public setChannel(channel?: Snowflake | Discord.TextBasedChannel | Discord.VoiceChannel | Discord.Channel): this
     {
         this.channelId = typeof channel === 'string' ? channel : channel?.id
         return this

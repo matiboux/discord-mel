@@ -70,7 +70,7 @@ class MessageComponentListener extends AbstractListener
 		const channel =
 			(await bot.client.channels.fetch(dbListener.channelId)
 				.catch(() => undefined)
-			) as (Discord.Channel & { messages: undefined }) | Discord.TextBasedChannels | undefined
+			) as (Discord.Channel & { messages: undefined }) | Discord.TextBasedChannel | undefined
 
 		if (!channel || !channel.messages)
 		{
