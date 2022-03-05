@@ -4,6 +4,10 @@ import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
 import AbstractConfig, { AbstractContext, Global, Guild, Guilds } from './config/AbstractConfig'
 import AbstractConfigType from './config/types/AbstractConfigType'
+import ISerialize from './functions/ISerialize'
+import IUnserialize from './functions/IUnserialize'
+import serialize from './functions/serialize'
+import unserialize from './functions/unserialize'
 import Hook from './hooks/Hook'
 import HooksManager from './hooks/HooksManager'
 import AbstractListener from './listeners/AbstractListener'
@@ -56,6 +60,12 @@ export
     AbstractConfig,
     AbstractConfigType,
     config,
+
+    // Serialization
+    ISerialize,
+    IUnserialize,
+    serialize,
+    unserialize,
 
     // State
     AbstractState,
