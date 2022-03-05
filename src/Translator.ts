@@ -28,8 +28,8 @@ class Translator
 
 	protected currentLanguage?: string
 
-	private bot?: Mel
-	private logger: Logger
+	public readonly bot?: Mel
+	protected readonly logger: Logger
 
 	public constructor(bot?: Mel)
 	{

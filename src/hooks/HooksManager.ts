@@ -3,22 +3,22 @@ import Hook from './Hook'
 
 class HooksManager
 {
-	private _hooks: Map<string, Hook> = new Map<string, Hook>()
+	protected hooks: Map<string, Hook> = new Map<string, Hook>()
 
-	private bot?: Mel
+	public readonly bot: Mel
 
-	public constructor(bot?: Mel)
+	public constructor(bot: Mel)
 	{
 		this.bot = bot
 	}
 
 	public get(name: string): Hook
 	{
-		const hook = this._hooks.get(name)
+		const hook = this.hooks.get(name)
 		if (hook !== undefined) return hook
 
 		const newHook = new Hook(name, this.bot)
-		this._hooks.set(name, newHook)
+		this.hooks.set(name, newHook)
 		return newHook
 	}
 
@@ -29,7 +29,7 @@ class HooksManager
 
 	public remove(name: string, callback: Function, priority: number = 10): void
 	{
-		this._hooks.get(name)?.remove(callback, priority)
+		this.hooks.get(name)?.remove(callback, priority)
 	}
 
 	public execute(name: string, ...args: any[]): void

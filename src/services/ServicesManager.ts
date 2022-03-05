@@ -3,11 +3,11 @@ import Service from './AbstractService'
 
 class ServicesManager
 {
-	private services: Map<string, Service> = new Map<string, Service>()
+	protected services: Map<string, Service> = new Map<string, Service>()
 
-	private bot?: Mel
+	public readonly bot: Mel
 
-	public constructor(bot?: Mel)
+	public constructor(bot: Mel)
 	{
 		this.bot = bot
 	}
