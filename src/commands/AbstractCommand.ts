@@ -31,7 +31,7 @@ class AbstractCommand
 	/** Listerners handlers */
 	public readonly handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
 
-	constructor(id: string, bot: Mel)
+	public constructor(id: string, bot: Mel)
 	{
 		this.id = id
 		this.bot = bot

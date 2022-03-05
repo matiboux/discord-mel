@@ -14,7 +14,7 @@ abstract class AbstractService implements ServiceInterface
 	protected logger: Logger
 	protected translator: Translator
 
-	constructor(name: string, config?: ServiceConfigType, bot?: Mel)
+	public constructor(name: string, config?: ServiceConfigType, bot?: Mel)
 	{
 		this.name = name;
 

@@ -22,22 +22,22 @@ interface ITranslationArgument
 
 class Translator
 {
-	translations: ITranslations = {}
+	protected translations: ITranslations = {}
 
-	defaultLanguage?: string
+	protected defaultLanguage?: string
 
-	currentLanguage?: string
+	protected currentLanguage?: string
 
 	private bot?: Mel
 	private logger: Logger
 
-	constructor(bot?: Mel)
+	public constructor(bot?: Mel)
 	{
 		this.bot = bot
 		this.logger = this.bot?.logger || new Logger()
 	}
 
-	addTranslations(dirpath: string, defaultLanguage?: string)
+	public addTranslations(dirpath: string, defaultLanguage?: string)
 	{
 		if (dirpath)
 		{
@@ -84,12 +84,12 @@ class Translator
 		}
 	}
 
-	getDefaultLanguage(): string | undefined
+	public getDefaultLanguage(): string | undefined
 	{
 		return this.defaultLanguage
 	}
 
-	setDefaultLanguage(defaultLanguage: string): boolean
+	public setDefaultLanguage(defaultLanguage: string): boolean
 	{
 		// if (defaultLanguage && typeof this.translations[defaultLanguage] !== 'undefined')
 		// {
@@ -100,12 +100,12 @@ class Translator
 		// return false
 	}
 
-	getCurrentLanguage(): string | undefined
+	public getCurrentLanguage(): string | undefined
 	{
 		return this.currentLanguage
 	}
 
-	setCurrentLanguage(currentLanguage: string): boolean
+	public setCurrentLanguage(currentLanguage: string): boolean
 	{
 		// if (currentLanguage && typeof this.translations[currentLanguage] !== 'undefined')
 		// {
@@ -116,12 +116,12 @@ class Translator
 		// return false
 	}
 
-	resetCurrentLanguage()
+	public resetCurrentLanguage()
 	{
 		this.currentLanguage = undefined
 	}
 
-	translate(translationKey: string, language?: string | ITranslationArgument, args: ITranslationArgument = {}): string
+	public translate(translationKey: string, language?: string | ITranslationArgument, args: ITranslationArgument = {}): string
 	{
 		if (typeof language === 'object')
 		{

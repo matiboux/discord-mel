@@ -12,7 +12,7 @@ class Hook
 	private logger: Logger
 	private translator: Translator
 
-	constructor(name: string, bot?: Mel)
+	public constructor(name: string, bot?: Mel)
 	{
 		this.name = name;
 

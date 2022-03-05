@@ -8,7 +8,7 @@ abstract class AbstractEventSubscriber implements EventSubscriberInterface
 
 	protected mel: Mel
 
-	constructor(mel: Mel)
+	public constructor(mel: Mel)
 	{
 		this.mel = mel
 	}

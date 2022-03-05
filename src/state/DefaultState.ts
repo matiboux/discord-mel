@@ -3,7 +3,7 @@ import DefaultDB from './db/DefaultDB'
 
 class DefaultState extends AbstractState<DefaultDB>
 {
-	constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
+	public constructor(stateFile?: string, charset: BufferEncoding = 'utf8')
 	{
 		super(stateFile, charset)
 	}

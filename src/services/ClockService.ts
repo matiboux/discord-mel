@@ -28,7 +28,7 @@ class ClockService extends Service
 
 	protected minutesTicks: number = 0
 
-	constructor(name: string, config?: ServiceConfigType, bot?: Mel)
+	public constructor(name: string, config?: ServiceConfigType, bot?: Mel)
 	{
 		super(name, config, bot)
 

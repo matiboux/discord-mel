@@ -7,7 +7,7 @@ class ServicesManager
 
 	private bot?: Mel
 
-	constructor(bot?: Mel)
+	public constructor(bot?: Mel)
 	{
 		this.bot = bot
 	}

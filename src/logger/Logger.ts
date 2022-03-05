@@ -27,11 +27,11 @@ class Logger implements ILogger
 
 	//#region Constructor
 
-	constructor()
-	constructor(filePath?: string)
-	constructor(filePath?: string, level?: LogLevel)
-	constructor(filePath?: string, level?: LogLevel, stdout?: boolean)
-	constructor(filePath?: string, level?: LogLevel, printConsole?: boolean)
+	public constructor()
+	public constructor(filePath?: string)
+	public constructor(filePath?: string, level?: LogLevel)
+	public constructor(filePath?: string, level?: LogLevel, stdout?: boolean)
+	public constructor(filePath?: string, level?: LogLevel, printConsole?: boolean)
 	{
 		if (filePath !== undefined)
 			this.setFilePath(filePath)

@@ -23,7 +23,7 @@ class ListenersManager
 	protected logger: Logger
 	protected translator: Translator
 
-	constructor(bot: Mel)
+	public constructor(bot: Mel)
 	{
 		this.bot = bot
 		this.logger = this.bot.logger
