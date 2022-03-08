@@ -30,32 +30,15 @@ class DBListener extends AbstractDBType
 	public constructor(type?: AbstractDBType)
 	{
 		super(type)
-
-		if (this.type as any === undefined)
-		{
-			this.type = ''
-		}
-
-        if (this.commandId as any === undefined)
-        {
-            this.commandId = ''
-        }
-
-        if (this.collected as any === undefined)
-        {
-            this.collected = []
-        }
-
-        if (this.data as any === undefined)
-        {
-            this.data = {}
-        }
-
-        if (this.lastCallTime as any === undefined)
-        {
-            this.lastCallTime = Date.now()
-        }
 	}
+
+    protected initProperties(): void
+    {
+        this.commandId = ''
+        this.collected = []
+        this.data = {}
+        this.lastCallTime = Date.now()
+    }
 }
 
 export default DBListener
