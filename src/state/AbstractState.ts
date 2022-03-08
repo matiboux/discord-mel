@@ -46,11 +46,11 @@ abstract class AbstractState<DB extends IBaseDB>
 		}
 	}
 
-	protected initProperties(): void
-	{
-		// Override this method to initialize properties
-		throw new Error(`Method 'initProperties' is not implemented`)
-	}
+	/**
+	 * Method to initialize the properties before the parent constructor is called
+	 * It is required to initialize {@link _db} here.
+	 */
+	protected abstract initProperties(): void
 
 	public get db(): DB
 	{
