@@ -27,11 +27,6 @@ class DBListener extends AbstractDBType
 
     public lastCallTime!: number
 
-	public constructor(object?: AbstractDBType)
-	{
-		super(object)
-	}
-
     protected initProperties(): void
     {
         this.commandId = ''
