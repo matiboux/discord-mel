@@ -15,7 +15,7 @@ abstract class AbstractDBMapType<K, V> extends Map<K, V> implements ISerialize, 
 		return entries
 	}
 
-	public abstract unserialize(other: any): this
+	public abstract unserialize(object: any): this
 }
 
 export default AbstractDBMapType

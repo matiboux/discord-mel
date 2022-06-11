@@ -2,14 +2,14 @@ import unserialize from '../../../functions/unserialize'
 
 abstract class AbstractDBType
 {
-	public constructor(type?: AbstractDBType)
+	public constructor(object?: AbstractDBType)
 	{
 		// Initialize properties
 		this.initProperties()
 
-		if (type)
+		if (object)
 		{
-			unserialize(this, type)
+			unserialize(this, object)
 		}
 	}
 
