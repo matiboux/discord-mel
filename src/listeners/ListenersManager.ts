@@ -11,7 +11,6 @@ import AbstractListenerRegister from './register/AbstractListenerRegister'
 import AbstractHandler from './handler/AbstractHandler'
 import MessageHandler from './handler/MessageHandler'
 import MessageListener from './MessageListener'
-import ListenerTargetTypes from './register/ListenerTargetTypes'
 import MessageComponentHandler from './handler/MessageComponentHandler'
 import MessageComponentListener from './MessageComponentListener'
 
