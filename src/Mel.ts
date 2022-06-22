@@ -245,7 +245,7 @@ class Mel
 			return Promise.reject()
 		}
 
-		this.rest = new REST({ version: '9' }).setToken(token)
+		this.rest = new REST({ version: '10' }).setToken(token)
 		return this.client.login(token)
 			.catch(error =>
 				{
