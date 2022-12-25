@@ -5,7 +5,8 @@
 
 <img src="https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg" width="200" />
 
-Modulable Discord bot framework
+Modulable Discord bot framework (WIP)
+
 
 ## Get started
 
