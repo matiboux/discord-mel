@@ -1,6 +1,6 @@
 {
 	"name": "discord-mel",
-	"version": "1.7.0",
+	"version": "1.7.1",
 	"description": "Modulable Discord bot framework",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
