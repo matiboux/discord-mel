@@ -26,7 +26,7 @@ class AbstractCommand
 	public readonly componentIds: Set<string> = new Set<string>()
 
 	public guildOnly: boolean = false
-	public permissions: Set<PermissionResolvable> = new Set<PermissionResolvable>()
+	public permissions: Discord.PermissionsBitField = new Discord.PermissionsBitField()
 
 	/** Listerners handlers */
 	public readonly handlers: Map<string, AbstractHandler | Map<string, AbstractHandler>> = new Map<string, AbstractHandler | Map<string, AbstractHandler>>()
@@ -58,26 +58,12 @@ class AbstractCommand
 	 */
 	public isAllowed(message: Discord.Message | Discord.BaseInteraction)
 	{
-		if (this.permissions.size <= 0)
-		{
-			// No required permissions
-			return true
-		}
-
+		// TODO: Verify which permissions to check
+		// Currently: for messages we check guild permissions, for interactions we check channel permissions
 		const permissions = (message instanceof Discord.Message ? message.member?.permissions : message.memberPermissions) ?? undefined
-		if (permissions)
-		{
-			// Check the member has required permissions
-			const permissionsCheck = Array.from(this.permissions).every(permission => permissions.has(permission))
-			if (permissionsCheck)
-			{
-				// Member has all required permissions
-				return true
-			}
-		}
 
-		// Member has not all required permissions
-		return false
+		// Allow if member has all required permissions
+		return permissions && this.permissions.has(permissions)
 	}
 
 	/**
