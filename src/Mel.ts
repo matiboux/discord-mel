@@ -4,7 +4,7 @@ import path from 'path'
 import Discord from 'discord.js'
 import { REST } from '@discordjs/rest'
 
-import __dirname from './__dirname.js'
+import __abspath from './__abspath.js'
 import AbstractCommand from './commands/AbstractCommand.js'
 import CommandsCollection from './commands/CommandsCollection.js'
 import IOptions from './config/IOptions.js'
@@ -35,7 +35,7 @@ class Mel
 
 	public static readonly defaultOptions: IOptions = new Options(
 		{
-			absPath: __dirname,
+			absPath: __abspath,
 			configFile: 'config.json',
 		})
 
@@ -108,7 +108,7 @@ class Mel
 
 		// Load src and user translations
 		this.translator = new Translator(this)
-		this.translator.addTranslations(path.join(__dirname, "../translations"), this.config.defaultLanguage)
+		this.translator.addTranslations(path.join(__abspath, "../translations"), this.config.defaultLanguage)
 		if (this.config.translationsDir)
 		{
 			this.translator.addTranslations(path.join(this.config.absPath, this.config.translationsDir))

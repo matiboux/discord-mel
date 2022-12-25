@@ -1,4 +1,4 @@
-import __dirname from '../__dirname.js'
+import __abspath from '../__abspath.js'
 import IOptions from './IOptions.js'
 import Logger from '../logger/Logger.js'
 import unserialize from '../functions/unserialize.js'
@@ -8,7 +8,7 @@ class Options implements IOptions
 {
 	[x: string]: any
 
-	public absPath: string = __dirname
+	public absPath: string = __abspath
 
 	public token?: string
 

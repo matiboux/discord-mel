@@ -1,5 +1,6 @@
 import fs from 'fs'
 
+import __abspath from '../__abspath.js'
 import serialize from '../functions/serialize.js'
 import unserialize from '../functions/unserialize.js'
 import IConfig from './IConfig.js'
@@ -14,7 +15,7 @@ abstract class AbstractConfig implements IConfig
 	public static readonly serialize = serialize
 	public static readonly unserialize = unserialize
 
-	public absPath: string = __dirname
+	public absPath: string = __abspath
 
 	public token?: string
 
