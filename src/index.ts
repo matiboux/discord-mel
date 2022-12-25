@@ -1,4 +1,5 @@
 import Discord from 'discord.js'
+import DiscordAPITypes from 'discord-api-types/v9'
 
 import AbstractCommand from './commands/AbstractCommand'
 import CommandsCollection from './commands/CommandsCollection'
@@ -50,6 +51,7 @@ export
 {
     // Bot
     Discord,
+    DiscordAPITypes,
     Mel,
 
     // Commands
