@@ -280,9 +280,9 @@ class Mel
 			{
 				fs.readdirSync(dirpath)
 					.filter(file => file.endsWith('.js'))
-					.forEach(file =>
+					.forEach(async file =>
 						{
-							const { default: commandClass }: { default: typeof AbstractCommand | undefined } = require(`${dirpath}/${file}`)
+							const { default: commandClass }: { default: typeof AbstractCommand | undefined } = await import(`${dirpath}/${file}`)
 
 							if (commandClass && commandClass.enabled)
 							{
