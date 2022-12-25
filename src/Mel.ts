@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { pathToFileURL } from 'url'
 
 import Discord from 'discord.js'
 import { REST } from '@discordjs/rest'
@@ -26,6 +27,7 @@ import ServicesManager from './services/ServicesManager.js'
 import Service from './services/Service.js'
 import ClockService from './services/ClockService.js'
 import ListenersManager from './listeners/ListenersManager.js'
+import { url } from 'inspector'
 
 class Mel
 {
@@ -278,11 +280,12 @@ class Mel
 			// Load commands
 			try
 			{
-				fs.readdirSync(dirpath)
+				const constDirpath = dirpath
+				fs.readdirSync(constDirpath)
 					.filter(file => file.endsWith('.js'))
 					.forEach(async file =>
 						{
-							const { default: commandClass }: { default: typeof AbstractCommand | undefined } = await import(`${dirpath}/${file}`)
+							const { default: commandClass }: { default: typeof AbstractCommand | undefined } = await import(pathToFileURL(path.join(constDirpath, file)).href)
 
 							if (commandClass && commandClass.enabled)
 							{
