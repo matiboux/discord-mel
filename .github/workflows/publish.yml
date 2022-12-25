@@ -22,17 +22,27 @@ jobs:
 
     steps:
       # Checkout the repository under $GITHUB_WORKSPACE
-      - uses: actions/checkout@v2
+      - name: Checkout the project
+        uses: actions/checkout@v2
 
       # Setup to publish to npm
-      - uses: actions/setup-node@v2
+      - name: Install Node.js v16.x
+        uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm clean-install
+      - name: Check Node.js version
+        run: node --version
 
-      - run: npm publish
+      - name: Check npm version
+        run: npm --version
+
+      - name: Clean install the project
+        run: npm clean-install
+
+      - name: Publish the project
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
