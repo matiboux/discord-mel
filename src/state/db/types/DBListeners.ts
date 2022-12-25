@@ -1,4 +1,4 @@
-import { Snowflake } from 'discord-api-types/v10'
+import { Snowflake } from 'discord-api-types/v9'
 
 import AbstractDBMapType from './AbstractDBMapType'
 import DBListener from './DBListener'
