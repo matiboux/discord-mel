@@ -15,6 +15,7 @@
 	"repository": "https://github.com/matiboux/discord-mel",
 	"author": "Matiboux",
 	"license": "MIT",
+	"type": "module",
 	"dependencies": {
 		"@discordjs/builders": "^0.16.0",
 		"@discordjs/rest": "^0.5.0",
