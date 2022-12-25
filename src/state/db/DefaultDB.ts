@@ -1,4 +1,4 @@
-import AbstractDB from './AbstractDB'
+import AbstractDB from './AbstractDB.js'
 
 class DefaultDB extends AbstractDB
 {

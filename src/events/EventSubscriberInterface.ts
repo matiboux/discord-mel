@@ -1,4 +1,4 @@
-import SubscribedEventsType from './SubscribedEventsType'
+import SubscribedEventsType from './SubscribedEventsType.js'
 
 interface EventSubscriberInterface
 {

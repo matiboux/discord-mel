@@ -1,7 +1,7 @@
 import Discord from 'discord.js'
 
-import MessageListener from '../MessageListener'
-import AbstractHandlerEvents from './AbstractHandlerEvents'
+import MessageListener from '../MessageListener.js'
+import AbstractHandlerEvents from './AbstractHandlerEvents.js'
 
 type CollectFunction = (listener: MessageListener, message: Discord.Message) => void
 

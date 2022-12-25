@@ -1,7 +1,7 @@
-import Mel from '../Mel'
-import DBListener from '../state/db/types/DBListener'
-import AbstractHandler from './handler/AbstractHandler'
-import ListenerTypes from './ListenerTypes'
+import Mel from '../Mel.js'
+import DBListener from '../state/db/types/DBListener.js'
+import AbstractHandler from './handler/AbstractHandler.js'
+import ListenerTypes from './ListenerTypes.js'
 
 abstract class AbstractListener
 {

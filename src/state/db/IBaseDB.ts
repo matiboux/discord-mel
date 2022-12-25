@@ -1,4 +1,4 @@
-import DBListeners from './types/DBListeners'
+import DBListeners from './types/DBListeners.js'
 
 interface IBaseDB
 {

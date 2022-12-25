@@ -1,4 +1,4 @@
-import unserialize from '../../functions/unserialize'
+import unserialize from '../../functions/unserialize.js'
 
 abstract class AbstractConfigType
 {

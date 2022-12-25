@@ -1,7 +1,7 @@
 import { Snowflake } from 'discord-api-types/v9'
 
-import AbstractDBMapType from './AbstractDBMapType'
-import DBListener from './DBListener'
+import AbstractDBMapType from './AbstractDBMapType.js'
+import DBListener from './DBListener.js'
 
 class DBListeners extends AbstractDBMapType<Snowflake, DBListener>
 {

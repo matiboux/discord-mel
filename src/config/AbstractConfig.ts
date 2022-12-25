@@ -1,13 +1,13 @@
 import fs from 'fs'
 
-import serialize from '../functions/serialize'
-import unserialize from '../functions/unserialize'
-import IConfig from './IConfig'
-import AbstractContext from './types/AbstractContext'
-import Global from './types/Global'
-import Guild from './types/Guild'
-import Guilds from './types/Guilds'
-import ServicesConfigType from './types/ServicesConfigType'
+import serialize from '../functions/serialize.js'
+import unserialize from '../functions/unserialize.js'
+import IConfig from './IConfig.js'
+import AbstractContext from './types/AbstractContext.js'
+import Global from './types/Global.js'
+import Guild from './types/Guild.js'
+import Guilds from './types/Guilds.js'
+import ServicesConfigType from './types/ServicesConfigType.js'
 
 abstract class AbstractConfig implements IConfig
 {

@@ -1,4 +1,4 @@
-import AbstractContext from './AbstractContext'
+import AbstractContext from './AbstractContext.js'
 
 class Guild extends AbstractContext
 {

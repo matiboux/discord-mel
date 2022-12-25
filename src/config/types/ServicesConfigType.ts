@@ -1,5 +1,5 @@
-import IUnserialize from '../../functions/IUnserialize'
-import ServiceConfigType from './ServiceConfigType'
+import IUnserialize from '../../functions/IUnserialize.js'
+import ServiceConfigType from './ServiceConfigType.js'
 
 class ServicesConfigType extends Map<string, ServiceConfigType> implements IUnserialize
 {

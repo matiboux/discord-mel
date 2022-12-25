@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
 
-import MessageComponentListener from '../ChannelComponentListener'
-import AbstractHandler from './AbstractHandler'
-import ChannelComponentHandlerEvents from './ChannelComponentHandlerEvents'
-import ChannelComponentHandlerOptions from './ChannelComponentHandlerOptions'
+import MessageComponentListener from '../ChannelComponentListener.js'
+import AbstractHandler from './AbstractHandler.js'
+import ChannelComponentHandlerEvents from './ChannelComponentHandlerEvents.js'
+import ChannelComponentHandlerOptions from './ChannelComponentHandlerOptions.js'
 
 type FilterFunction = (listener: MessageComponentListener, interaction: Discord.MessageComponentInteraction) => boolean | Promise<boolean>
 

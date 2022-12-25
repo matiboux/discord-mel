@@ -1,5 +1,5 @@
-import AbstractState from './AbstractState'
-import DefaultDB from './db/DefaultDB'
+import AbstractState from './AbstractState.js'
+import DefaultDB from './db/DefaultDB.js'
 
 class DefaultState extends AbstractState<DefaultDB>
 {

@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
 import { Snowflake } from 'discord-api-types/v9'
 
-import DBListener from '../../state/db/types/DBListener'
-import ListenerTypes from '../ListenerTypes'
-import ListenerTargetTypes from './ListenerTargetTypes'
+import DBListener from '../../state/db/types/DBListener.js'
+import ListenerTypes from '../ListenerTypes.js'
+import ListenerTargetTypes from './ListenerTargetTypes.js'
 
 abstract class AbstractListenerRegister extends DBListener
 {

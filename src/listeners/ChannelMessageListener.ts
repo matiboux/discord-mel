@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
-import Mel from '../Mel'
+import Mel from '../Mel.js'
 
-import AbstractListener from './AbstractListener'
-import ChannelMessageHandler from './handler/ChannelMessageHandler'
-import ListenerTypes from './ListenerTypes'
+import AbstractListener from './AbstractListener.js'
+import ChannelMessageHandler from './handler/ChannelMessageHandler.js'
+import ListenerTypes from './ListenerTypes.js'
 
 class ChannelMessageListener extends AbstractListener
 {

@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 
-import serialize from '../functions/serialize'
-import unserialize from '../functions/unserialize'
-import IBaseDB from './db/IBaseDB'
+import serialize from '../functions/serialize.js'
+import unserialize from '../functions/unserialize.js'
+import IBaseDB from './db/IBaseDB.js'
 
 abstract class AbstractState<DB extends IBaseDB>
 {

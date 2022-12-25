@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
 
-import MessageReactionListener from '../MessageReactionListener'
-import AbstractHandler from './AbstractHandler'
-import MessageReactionHandlerEvents from './MessageReactionHandlerEvents'
-import MessageReactionHandlerOptions from './MessageReactionHandlerOptions'
+import MessageReactionListener from '../MessageReactionListener.js'
+import AbstractHandler from './AbstractHandler.js'
+import MessageReactionHandlerEvents from './MessageReactionHandlerEvents.js'
+import MessageReactionHandlerOptions from './MessageReactionHandlerOptions.js'
 
 type FilterFunction = (listener: MessageReactionListener, reaction: Discord.MessageReaction, user: Discord.User) => boolean | Promise<boolean>
 

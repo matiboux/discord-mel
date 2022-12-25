@@ -1,7 +1,7 @@
 import Discord from 'discord.js'
 
-import SubscribedEventsType from './SubscribedEventsType'
-import AbstractEventSubscriber from './AbstractEventSubscriber'
+import SubscribedEventsType from './SubscribedEventsType.js'
+import AbstractEventSubscriber from './AbstractEventSubscriber.js'
 
 class MessageCreateEventSubscriber extends AbstractEventSubscriber
 {

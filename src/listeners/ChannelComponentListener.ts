@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
-import Mel from '../Mel'
+import Mel from '../Mel.js'
 
-import AbstractListener from './AbstractListener'
-import ChannelComponentHandler from './handler/ChannelComponentHandler'
-import ListenerTypes from './ListenerTypes'
+import AbstractListener from './AbstractListener.js'
+import ChannelComponentHandler from './handler/ChannelComponentHandler.js'
+import ListenerTypes from './ListenerTypes.js'
 
 class ChannelComponentListener extends AbstractListener
 {

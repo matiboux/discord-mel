@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from '@discordjs/builders'
 import Discord, { PermissionResolvable } from 'discord.js'
 
-import Mel from '../Mel'
-import AbstractHandler from '../listeners/handler/AbstractHandler'
+import Mel from '../Mel.js'
+import AbstractHandler from '../listeners/handler/AbstractHandler.js'
 
 type ApplicationCommand = SlashCommandBuilder | ContextMenuCommandBuilder
 

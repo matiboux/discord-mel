@@ -1,7 +1,8 @@
-import IOptions from './IOptions'
-import Logger from '../logger/Logger'
-import unserialize from '../functions/unserialize'
-import IConfig from './IConfig'
+import __dirname from '../__dirname.js'
+import IOptions from './IOptions.js'
+import Logger from '../logger/Logger.js'
+import unserialize from '../functions/unserialize.js'
+import IConfig from './IConfig.js'
 
 class Options implements IOptions
 {

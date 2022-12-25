@@ -1,5 +1,5 @@
 import { Snowflake } from 'discord-api-types/v9'
-import AbstractDBType from './AbstractDBType'
+import AbstractDBType from './AbstractDBType.js'
 
 class DBListener extends AbstractDBType
 {

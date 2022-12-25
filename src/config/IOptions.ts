@@ -1,5 +1,5 @@
-import Logger from '../logger/Logger'
-import IConfig from './IConfig'
+import Logger from '../logger/Logger.js'
+import IConfig from './IConfig.js'
 
 interface IOptions
 {

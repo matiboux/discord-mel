@@ -1,5 +1,5 @@
-import DefaultConfig from './config/DefaultConfig'
-import DefaultState from './state/DefaultState'
+import DefaultConfig from './config/DefaultConfig.js'
+import DefaultState from './state/DefaultState.js'
 
 const Services:
 	{

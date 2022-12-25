@@ -1,4 +1,4 @@
-import AbstractConfigType from './AbstractConfigType'
+import AbstractConfigType from './AbstractConfigType.js'
 
 class ServiceConfigType extends AbstractConfigType
 {

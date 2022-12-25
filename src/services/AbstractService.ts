@@ -1,8 +1,8 @@
-import Mel from '../Mel'
-import Logger from '../logger/Logger'
-import Translator from '../Translator'
-import ServiceInterface from './ServiceInterface'
-import ServiceConfigType from '../config/types/ServiceConfigType'
+import Mel from '../Mel.js'
+import Logger from '../logger/Logger.js'
+import Translator from '../Translator.js'
+import ServiceInterface from './ServiceInterface.js'
+import ServiceConfigType from '../config/types/ServiceConfigType.js'
 
 abstract class AbstractService implements ServiceInterface
 {

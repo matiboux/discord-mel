@@ -1,6 +1,6 @@
-import ISerialize from '../../../functions/ISerialize'
-import IUnserialize from '../../../functions/IUnserialize'
-import serialize from '../../../functions/serialize'
+import ISerialize from '../../../functions/ISerialize.js'
+import IUnserialize from '../../../functions/IUnserialize.js'
+import serialize from '../../../functions/serialize.js'
 
 abstract class AbstractDBMapType<K, V> extends Map<K, V> implements ISerialize, IUnserialize
 {

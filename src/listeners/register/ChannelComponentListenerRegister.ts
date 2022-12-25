@@ -1,5 +1,5 @@
-import ListenerTypes from '../ListenerTypes'
-import AbstractListenerRegister from './AbstractListenerRegister'
+import ListenerTypes from '../ListenerTypes.js'
+import AbstractListenerRegister from './AbstractListenerRegister.js'
 
 class ChannelComponentListenerRegister extends AbstractListenerRegister
 {

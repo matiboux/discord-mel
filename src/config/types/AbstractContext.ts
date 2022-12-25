@@ -1,5 +1,5 @@
-import AbstractConfigType from './AbstractConfigType'
-import IContext from './IContext'
+import AbstractConfigType from './AbstractConfigType.js'
+import IContext from './IContext.js'
 
 abstract class AbstractContext extends AbstractConfigType implements IContext
 {

@@ -1,8 +1,8 @@
 import Discord from 'discord.js'
 import Collection = Discord.Collection
 
-import Mel from '../Mel'
-import AbstractCommand from './AbstractCommand'
+import Mel from '../Mel.js'
+import AbstractCommand from './AbstractCommand.js'
 
 class CommandsCollection extends Collection<string, AbstractCommand>
 {

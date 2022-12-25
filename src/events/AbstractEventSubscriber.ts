@@ -1,6 +1,6 @@
-import Mel from '../Mel'
-import EventSubscriberInterface from './EventSubscriberInterface'
-import SubscribedEventsType from './SubscribedEventsType'
+import Mel from '../Mel.js'
+import EventSubscriberInterface from './EventSubscriberInterface.js'
+import SubscribedEventsType from './SubscribedEventsType.js'
 
 abstract class AbstractEventSubscriber implements EventSubscriberInterface
 {

@@ -1,8 +1,8 @@
 import Discord from 'discord.js'
 
-import MessageListener from '../MessageListener'
-import AbstractHandler from './AbstractHandler'
-import MessageHandlerEvents from './MessageHandlerEvents'
+import MessageListener from '../MessageListener.js'
+import AbstractHandler from './AbstractHandler.js'
+import MessageHandlerEvents from './MessageHandlerEvents.js'
 
 type FilterFunction = (listener: MessageListener, message: Discord.Message) => boolean
 

@@ -1,5 +1,5 @@
-import { Mel } from '..'
-import AbstractEventSubscriber from './AbstractEventSubscriber'
+import Mel from '../Mel.js'
+import AbstractEventSubscriber from './AbstractEventSubscriber.js'
 
 type EventSubscriber =
 	(new (bot: Mel) => AbstractEventSubscriber) &

@@ -1,6 +1,6 @@
-import Mel from '../Mel'
-import ServiceConfigType from '../config/types/ServiceConfigType'
-import Service from './AbstractService'
+import Mel from '../Mel.js'
+import ServiceConfigType from '../config/types/ServiceConfigType.js'
+import Service from './AbstractService.js'
 
 class ClockService extends Service
 {

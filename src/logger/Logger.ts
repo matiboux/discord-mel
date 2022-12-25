@@ -1,9 +1,9 @@
 import fs from 'fs'
 import chalk from 'chalk'
 
-import LogLevel from './LogLevel'
-import ILogger from './ILogger'
-import LoggerMessage from './LoggerMessage'
+import LogLevel from './LogLevel.js'
+import ILogger from './ILogger.js'
+import LoggerMessage from './LoggerMessage.js'
 
 class Logger implements ILogger
 {

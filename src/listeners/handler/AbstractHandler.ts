@@ -1,4 +1,4 @@
-import AbstractHandlerEvents from './AbstractHandlerEvents'
+import AbstractHandlerEvents from './AbstractHandlerEvents.js'
 
 abstract class AbstractHandler
 {

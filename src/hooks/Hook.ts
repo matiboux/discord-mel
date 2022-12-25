@@ -1,6 +1,6 @@
-import Mel from '../Mel'
-import Logger from '../logger/Logger'
-import Translator from '../Translator'
+import Mel from '../Mel.js'
+import Logger from '../logger/Logger.js'
+import Translator from '../Translator.js'
 
 class Hook
 {

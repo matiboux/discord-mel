@@ -1,7 +1,7 @@
-import Global from './types/Global'
-import Guild from './types/Guild'
-import Guilds from './types/Guilds'
-import ServicesConfigType from './types/ServicesConfigType'
+import Global from './types/Global.js'
+import Guild from './types/Guild.js'
+import Guilds from './types/Guilds.js'
+import ServicesConfigType from './types/ServicesConfigType.js'
 
 interface IConfig
 {

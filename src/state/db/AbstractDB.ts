@@ -1,5 +1,5 @@
-import IBaseDB from './IBaseDB'
-import DBListeners from './types/DBListeners'
+import IBaseDB from './IBaseDB.js'
+import DBListeners from './types/DBListeners.js'
 
 class AbstractDB implements IBaseDB
 {

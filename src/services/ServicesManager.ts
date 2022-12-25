@@ -1,5 +1,5 @@
-import Mel from '../Mel'
-import Service from './AbstractService'
+import Mel from '../Mel.js'
+import Service from './AbstractService.js'
 
 class ServicesManager
 {

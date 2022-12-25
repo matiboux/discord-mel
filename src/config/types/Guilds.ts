@@ -1,7 +1,7 @@
 import { Snowflake } from 'discord-api-types/v9'
 
-import IUnserialize from '../../functions/IUnserialize'
-import Guild from './Guild'
+import IUnserialize from '../../functions/IUnserialize.js'
+import Guild from './Guild.js'
 
 class Guilds extends Map<Snowflake, Guild> implements IUnserialize
 {

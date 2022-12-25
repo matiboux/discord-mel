@@ -1,5 +1,5 @@
-import Mel from '../Mel'
-import Hook from './Hook'
+import Mel from '../Mel.js'
+import Hook from './Hook.js'
 
 class HooksManager
 {

@@ -1,9 +1,9 @@
 import Discord from 'discord.js'
 
-import AbstractHandler from './AbstractHandler'
-import ChannelMessageHandlerOptions from './ChannelMessageHandlerOptions'
-import ChannelMessageHandlerEvents from './ChannelMessageHandlerEvents'
-import ChannelMessageListener from '../ChannelMessageListener'
+import AbstractHandler from './AbstractHandler.js'
+import ChannelMessageHandlerOptions from './ChannelMessageHandlerOptions.js'
+import ChannelMessageHandlerEvents from './ChannelMessageHandlerEvents.js'
+import ChannelMessageListener from '../ChannelMessageListener.js'
 
 type FilterFunction = (listener: ChannelMessageListener, message: Discord.Message) => boolean | Promise<boolean>
 
