@@ -43,13 +43,10 @@ class AbstractCommand
 	 */
 	public isEnabled(message: Discord.Message | Discord.BaseInteraction)
 	{
-		if (this.guildOnly)
+		if (this.guildOnly && !message.guild)
 		{
-			// Check that the message is from a guild member
-			if (!message.member)
-			{
-				return false
-			}
+			// The command is guild only
+			return false
 		}
 
 		return true
