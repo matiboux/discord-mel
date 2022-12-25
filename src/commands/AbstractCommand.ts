@@ -61,31 +61,26 @@ class AbstractCommand
 	 */
 	public isAllowed(message: Discord.Message | Discord.BaseInteraction)
 	{
-		if (message.member)
+		if (this.permissions.size <= 0)
 		{
-			// Check for required member permissions
-			const permissionsCheck = Array.from(this.permissions).every(permission =>
-				{
-					let permissions = message.member?.permissions
-					if (!permissions)
-					{
-						return false
-					}
+			// No required permissions
+			return true
+		}
 
-					if (typeof permissions === 'string')
-					{
-						permissions = new Discord.PermissionsBitField(permissions as `${bigint}`)
-					}
-
-					return permissions.has(permission)
-				})
-			if (!permissionsCheck)
+		const permissions = (message instanceof Discord.Message ? message.member?.permissions : message.memberPermissions) ?? undefined
+		if (permissions)
+		{
+			// Check the member has required permissions
+			const permissionsCheck = Array.from(this.permissions).every(permission => permissions.has(permission))
+			if (permissionsCheck)
 			{
-				return false
+				// Member has all required permissions
+				return true
 			}
 		}
 
-		return true
+		// Member has not all required permissions
+		return false
 	}
 
 	/**
