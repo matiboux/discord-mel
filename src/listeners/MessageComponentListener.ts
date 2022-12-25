@@ -11,7 +11,8 @@ class MessageComponentListener extends AbstractListener
 
     public readonly message: Discord.Message
 
-    public readonly collector: Discord.InteractionCollector<Discord.MessageComponentInteraction>
+    // public readonly collector: Discord.InteractionCollector<Discord.MessageComponentInteraction>
+    public readonly collector: Discord.InteractionCollector<Exclude<Discord.CollectedInteraction, Discord.ModalSubmitInteraction>>
 
 	public constructor(listenerId: string, bot: Mel, handler: MessageComponentHandler, message: Discord.Message)
 	{

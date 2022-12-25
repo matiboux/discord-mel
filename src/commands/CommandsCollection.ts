@@ -76,7 +76,7 @@ class CommandsCollection extends Collection<string, AbstractCommand>
 		}
 	}
 
-	public async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
+	public async onCommandInteraction(interaction: Discord.CommandInteraction): Promise<void>
 	{
 		const command = this.find(cmd => Array.from(cmd.applicationCommands.values()).some(app => app.name === interaction.commandName))
 		let commandExecuted = false

@@ -17,7 +17,7 @@ class InteractionCreateEventSubscriber extends AbstractEventSubscriber
 		};
 	}
 
-	public async onInteractionCreate(interaction: Discord.Interaction)
+	public async onInteractionCreate(interaction: Discord.BaseInteraction)
 	{
 		const contextConfig = this.mel.config.getContextConfig(interaction.guild?.id)
 
@@ -69,7 +69,8 @@ class InteractionCreateEventSubscriber extends AbstractEventSubscriber
 			// Context is disabled
 			this.mel.logger.debug(this.mel.translator.translate(consoleMessageKey, consoleMessageArgs))
 
-			if (interaction.isApplicationCommand() || interaction.isMessageComponent())
+			interaction.type === Discord.InteractionType.ApplicationCommand
+			if (interaction.isCommand() || interaction.isMessageComponent())
 			{
 				// Reply to the interaction
 				interaction.reply({
@@ -81,7 +82,7 @@ class InteractionCreateEventSubscriber extends AbstractEventSubscriber
 			return
 		}
 
-		if (interaction.isApplicationCommand())
+		if (interaction.isCommand())
 		{
 			// interaction.isCommand() || interaction.isContextMenu()
 			this.mel.commands.onCommandInteraction(interaction)

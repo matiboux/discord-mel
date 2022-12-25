@@ -39,9 +39,9 @@ class AbstractCommand
 
 	/**
 	 * Check that the command in enabled in this context
-	 * @param {Discord.Message | Discord.Interaction} message
+	 * @param {Discord.Message | Discord.BaseInteraction} message
 	 */
-	public isEnabled(message: Discord.Message | Discord.Interaction)
+	public isEnabled(message: Discord.Message | Discord.BaseInteraction)
 	{
 		if (this.guildOnly)
 		{
@@ -57,9 +57,9 @@ class AbstractCommand
 
 	/**
 	 * Check that the message author has required permissions
-	 * @param {Discord.Message | Discord.Interaction} message
+	 * @param {Discord.Message | Discord.BaseInteraction} message
 	 */
-	public isAllowed(message: Discord.Message | Discord.Interaction)
+	public isAllowed(message: Discord.Message | Discord.BaseInteraction)
 	{
 		if (message.member)
 		{
@@ -74,7 +74,7 @@ class AbstractCommand
 
 					if (typeof permissions === 'string')
 					{
-						permissions = new Discord.Permissions(permissions as `${bigint}`)
+						permissions = new Discord.PermissionsBitField(permissions as `${bigint}`)
 					}
 
 					return permissions.has(permission)
@@ -97,7 +97,7 @@ class AbstractCommand
 		throw new Error('You have to implement the method onMessage!')
 	}
 
-	public async onCommandInteraction(interaction: Discord.BaseCommandInteraction): Promise<void>
+	public async onCommandInteraction(interaction: Discord.CommandInteraction): Promise<void>
 	{
 		throw new Error('You have to implement the method onCommandInteraction!')
 	}
@@ -113,9 +113,9 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message | Discord.Interaction} object
+	 * @param {Discord.Message | Discord.BaseInteraction} object
 	 */
-	public async onNotEnabled(object: Discord.Message | Discord.Interaction)
+	public async onNotEnabled(object: Discord.Message | Discord.BaseInteraction)
 	{
 		this.bot.logger.warn(this.bot.translator?.translate('commands.run.not_enabled', {
 				'%name%': this.name
@@ -123,13 +123,13 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message | Discord.Interaction} object
+	 * @param {Discord.Message | Discord.BaseInteraction} object
 	 * @param {boolean} reply
 	 */
-	public async onNotAllowed(object: Discord.Message | Discord.Interaction, reply: boolean = true)
+	public async onNotAllowed(object: Discord.Message | Discord.BaseInteraction, reply: boolean = true)
 	{
 		if (reply && (object instanceof Discord.Message
-		              || object instanceof Discord.BaseCommandInteraction))
+		              || object instanceof Discord.CommandInteraction))
 		{
 			const content = this.bot.translator?.translate('commands.reply.not_allowed')
 			if (content)
@@ -142,13 +142,13 @@ class AbstractCommand
 	}
 
 	/**
-	 * @param {Discord.Message | Discord.Interaction} object
+	 * @param {Discord.Message | Discord.BaseInteraction} object
 	 * @param {boolean} reply
 	 */
-	public async onError(object: Discord.Message | Discord.Interaction, reply: boolean = true)
+	public async onError(object: Discord.Message | Discord.BaseInteraction, reply: boolean = true)
 	{
 		if (reply && (object instanceof Discord.Message
-		              || object instanceof Discord.BaseCommandInteraction))
+		              || object instanceof Discord.CommandInteraction))
 		{
 			const content = this.bot.translator?.translate('commands.reply.not_allowed')
 			if (content)

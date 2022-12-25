@@ -11,7 +11,8 @@ class ChannelComponentListener extends AbstractListener
 
     public readonly channel: Discord.TextBasedChannel
 
-    public readonly collector: Discord.InteractionCollector<Discord.MessageComponentInteraction>
+    // public readonly collector: Discord.InteractionCollector<Discord.MessageComponentInteraction>
+    public readonly collector: Discord.InteractionCollector<Exclude<Discord.CollectedInteraction, Discord.ModalSubmitInteraction>>
 
 	public constructor(listenerId: string, bot: Mel, handler: ChannelComponentHandler, channel: Discord.TextBasedChannel)
 	{
@@ -66,7 +67,7 @@ class ChannelComponentListener extends AbstractListener
 		{
 			return Promise.reject(new Error('Cannot register ChannelMessageListener: Unknown target channel'))
 		}
-		if (!channel.isText())
+		if (!channel.isTextBased())
 		{
 			return Promise.reject(new Error('Cannot register ChannelMessageListener: Target channel is not a text channel'))
 		}

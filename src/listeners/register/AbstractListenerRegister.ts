@@ -80,7 +80,7 @@ abstract class AbstractListenerRegister extends DBListener
             !this.guildId && this.setGuild(target.guild)
             !this.channelId && this.setChannel(target.id)
         }
-        else if (target instanceof Discord.Channel)
+        else if (target instanceof Discord.BaseChannel)
         {
             // Channel not in a guild
             this.setTargetType(ListenerTargetTypes.CHANNEL)

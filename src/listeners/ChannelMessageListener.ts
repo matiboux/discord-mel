@@ -66,7 +66,7 @@ class ChannelMessageListener extends AbstractListener
 		{
 			return Promise.reject(new Error('Cannot register ChannelMessageListener: Unknown target channel'))
 		}
-		if (!channel.isText())
+		if (!channel.isTextBased())
 		{
 			return Promise.reject(new Error('Cannot register ChannelMessageListener: Target channel is not a text channel'))
 		}

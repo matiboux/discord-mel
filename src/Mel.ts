@@ -31,7 +31,7 @@ import { url } from 'inspector'
 
 class Mel
 {
-	public static Intents = Discord.Intents
+	public static IntentsBitField = Discord.IntentsBitField
 
 	public static Services = Services
 
