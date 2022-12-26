@@ -58,12 +58,19 @@ class AbstractCommand
 	 */
 	public isAllowed(message: Discord.Message | Discord.BaseInteraction)
 	{
+		// Allow if no permissions are required
+		if (this.permissions.bitfield === 0n)
+		{
+			return true
+		}
+
 		// TODO: Verify which permissions to check
 		// Currently: for messages we check guild permissions, for interactions we check channel permissions
 		const permissions = (message instanceof Discord.Message ? message.member?.permissions : message.memberPermissions) ?? undefined
 
 		// Allow if member has all required permissions
-		return permissions && this.permissions.has(permissions)
+		// Check that no required permission is missing from the member permissions
+		return permissions && permissions.missing(this.permissions).length <= 0
 	}
 
 	/**
