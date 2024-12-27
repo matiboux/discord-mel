@@ -8,7 +8,6 @@
 		"build": "npx tsc",
 		"start": "node .",
 		"start-dev": "npx tsc && node .",
-		"prepare": "npx tsc",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"patch": "npm version patch -m \"Bump version to %s\"",
 		"minor": "npm version minor -m \"Bump version to %s\"",
