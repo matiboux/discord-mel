@@ -42,8 +42,11 @@ dist/
 # Application configuration files
 config.json
 
-# -- Specific to gitignore:
+# -- Specific to dockerignore:
 
-# Build configuration files (allow)
-!Dockerfile
-!Makefile
+# Docker configuration files
+Dockerfile
+docker-compose*.yml
+
+# Dotfiles
+.*

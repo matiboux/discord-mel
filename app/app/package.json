@@ -5,8 +5,9 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"start": "npx tsc && node .",
-		"prepare": "npx tsc",
+		"build": "npx tsc",
+		"start": "node .",
+		"start-dev": "npx tsc && node .",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"patch": "npm version patch -m \"Bump version to %s\"",
 		"minor": "npm version minor -m \"Bump version to %s\"",
